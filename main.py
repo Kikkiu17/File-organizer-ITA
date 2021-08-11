@@ -1,7 +1,8 @@
 import shutil                                                                                               #importa shutil e os 
 import os
 from os.path import dirname, abspath                                                                        #importa cose varie
-firma = "################################################################\n###   ####   ###  ###   ####   ###   ####   ###  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###       ######  ###       ######       ######  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###         ###\n#################################################versione:1.0.0#"
+firma = "################################################################\n###   ####   ###  ###   ####   ###   ####   ###  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###       ######  ###       ######       ######  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###         ###\n#################################################versione:1.1.0#"
+print(firma)
 direc = os.path.dirname(os.getcwd())+"\\"                                                                   #dichiara la parent directory della directory attuale
 assoluta = dirname(abspath(__file__))                                                                       #dichiara la directory attuale (quella in cui c'è il file)
 lines = ""                                                                                                  #variabile per il file di config
@@ -36,7 +37,6 @@ if(h == 0):                                                                     
     testdata = ''.join(B[0]).split(":")                                                                     #mette il contenuto separato ogni due punti a partire dalla prima linea in una variabile
     if(testdata[1] == "null"):                                                                              #se la directory principale non è presente,
         os.mkdir(direc+lin[1])                                                                              #ne crea una
-        print(firma)                                                                                        #scrive la firma del primo avvio
         print(">>> Benvenuto <<<\n>>> Directory creata:",direc+lin[1],"<<<")                                #scrive che la directory principale è stata creata
         text_file = open("data.txt", "w")                                                                   #apre il file di dati
         n = text_file.write("name:"+lin[1]+"\n"+"pdir:"+assoluta)                                           #scrive il nome della directory principale nel file
@@ -93,26 +93,27 @@ for y in x:                                                                     
                     if(lin[1] != linn[len(linn)-1]):                                                        #controlla se la linea corrente non è quella che definisce il nome della directory principale
                         intest = os.listdir(direc+lin[1]+"\\"+linn[len(linn)-1])                            #variabile in cui cercare il file selezionato
             if(y not in intest):                                                                            #controlla se il file selezionato non è già presente nella cartella di destinazione
-                if(e != linn[len(linn)-1]):                                                                 #esegue il codice sotto solo se l'estemsione nel file presa attualmente non è il nome della directory dichiarata nel file
-                    if(z[a] == e):                                                                          #controlla se l'estensione nel file è uguale a quella del file preso
-                        d = b                                                                               #copia il contenuto della lista dei file spostati sulla variabile "d"
-                        if(b != ""):                                                                        #controlla se c'è qualcosa nella lista dei file spostati (quindi se è stato spostato qualcosa in precedenza)
-                            b = "\n"+b+f">>> Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<" #se si, aggiunge un ritorno a capo
-                        else:
-                            b = b+f">>> Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"    #altrimenti non lo aggiunge
-                        print(b, end='\r')                                                                  #scrive sul terminale che si sta spostando il file
-                        dadir = direc+y                                                                     #dichiara la directory di partenza (con il file)
-                        shutil.move(dadir, direc+lin[1]+"\\"+linn[len(linn)-1]+"\\")                        #sposta effettivamente il file
-                        C=C+1
-                        b = d                                                                               #la lista viene ripristinata allo stato precedente
-                        if(b != ""):                                                                        #stessa cosa di prima, se la lista è piena
-                            b = "\n"+">>> "+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"+"                                                                                        "#aggiunge un ritorno a capo,
-                        else:
-                            b = ">>> "+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"+"                                                                                        "#altrimenti no
-                        c=c+1                                                                               #aggiunge ogni volta 1 alla variabile c in modo da poter capire se è stato spostato qualcosa
-                        print(b)                                                                            #scrive la lista dei file spostati
-                else:
-                    b = b+y+"\n"                                                                            #se il file selezionato non corrisponde a nessun'estensione nel file di config, scrive nella variabile solo il nome del file
+                if(y != "File organizer.exe"):
+                    if(e != linn[len(linn)-1]):                                                             #esegue il codice sotto solo se l'estemsione nel file presa attualmente non è il nome della directory dichiarata nel file
+                        if(z[a] == e):                                                                      #controlla se l'estensione nel file è uguale a quella del file preso
+                            d = b                                                                           #copia il contenuto della lista dei file spostati sulla variabile "d"
+                            if(b != ""):                                                                    #controlla se c'è qualcosa nella lista dei file spostati (quindi se è stato spostato qualcosa in precedenza)
+                                b = "\n"+b+f"Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1]     #se si, aggiunge un ritorno a capo
+                            else:
+                                b = b+f"Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1]          #altrimenti non lo aggiunge
+                            print(b, end='\r')                                                              #scrive sul terminale che si sta spostando il file
+                            dadir = direc+y                                                                 #dichiara la directory di partenza (con il file)
+                            shutil.move(dadir, direc+lin[1]+"\\"+linn[len(linn)-1]+"\\")                    #sposta effettivamente il file
+                            C=C+1
+                            b = d                                                                           #la lista viene ripristinata allo stato precedente
+                            if(b != ""):                                                                    #stessa cosa di prima, se la lista è piena
+                                b = "\n"+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1]+"                                                                                        "#aggiunge un ritorno a capo,
+                            else:
+                                b = b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1]+"                                                                                        "#altrimenti no
+                            c=c+1                                                                           #aggiunge ogni volta 1 alla variabile c in modo da poter capire se è stato spostato qualcosa
+                            print(b)                                                                        #scrive la lista dei file spostati
+                    else:
+                        b = b+y+"\n"                                                                        #se il file selezionato non corrisponde a nessun'estensione nel file di config, scrive nella variabile solo il nome del file
             elif(y in intest):                                                                              #controlla se il file selezionato è già presente in qualche cartella
                 if(y not in bb):                                                                            #controlla se il nome del file è stato già messo nella variabile
                     if(bb == ""):                                                                           #se la variabile è vuota la crea senza virgole
@@ -121,7 +122,6 @@ for y in x:                                                                     
                         bb=bb+","+y                                                                         #altirmenti la crea con una virgola in modo da poter separare i nomi in seguito
 
 if(c == 0):                                                                                                 #se ciò che è presente sopra non è stato fatto, scrive che non è stato spostato niente
-    print(firma)                                                                                            #scrive la firma
     ff = bb.split(",")                                                                                      #variabile con i nomi dei file ignorati separati
     if(len(ff)-1 != 0):
         if(len(ff)-1 == 1):
