@@ -1,0 +1,14 @@
+#NON rimuuovere "dir"! Vai a capo ogni volta che aggiungi un tipo di file. Separa le estensioni e i nomi dei file con i due punti. Per rinominare la cartella, torna in questo file e cambia "File sistemati" (o quello che hai messo) in ciò che vuoi.
+dir:File sistemati
+rar:7zip:zip:File compressi
+html:File html
+mp4:mov:mpeg:File video
+png:jpeg:jpg:jfif:webp:Immagini
+psd:Progetti Photoshop
+txt:File di testo
+fzz:Progetti Fritzing
+exe:msi:File eseguibili
+pdf:File PDF
+java:jar:File Java
+sfk:File inutili SV
+mp3:wav:m4a:File audio
