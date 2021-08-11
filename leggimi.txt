@@ -1,7 +1,7 @@
-Avvia per primo il file "installazione.bat" se non hai già installato Python in passato. Questo lo installerà automaticamente per te.
+Avvia per primo il file "Installa Python.exe" se non hai già installato Python in passato. Questo lo installerà automaticamente per te.
 Il file fa tutto da solo e poi la finestra si chiuderà da sola. Una volta chiusa, apri il file "config.txt" e cambia ciò che vuoi.
 
-Dopo, porta il file "Avvio.bat" nella cartella che dev'essere riordinata, ad esempio il Desktop, e la stessa cosa con la cartella Riordinatore. Quest'ultima deve per forza nella cartella che dev'essere riordinata. Ad esempio, il percorso della cartella Riordinatore è C:\Users\Kikkiu\Desktop\Riordinatore, mentre il percorso per il file Avvio.bat è C:\Users\Kikkiu\Desktop.
+Dopo, porta il file "File organizer.exe" nella cartella che dev'essere riordinata, ad esempio il Desktop, e la stessa cosa con la cartella File-organizer-ITA-main. Quest'ultima deve per forza nella cartella che dev'essere riordinata. Ad esempio, il percorso della cartella File-organizer-ITA-main è C:\Users\Kikkiu\Desktop\File-organizer-ITA-main, mentre il percorso per il file File organizer.exe è C:\Users\Kikkiu\Desktop.
 
 Nel file config.txt puoi impostare quali file devono essere toccati. Puoi cambiare il nome delle cartelle, ad esempio invece che "File sistemati" puoi mettere "File ordinati", e questo con tutti i tipi di file che vuoi impostare.
 
