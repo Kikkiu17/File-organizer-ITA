@@ -97,18 +97,18 @@ for y in x:                                                                     
                     if(z[a] == e):                                                                          #controlla se l'estensione nel file è uguale a quella del file preso
                         d = b                                                                               #copia il contenuto della lista dei file spostati sulla variabile "d"
                         if(b != ""):                                                                        #controlla se c'è qualcosa nella lista dei file spostati (quindi se è stato spostato qualcosa in precedenza)
-                            b = "\n"+b+f"Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1]         #se si, aggiunge un ritorno a capo
+                            b = "\n"+b+f">>> Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<" #se si, aggiunge un ritorno a capo
                         else:
-                            b = b+f"Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1]              #altrimenti non lo aggiunge
+                            b = b+f">>> Sto spostando {y} in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"    #altrimenti non lo aggiunge
                         print(b, end='\r')                                                                  #scrive sul terminale che si sta spostando il file
                         dadir = direc+y                                                                     #dichiara la directory di partenza (con il file)
                         shutil.move(dadir, direc+lin[1]+"\\"+linn[len(linn)-1]+"\\")                        #sposta effettivamente il file
                         C=C+1
                         b = d                                                                               #la lista viene ripristinata allo stato precedente
                         if(b != ""):                                                                        #stessa cosa di prima, se la lista è piena
-                            b = "\n"+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1]+"                                                                                        "#aggiunge un ritorno a capo,
+                            b = "\n"+">>> "+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"+"                                                                                        "#aggiunge un ritorno a capo,
                         else:
-                            b = b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1]+"                                                                                        "#altrimenti no
+                            b = ">>> "+b+y+" spostato in "+direc+lin[1]+"\\"+linn[len(linn)-1],"<<<"+"                                                                                        "#altrimenti no
                         c=c+1                                                                               #aggiunge ogni volta 1 alla variabile c in modo da poter capire se è stato spostato qualcosa
                         print(b)                                                                            #scrive la lista dei file spostati
                 else:
