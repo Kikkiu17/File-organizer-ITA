@@ -27,7 +27,6 @@ if(h == 0):                                                                     
         dati = fil.readlines()                                                                              #legge il file
     A = ''.join(dati).split("\n")                                                                           #mette il contenuto separato ogni linea a capo in una variabile
     pdir = ''.join(A[1]).split(",")                                                                         #prende la seconda linea nel file di dati
-    print(assoluta)
     if(pdir[1] != assoluta):                                                                                #controlla se la directory nel file di dati è uguale a quella in cui si trova attualmente lo script
         directo = open("data.txt", "w")                                                                     #in questo caso apre il file
         n = directo.write("name,null\n"+"pdir,"+assoluta)                                                   #e reimposta i valori, togliendo il nome della directory principale e sovrascrivendo la vecchia directory con quella attuale
