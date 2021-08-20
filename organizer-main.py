@@ -26,27 +26,28 @@ if(h == 0):                                                                     
     with open(assoluta+"\\data.txt") as fil:                                                                #apre il file di dati
         dati = fil.readlines()                                                                              #legge il file
     A = ''.join(dati).split("\n")                                                                           #mette il contenuto separato ogni linea a capo in una variabile
-    pdir = ''.join(A[1]).split(":")                                                                         #prende la seconda linea nel file di dati
+    pdir = ''.join(A[1]).split(",")                                                                         #prende la seconda linea nel file di dati
+    print(assoluta)
     if(pdir[1] != assoluta):                                                                                #controlla se la directory nel file di dati è uguale a quella in cui si trova attualmente lo script
         directo = open("data.txt", "w")                                                                     #in questo caso apre il file
-        n = directo.write("name:null\n"+"pdir:"+assoluta)                                                   #e reimposta i valori, togliendo il nome della directory principale e sovrascrivendo la vecchia directory con quella attuale
+        n = directo.write("name,null\n"+"pdir,"+assoluta)                                                   #e reimposta i valori, togliendo il nome della directory principale e sovrascrivendo la vecchia directory con quella attuale
         directo.close()
     with open(assoluta+"\\data.txt") as fil:                                                                #riapre il file di dati dopo le modifiche
         dat = fil.readlines()                                                                               #legge il file
     B = ''.join(dat).split("\n")                                                                            #mette il contenuto separato ogni linea a capo in una variabile
-    testdata = ''.join(B[0]).split(":")                                                                     #mette il contenuto separato ogni due punti a partire dalla prima linea in una variabile
+    testdata = ''.join(B[0]).split(",")                                                                     #mette il contenuto separato ogni due punti a partire dalla prima linea in una variabile
     if(testdata[1] == "null"):                                                                              #se la directory principale non è presente,
         os.mkdir(direc+lin[1])                                                                              #ne crea una
         print(">>> Benvenuto <<<\n>>> Directory creata:",direc+lin[1],"<<<")                                #scrive che la directory principale è stata creata
         text_file = open("data.txt", "w")                                                                   #apre il file di dati
-        n = text_file.write("name:"+lin[1]+"\n"+"pdir:"+assoluta)                                           #scrive il nome della directory principale nel file
+        n = text_file.write("name,"+lin[1]+"\n"+"pdir,"+assoluta)                                           #scrive il nome della directory principale nel file
         text_file.close()
         gg=gg+1                                                                                             #aggiunge 1 alla variabile in modo che si possa vedere che è stata creata la directory
     else:                                                                                                   #se la directory è già esistente il nome di essa è noto,
         os.rename(direc+testdata[1], direc+lin[1])                                                          #rinomina la directory principale col nuovo nome
         print(">>> Directory rinominata da",testdata[1],"a",lin[1],"<<<")                                   #scrive che è stata rinominata la directory
         text_file = open("data.txt", "w")                                                                   #apre il file di dati
-        n = text_file.write("name:"+lin[1]+"\n"+"pdir:"+assoluta)                                           #aggiorna il nome della directory principale nel file di dati
+        n = text_file.write("name,"+lin[1]+"\n"+"pdir,"+assoluta)                                           #aggiorna il nome della directory principale nel file di dati
         text_file.close()
         gg=gg+1
 
