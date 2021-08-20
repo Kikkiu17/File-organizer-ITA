@@ -8,4 +8,4 @@ Avvio.bat servee ad avviare lo script.
 Esempio di utilizzo:
   Hai tanti file sul Desktop, e vuoi sbarazzartene nel modo più semplice possibile. Metti sul Desktop il file Avvio.bat e in una cartella (sempre sul Desktop) tutti gli altri file. Poi, avvia installazione.bat. Ti installerà Python in automatico (minimo Windows 10 versione 21H1, con le altre versioni potrebbe non funzionare). Poi, vai nel file di config e cambia quello che vuoi. Adesso puoi avviare lo script usando Avvio.bat: osserva la magia!
  
- Attenzione: è sempre meglio fare un backup dei file che verranno toccati dallo script PRIMA del primo avvio di esso. Ci potrebbero essere evenutali bug non ancora scoperti.
+ //Attenzione: è sempre meglio fare un backup dei file che verranno toccati dallo script PRIMA del primo avvio di esso. Ci potrebbero essere evenutali bug non ancora scoperti.\\
