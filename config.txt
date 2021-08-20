@@ -8,3 +8,4 @@ txt:File di testo
 exe:msi:File eseguibili
 pdf:File PDF
 mp3:wav:m4a:File audio
+stl:STL:STEP:step:obj:File 3D
