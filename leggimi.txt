@@ -1,11 +1,7 @@
 Avvia per primo il file "installazione.bat" se non hai già installato Python in passato. Questo lo installerà automaticamente per te.
-Il file fa tutto da solo e poi la finestra si chiuderà da sola. Una volta chiusa, apri il file "config.txt" e cambia ciò che vuoi.
+Il file fa tutto da solo e poi la finestra si chiuderà da sola. Una volta chiusa, apri il file "config.txt" e, se vuoi, cambia il nome della cartella principale.
 
 Dopo, porta il file "File Organizer.bat" nella cartella che dev'essere riordinata, ad esempio il Desktop, e la stessa cosa con la cartella con all'interno lo script ("organizer-main.py"). Quest'ultima deve per forza nella cartella che dev'essere riordinata. Ad esempio, il percorso della cartella con lo script è C:\Users\Kikkiu\Desktop\File-organizer-ITA-main, mentre il percorso per il file File Organizer.bat è C:\Users\Kikkiu\Desktop.
-
-Nel file config.txt puoi impostare quali file devono essere toccati. Puoi cambiare il nome delle cartelle, ad esempio invece che "File sistemati" puoi mettere "File ordinati", e questo con tutti i tipi di file che vuoi impostare.
-
-Ogni volta che aggiungi un nuovo tipo di file devi andare a capo; scrivi prima le estensioni dei file (ad esepmio mp4:mov:mpeg) separate ogni volta da due punti, mentre alla fine della riga metti il nome della cartella. Esempio: mp4:mov:mpeg:Video
-Non mettere spazi tra le estensioni dei file.
+Puoi cambiare quando vuoi il nome della cartella principale nel file "config.txt". RICORDA! Non cambiare il contenuto del file "data.txt"!
 
 IMPORTANTE: NON CAMBIARE IL NOME DELLO SCRIPT ("organizer-main.py")!
