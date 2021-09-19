@@ -6,7 +6,6 @@ import requests
 import json
 import win32com.client
 import inflect
-import apikey
 firma = "################################################################\n###   ####   ###  ###   ####   ###   ####   ###  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###       ######  ###       ######       ######  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###         ###\n#################################################versione:2.0.0#"
 print(firma)
 direc = os.path.dirname(os.getcwd())+"\\"
@@ -163,7 +162,7 @@ if(enname != ""):
     headers = {
         'content-type': "application/json",
         'x-rapidapi-host': "microsoft-translator-text.p.rapidapi.com",
-        'x-rapidapi-key': config.api_key
+        'x-rapidapi-key': "34221de93cmshab1788fe470ce0bp12eebejsndd89b2f16de8"
         }
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
     resp_dict = json.loads(response.text)
