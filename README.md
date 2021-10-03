@@ -1,6 +1,6 @@
 # File-organizer-ITA
 Organizza i tuoi file in modo semplice e veloce, usando questo piccolo tool automatico.
-Avvia il file "Organizzatore.py" e osserva la magia!
+Avvia il file "Organizer.py" e osserva la magia!
 
 ### Esempio di utilizzo:
   Hai tanti file sul Desktop, e vuoi sbarazzartene nel modo più semplice possibile. Metti in una cartella "Organizer.py", poi esegui "INSTALLA_QUI.bat". Ti installerà Python in automatico (minimo Windows 10 versione 21H1, con le altre versioni potrebbe non funzionare). Adesso puoi avviare lo script usando Organizer.bat: tutto verrà messo in ordine!
