@@ -1,2 +1,0 @@
-#NON rimuovere "dir"! Puoi cambiare quando vuoi il nome della cartella principale.
-dir:File sistemati
