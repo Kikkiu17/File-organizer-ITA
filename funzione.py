@@ -1,4 +1,4 @@
-def copy_move(directory, configfile, datafile, optype, backup, delbackup):
+def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfolder, assoluta, isbfolder):
     import shutil
     import os
     from os.path import dirname, abspath
@@ -10,13 +10,13 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
     import stat
     from datetime import datetime
     import writer
+    import backupper
     if("np.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
         with open(r"C:\ProgramData\File Organizer\np.txt", "w") as f:
-            f.write('{"name":"null", "pdir":"null"}')
+            f.write('{"name":"null", "pdir":"null", "bfolder":"null"}')
     firma = "################################################################\n###   ####   ###  ###   ####   ###   ####   ###  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###       ######  ###       ######       ######  ###  #####  ###\n###   ##   #####  ###   ##   #####   ##   #####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###  #####  ###\n###   ###   ####  ###   ###   ####   ###   ####  ###         ###\n#################################################versione:2.0.0#"
     print(firma)
     direc = directory
-    assoluta = dirname(abspath(__file__))
     with open("C:\ProgramData\File Organizer\config.txt") as f:
         lines = f.readlines()
     with open("C:\ProgramData\File Organizer\\np.txt") as f:
@@ -43,6 +43,8 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
         num_of_created_dirs=num_of_created_dirs+1
         if(datadict["name"] == "null"):
             os.mkdir(direc+conf_dir)
+            if(str(conf_dir).lower() in direc):
+                os.rename(str(conf_dir).lower(), conf_dir)
             datadict["name"] = conf_dir
             datadict["pdir"] = assoluta
             out = f">>> Benvenuto <<<\n>>> Cartella creata: {direc}{conf_dir}\n"
@@ -67,6 +69,8 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
                 create_main_dir_check=create_main_dir_check+1
             else:
                 os.mkdir(direc+conf_dir)
+                if(str(conf_dir).lower() in direc):
+                    os.rename(str(conf_dir).lower(), conf_dir)
                 out = f">>> La cartella principale non è presente, ne creo una: {direc+conf_dir}"+"\n"
                 output = str(output) + str(out)
                 datadict["name"] = conf_dir
@@ -215,44 +219,10 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
     mv_files_num=0
 
     if(backup == True and delbackup == False):
-        rawdata = datetime.now()
-        datat = rawdata.strftime("%d/%m/%Y %H:%M:%S")
-        finaldata = datat.replace("/", "-").replace(":", ".")
-        if("Backups" not in os.listdir(target_dir)):
-            os.mkdir(target_dir+"Backups")
-        os.mkdir(target_dir+"Backups\\"+str(finaldata))
-        for group_type in new_type_list.split("\n"):
-            if(group_type.endswith(" ")):
-                li = group_type.rsplit(" ", 1)
-                group_type = new.join(li)
-            if(group_type != ""):
-                for group_num in range(len(groups[group_type])):
-                    selected_file = groups[group_type][group_num]
-                    check_final_dir = os.listdir(target_dir+"Backups\\"+str(finaldata))
-                    if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, target_dir+"Backups\\"+str(finaldata))
+        backupper.backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assoluta, isbfolder)
+
     elif(backup == True and delbackup == True):
-        rawdata = datetime.now()
-        datat = rawdata.strftime("%d/%m/%Y %H:%M:%S")
-        finaldata = datat.replace("/", "-").replace(":", ".")
-        for root, dirs, files in os.walk(target_dir+"Backups"):
-            for fname in files:
-                full_path = os.path.join(root, fname)
-                os.chmod(full_path ,stat.S_IWRITE)
-        if("Backups" in os.listdir(target_dir)):
-            shutil.rmtree(target_dir+"Backups")
-        os.mkdir(target_dir+"Backups\\")
-        os.mkdir(target_dir+"Backups\\"+str(finaldata))
-        for group_type in new_type_list.split("\n"):
-            if(group_type.endswith(" ")):
-                li = group_type.rsplit(" ", 1)
-                group_type = new.join(li)
-            if(group_type != ""):
-                for group_num in range(len(groups[group_type])):
-                    selected_file = groups[group_type][group_num]
-                    check_final_dir = os.listdir(target_dir+"Backups\\"+str(finaldata))
-                    if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, target_dir+"Backups\\"+str(finaldata))
+        backupper.delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, assoluta, isbfolder)
 
     if(optype == "move"):
         for group_type in new_type_list.split("\n"):
@@ -335,31 +305,32 @@ def update(directory, configfile, datafile, new):
     output = ""
     is_main_dir_present = 0
     direc = directory
-    with open("C:\ProgramData\File Organizer\config.txt") as f:
-        lines = f.readlines()
-    with open("C:\ProgramData\File Organizer\\np.txt") as f:
-        data = f.readlines()
-    datadict = json.loads(data[0])
-    configdict = json.loads(lines[0])
-    conf_dir = configdict["dir"]
-    main_dir = os.listdir(direc)
-    main_dir_check = 0
-    for file in main_dir:
-        if(file == new):
-            main_dir_check=main_dir_check+1
-        if(main_dir_check == 0):
-            if(file == datadict["name"] and file != new):
-                is_main_dir_present=is_main_dir_present+1
+    if("np.txt" in os.listdir(r"C:\ProgramData\File Organizer")):
+        with open("C:\ProgramData\File Organizer\config.txt") as f:
+            lines = f.readlines()
+        with open("C:\ProgramData\File Organizer\\np.txt") as f:
+            data = f.readlines()
+        datadict = json.loads(data[0])
+        configdict = json.loads(lines[0])
+        conf_dir = configdict["dir"]
+        main_dir = os.listdir(direc)
+        main_dir_check = 0
+        for file in main_dir:
+            if(file == new):
+                main_dir_check=main_dir_check+1
+            if(main_dir_check == 0):
+                if((file == datadict["name"] and file != new) or (file.lower() == str(datadict["name"]).lower() and file.lower() != str(new).lower())):
+                    is_main_dir_present=is_main_dir_present+1
 
-    if(is_main_dir_present > 0):
-        os.rename(direc+datadict["name"], direc+new)
-        output = "Cartella rinominata"
-        datadict["name"] = new
-        text_file = open(r"C:\ProgramData\File Organizer\np.txt", "w")
-        n = text_file.write(json.dumps(datadict))
-        text_file.close()
-    elif(new in main_dir):
-        output = "La cartella ha già questo nome"
-    else:
-        output = "La cartella non è stata ancora creata"
+        if(is_main_dir_present > 0):
+            os.rename(direc+datadict["name"], direc+new)
+            output = "Cartella rinominata"
+            datadict["name"] = new
+            text_file = open(r"C:\ProgramData\File Organizer\np.txt", "w")
+            n = text_file.write(json.dumps(datadict))
+            text_file.close()
+        elif(new in main_dir):
+            output = "La cartella ha già questo nome"
+        else:
+            output = "La cartella non è stata ancora creata"
     return output
