@@ -263,7 +263,8 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
                 for group_num in range(len(groups[group_type])):
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(target_dir+group_type)
-                    if(selected_file not in str(check_final_dir).lower()):
+                    print(selected_file, str(check_final_dir).lower())
+                    if(str(selected_file).lower() not in str(check_final_dir).lower()):
                         if("Organizer.py" not in selected_file):
                             moved_files = ""
                             shutil.move(direc+selected_file, target_dir+group_type)
@@ -281,7 +282,7 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup):
                 for group_num in range(len(groups[group_type])):
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(target_dir+group_type)
-                    if(selected_file not in str(check_final_dir).lower()):
+                    if(str(selected_file).lower() not in str(check_final_dir).lower()):
                         if("Organizer.py" not in selected_file):
                             moved_files = ""
                             shutil.copy(direc+selected_file, target_dir+group_type)
