@@ -56,7 +56,7 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
             is_main_dir_present=0
             for file in main_dir:
                 if("." not in file):
-                    if(file == datadict["name"] and file != conf_dir):
+                    if((file == datadict["name"] and file != conf_dir) or (file.lower() == str(datadict["name"]).lower() and file.lower() != str(conf_dir).lower())):
                         is_main_dir_present=is_main_dir_present+1
             if(is_main_dir_present > 0):
                 os.rename(direc+datadict["name"], direc+conf_dir)
@@ -80,7 +80,7 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
                 create_main_dir_check=create_main_dir_check+1
 
     for file in lista_file:
-        if(file != "desktop.ini" and file != "File Organizer.bat" and ".ini" not in file and ".sys" not in file and "Organizer.py" not in file):
+        if(file != "desktop.ini" and file != "File Organizer.bat" and ".ini" not in file and ".sys" not in file and "Organizer.py" not in file and "Organizer.exe" not in file and "organizer.exe" not in file):
             if("." in file and os.path.isfile(direc+file) == True):
                 metadata = ['Name', 'Size', 'Item type', 'Date modified', 'Date created']
                 def get_file_metadata(path, filename, metadata):
@@ -94,15 +94,17 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
                             file_metadata[attribute] = attr_value
                     return file_metadata
                 if ("a" == "a"):
+                    print("a == a")
                     folder = direc
                     filename = file
                     metadata = ['Name', 'Size', 'Item type', 'Date modified', 'Date created']
                     proprietà = get_file_metadata(folder, filename, metadata)
                 if(proprietà["Item type"] not in groups):
+                    print(proprietà["Item type"],"not in GROUPS",groups)
                     groups[proprietà["Item type"]]=[file]
                 else:
                     groups[proprietà["Item type"]].append(file)
-                if(proprietà["Item type"] not in type_list):
+                if(proprietà["Item type"] not in type_list.split("\n")):
                     if(type_list == ""):
                         type_list=proprietà["Item type"]
                     else:
@@ -112,6 +114,7 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
     enname = ""
     for x in range(len(groups)):
         nl = type_list.split("\n")
+        print(f"groups = {groups}\nx = {x}\nnl = {nl}\nlen(nl) = {len(nl)}\nrange(len(groups)) = {range(len(groups))}\nnl[x] = {nl[x]}")
         if(len(groups[nl[x]]) != 0):
             selection = groups[nl[x]][len(groups[nl[x]])-1]
             #print(nl[x].lower()+" == file "+selection.split(".")[len(selection.split("."))-1])
@@ -261,6 +264,14 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
                             mv_files_num=mv_files_num+1
                     else:
                         ignored_files=ignored_files+1
+
+    text_file = open(r"C:\ProgramData\File Organizer\history.txt", "a")
+    rawdata = datetime.now()
+    datat = rawdata.strftime("%d/%m/%Y %H:%M:%S")
+    finaldata = datat.replace("/", "-").replace(":", ".")
+    tohistory = f"{output}\n\n/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\-/\ \n\nOPERAZIONE EFFETTUATA ALLE {finaldata}\n\n------------------------------------------------------------------------------------\n\n"
+    n = text_file.write(tohistory)
+    text_file.close()
 
     if(optype == "move"):
         if(mv_files_num == 0):
