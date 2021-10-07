@@ -1,25 +1,47 @@
-import os
-import PySimpleGUI as sg
-import os.path
 import json
-from datetime import datetime
-import sys
-from os.path import dirname, abspath
+import os
+import os.path
 import shutil
-import urllib.request
-import zipfile
+import stat
+import sys
+import time
+from datetime import datetime
+from os.path import abspath, dirname
+import webbrowser
+versione = 360
+
+
+import PySimpleGUI as sg
+
+import downloader
+import funzione
+import history
+
 configfile = 'C:\ProgramData\File Organizer\config.txt'
 datafile = 'C:\ProgramData\File Organizer\data.txt'
 backup = False
 delbackup = False
 pdirset = ""
+assoluta = ""
+lista_file = []
+ora = datetime.now().strftime("%H:%M:%S")+" - "
+direc = os.path.dirname(os.getcwd())+"\\"
+if getattr(sys, 'frozen', False):
+    assoluta = os.path.dirname(sys.executable)
+    running_mode = 'Frozen/executable'
+else:
+    try:
+        app_full_path = os.path.realpath(__file__)
+        assoluta = os.path.dirname(app_full_path)
+        running_mode = "Non-interactive (e.g. 'python myapp.py')"
+    except NameError:
+        assoluta = os.getcwd()
+        running_mode = 'Interactive'
 
-#autoupdate
-#url = "https://github.com/Kikkiu17/File-organizer-ITA/archive/refs/heads/main.zip"
-#file_name, headers = urllib.request.urlretrieve(url)
-#with zipfile.ZipFile(file_name, 'r') as zip_ref:
-#    zip_ref.extractall(r"C:\ProgramData\File Organizer")
-#os.popen("python C:\ProgramData\File Organizer\update.py")
+print('Running mode:', running_mode)
+print('  Appliction path  :', assoluta)
+backfolder = ""
+isbfolder = 0
 
 if("INSTALLA_QUI.bat" in os.listdir(dirname(abspath(__file__)))):
     os.remove(dirname(abspath(__file__))+"\\INSTALLA_QUI.bat")
@@ -27,6 +49,10 @@ if("py-lib.ps1" in os.listdir(dirname(abspath(__file__)))):
     os.remove(dirname(abspath(__file__))+"\\py-lib.ps1")
 
 #crea file necessari se non ci sono già
+if("file organizer" in os.listdir(r"C:\ProgramData")):
+    os.rename(r"C:\ProgramData\file Organizer", r"C:\ProgramData\File Organizer")
+if("file organizer" in os.listdir(r"C:\ProgramData")):
+    os.rename(r"C:\ProgramData\file Organizer", r"C:\ProgramData\File Organizer")
 if("File Organizer" not in os.listdir(r"C:\ProgramData")):
     print("file organizer not in programdata")
     configdict = '{"dir" : "File sistemati"}'
@@ -39,6 +65,7 @@ if("File Organizer" not in os.listdir(r"C:\ProgramData")):
     n = text_file.write(configdict)
     text_file.close()
 if("config.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
+    print("config.txt not in file organizer")
     configdict = '{"dir" : "File sistemati"}'
     text_file = open(r"C:\ProgramData\File Organizer\config.txt", "w")
     n = text_file.write(configdict)
@@ -50,19 +77,111 @@ if("data.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
     n = text_file.write(datadict)
     text_file.close()
 
-if("funzione.py" in os.listdir(dirname(abspath(__file__))) and "funzione.py" not in os.listdir('C:\ProgramData\File Organizer')):
-    shutil.move(dirname(abspath(__file__))+"\\funzione.py", 'C:\ProgramData\File Organizer')
-if("writer.py" in os.listdir(dirname(abspath(__file__))) and "writer.py" not in os.listdir('C:\ProgramData\File Organizer')):
-    shutil.move(dirname(abspath(__file__))+"\\writer.py", 'C:\ProgramData\File Organizer')
+isaggiornamento = downloader.update(versione, assoluta)
 
-sys.path.insert(1, 'C:\ProgramData\File Organizer')
-import funzione
+for file in os.listdir(assoluta):
+    if("Organizer-v" in file):
+        splitted = file.split("Organizer-v")[1].split(".")
+        final = ""
+        x = 0
+        for lettera in splitted:
+            x = x + 1
+            if(x < len(splitted)):
+                final = final+lettera
+        if(int(final) < versione):
+            os.remove(assoluta+"\\"+file)
 
 #imposta la gui
 sg.theme('SystemDefault1')
-direc = os.path.dirname(os.getcwd())+"\\"
 nums = os.listdir(direc)
-file_list_column = [
+def vsep():
+    return sg.Text("")
+sz=(10,20)
+backfname = ""
+nobackup = 0
+def delete_confirm(backfolder):
+    if(nobackup == 2):
+        layout = [
+            [
+                sg.Text(
+                f"Sei sicuro di voler eliminare tutti i backup nella cartella {backfolder}/{backfname} ?"
+                )
+            ],
+            [
+                sg.Button(
+                    "Elimina", key="delete_backs"
+                ), sg.Button(
+                    "Annulla"
+                )
+            ]
+        ]
+        window = sg.Window("Cronologia", layout, modal=True, finalize=True)
+        choice = None
+        while True:
+            event, values = window.read()
+            if event == "Exit" or event == sg.WIN_CLOSED or event == "Annulla":
+                break
+            if event == "delete_backs":
+                for root, dirs, files in os.walk(backfolder+"/"+backfname):
+                    for fname in files:
+                        full_path = os.path.join(root, fname)
+                        os.chmod(full_path ,stat.S_IWRITE)
+                shutil.rmtree(backfolder+"/"+backfname)
+                break
+    window.close()
+
+def opzlista(lista_file):
+    issaved = 0
+    condizione = False
+    if(lista_file == []):
+        condizione = True
+    layout = [
+        [
+            sg.Listbox(
+                lista_file, key="lista", size=(60,25)
+                )
+        ],
+        [
+            sg.FileSaveAs(
+                "Seleziona il file su cui salvare...", 
+                key="save",
+                file_types=(("File di testo", ".txt"),),
+                default_extension='.txt',
+                disabled=condizione,
+                ), sg.Button(
+                    "Salva lista", k="salva", disabled=condizione
+                    ),
+                    sg.Button(
+                        "Chiudi"
+                    )
+        ]
+    ]
+    window = sg.Window("Opzioni lista", layout, modal=True, finalize=True)
+    choice = None
+    if(lista_file == []):
+        window["lista"].update(["La lista è vuota"])
+    while True:
+        event, values = window.read()
+        print("event:", event, "values: ",values)
+        if event == "Exit" or event == sg.WIN_CLOSED or event == "Chiudi":
+            break
+        if event == "salva":
+            print(values["save"])
+            str_file = ""
+            for nome in lista_file:
+                if(lista_file == ""):
+                    str_file = nome
+                else:
+                    str_file = str_file+"\n"+nome
+            text_file = open(values["save"], "w")
+            n = text_file.write(str_file)
+            text_file.close()
+            issaved = 1
+            break
+    window.close()
+    return issaved
+
+col1 = [
     [
         sg.Text("Scegli la cartella da riordinare"),
         sg.In(size=(119, 1), enable_events=True, key="-FOLDER-"),
@@ -82,16 +201,30 @@ file_list_column = [
                 "Copia tutto", key="copia"
                 ), sg.Button(
                     "Aggiorna", key="upd"
-                )
+                    ), sg.Button(
+                        "Cronologia operazioni", key="hst"
+                    ), sg.Button(
+                        "Opzioni lista...", key="opz_lista"
+                        ), sg.Button(
+                            "Aiuto"
+                        )
     ],
     [
-        sg.Text(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto", key="stato")
+        sg.Text(
+            "Cartella di backup:",
+            ), sg.In(
+                size=(35,1), enable_events=True, key="bfolder"
+                ), sg.FolderBrowse(
+                    "Sfoglia..."
+                    ), vsep(), sg.Button(
+                        "Elimina backup", key="del_backs"
+                    )
     ],
     [
         sg.Checkbox(
             "Crea backup", key="cbackup", enable_events=True
             ), sg.Checkbox(
-                "Elimina backup precedenti", key="ebackup", enable_events=True
+                "Elimina backup precedenti e crea", key="ebackup", enable_events=True
             ), sg.Text(
                 "Nome cartella principale:"
             ), sg.In(
@@ -99,15 +232,32 @@ file_list_column = [
                 ), sg.Button(
                     "Imposta", key="dirset"
                 )
+    ],
+    [
+        sg.Text(
+            ora+"Pronto", key="stato"
+            )
     ]
 ]
 layout = [
     [
-        sg.Column(file_list_column),
+        sg.Column(col1, element_justification='l')
     ]
 ]
-window = sg.Window("File Organizer", layout, resizable=True, finalize=True)
+window = sg.Window("File Organizer", layout, finalize=True)
 window['-output-'].expand(expand_x=True, expand_y=True, expand_row=True)
+
+#nuova finestra per modifica nomi cartelle
+#def open_window():
+#    layout = [[sg.Text("New Window", key="new")]]
+#    window = sg.Window("Second Window", layout, modal=True)
+#    choice = None
+#    while True:
+#        event, values = window.read()
+#        if event == "Exit" or event == sg.WIN_CLOSED:
+#            break
+#        
+#    window.close()
 tojoin = ""
 lista_file = []
 
@@ -128,6 +278,50 @@ if(data["delbackup"] == "on"):
     window["ebackup"].update(value=True)
     delbackup = True
 
+if("backupdata.txt" in os.listdir(r"C:\ProgramData\File Organizer")):
+    with open(r"C:\ProgramData\File Organizer\backupdata.txt") as f:
+        backdataraw = f.readlines()
+    backdata = json.loads(backdataraw[0])
+    if(backdata["bfolder"] != "null" and backdata["bfolder"] != ""):
+        backfolder = backdata["bfolder"]
+        window["stato"].update(f"La cartella di backup è {backfolder}")
+
+def update_confirm():
+    kill_app = 0
+    layout = [
+        [
+            sg.Text(
+            f"C'è un nuovo aggiornamento alla versione v-{isaggiornamento[1]}!\nL'aggiornamento è già stato scaricato, vuoi aprire la nuova versione del programma?\nLa nuova versione si aprirà automaticamente"
+            )
+        ],
+        [
+            sg.Button(
+                "Apri nuova versione", key="open"
+            ), sg.Button(
+                "No"
+            )
+        ]
+    ]
+    window = sg.Window("Nuova versione", layout, modal=True, finalize=True)
+    choice = None
+    while True:
+        event, values = window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED or event == "No":
+            break
+        if event == "open":
+            versione = isaggiornamento[1]
+            shutil.move(fr"C:\ProgramData\File Organizer\Update\Organizer-v{versione}.exe", assoluta)
+            os.popen(fr"Organizer-v{versione}.exe")
+            kill_app = 1
+            break
+    window.close()
+    return kill_app
+
+if(isaggiornamento[0] == 1):
+    iskill = update_confirm()
+    if(iskill == 1):
+        window.close()
+
 #controlla gli eventi della gui
 while True:
     event, values = window.read()
@@ -146,42 +340,47 @@ while True:
         window["-FILE LIST-"].update(lista_file)
     elif event == "Sposta tutto":
         if(lista_file == []):
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - Devi selezionare una cartella")
+            window["stato"].update(ora+"Pronto - Devi selezionare una cartella")
         else:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Spostamento in corso")
+            if(isbfolder == 0 and backup == False):
+                window["stato"].update(f"La cartella per i backup è stata selezionata automaticamente su {assoluta}")
+            window["stato"].update(ora+"Spostamento in corso...")
             optype = "move"
-            sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup)
+            sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup, backfolder, assoluta, isbfolder)
             window["parentdir"].update(str(nome_pdir["dir"]))
             window["-output-"].update(sposta.split("\n"))
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+sposta.split("\n")[len(sposta.split("\n"))-1])
+            window["stato"].update(ora+sposta.split("\n")[len(sposta.split("\n"))-1])
     elif event == "copia":
         if(lista_file == []):
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - Devi selezionare una cartella")
+            window["stato"].update(ora+"Pronto - Devi selezionare una cartella")
         else:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Copia in corso")
+            if(isbfolder == 0 and backup == False):
+                window["stato"].update(f"La cartella per i backup è stata selezionata automaticamente su {assoluta}")
+                time.sleep(2)
+            window["stato"].update(ora+"Copia in corso...")
             optype = "copy"
-            sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup)
+            sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup, backfolder, assoluta, isbfolder)
             window["parentdir"].update(str(nome_pdir["dir"]))
             window["-output-"].update(sposta.split("\n"))
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+sposta.split("\n")[len(sposta.split("\n"))-1])
+            window["stato"].update(ora+sposta.split("\n")[len(sposta.split("\n"))-1])
     elif event == "cbackup":
         if values["cbackup"] == True:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - Backup abilitato")
+            window["stato"].update(ora+"Pronto - Backup abilitato")
             backup = True
             window["copia"].update(disabled=True)
             data["backup"] = "on"
         elif values["cbackup"] == False:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - Backup disabilitato")
+            window["stato"].update(ora+"Pronto - Backup disabilitato")
             backup = False
             window["copia"].update(disabled=False)
             data["backup"] = "off"
     elif event == "ebackup":
         if values["ebackup"] == True:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - I backup precedenti verranno eliminati")
+            window["stato"].update(ora+"Pronto - I backup precedenti verranno eliminati")
             delbackup = True
             data["delbackup"] = "on"
         elif values["ebackup"] == False:
-            window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+"Pronto - I backup precedenti non verranno eliminati")
+            window["stato"].update(ora+"Pronto - I backup precedenti non verranno eliminati")
             delbackup = False
             data["delbackup"] = "off"
     elif event == "upd":
@@ -205,9 +404,62 @@ while True:
         n = text_file.write(json.dumps(nome_pdir))
         text_file.close()
         update = funzione.update(cartella, configfile, datafile, nome_pdir["dir"])
-        window["stato"].update(datetime.now().strftime("%H:%M:%S")+" - "+update)
+        if(update == ""):
+            update = "Errore sconosciuto"
+        window["stato"].update(ora+update)
+    elif event == "bfolder":
+        isbfolder = 1
+        backfolder = values["bfolder"]
+        if("backupdata.txt" in os.listdir(r"C:\ProgramData\File Organizer")):
+            with open(r"C:\ProgramData\File Organizer\backupdata.txt") as f:
+                npfile = f.readlines()
+            npdict = json.loads(npfile[0])
+            npdict["bfolder"] = backfolder
+            with open(r"C:\ProgramData\File Organizer\backupdata.txt", "w") as f:
+                f.write(json.dumps(npdict))
+        else:
+            with open(r"C:\ProgramData\File Organizer\backupdata.txt", "w") as f:
+                f.write('{"bfolder":"null"}')
+            with open(r"C:\ProgramData\File Organizer\backupdata.txt") as f:
+                npfile = f.readlines()
+            npdict = json.loads(npfile[0])
+            npdict["bfolder"] = backfolder
+            with open(r"C:\ProgramData\File Organizer\backupdata.txt", "w") as f:
+                f.write(json.dumps(npdict))
+        window["stato"].update(ora+"Cartella di backup impostata")
+    elif event == "hst":
+        history.cronologia()
+    elif event == "del_backs":
+        if(backfolder != ""):
+            if("Backups" in os.listdir(backfolder)):
+                print(f"Backups in {os.listdir(backfolder)}")
+                backfname = "Backups"
+                nobackup = 2
+            elif("Backup" in os.listdir(backfolder)):
+                print(f"Backup in {os.listdir(backfolder)}")
+                backfname = "Backup"
+                nobackup = 2
+            elif("backups" in os.listdir(backfolder)):
+                print(f"backups in {os.listdir(backfolder)}")
+                backfname = "backups"
+                nobackup = 2
+            elif("backup" in os.listdir(backfolder)):
+                print(f"backup in {os.listdir(backfolder)}")
+                backfname = "backup"
+                nobackup = 2
+            else:
+                nobackup = 1
+            if(nobackup == 2):
+                delete_confirm(backfolder)
+            else:
+                window["stato"].update(ora+"Pronto - La cartella di backup non esiste")
+    elif event == "opz_lista":
+        is_svd = opzlista(lista_file)
+        if(is_svd == 1):
+            window["stato"].update(ora+"Pronto - Lista salvata")
+    elif event == "Aiuto":
+        webbrowser.open('https://github.com/Kikkiu17/File-organizer-ITA/wiki', new=0)
     text_file = open(datafile, "w")
     n = text_file.write(json.dumps(data))
     text_file.close()
 window.close()
-
