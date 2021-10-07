@@ -7,7 +7,9 @@ import sys
 import time
 from datetime import datetime
 from os.path import abspath, dirname
-from posixpath import split
+import webbrowser
+versione = 360
+
 
 import PySimpleGUI as sg
 
@@ -15,13 +17,13 @@ import downloader
 import funzione
 import history
 
-versione = 340
 configfile = 'C:\ProgramData\File Organizer\config.txt'
 datafile = 'C:\ProgramData\File Organizer\data.txt'
 backup = False
 delbackup = False
 pdirset = ""
 assoluta = ""
+lista_file = []
 ora = datetime.now().strftime("%H:%M:%S")+" - "
 direc = os.path.dirname(os.getcwd())+"\\"
 if getattr(sys, 'frozen', False):
@@ -127,6 +129,58 @@ def delete_confirm(backfolder):
                 shutil.rmtree(backfolder+"/"+backfname)
                 break
     window.close()
+
+def opzlista(lista_file):
+    issaved = 0
+    condizione = False
+    if(lista_file == []):
+        condizione = True
+    layout = [
+        [
+            sg.Listbox(
+                lista_file, key="lista", size=(60,25)
+                )
+        ],
+        [
+            sg.FileSaveAs(
+                "Seleziona il file su cui salvare...", 
+                key="save",
+                file_types=(("File di testo", ".txt"),),
+                default_extension='.txt',
+                disabled=condizione,
+                ), sg.Button(
+                    "Salva lista", k="salva", disabled=condizione
+                    ),
+                    sg.Button(
+                        "Chiudi"
+                    )
+        ]
+    ]
+    window = sg.Window("Opzioni lista", layout, modal=True, finalize=True)
+    choice = None
+    if(lista_file == []):
+        window["lista"].update(["La lista è vuota"])
+    while True:
+        event, values = window.read()
+        print("event:", event, "values: ",values)
+        if event == "Exit" or event == sg.WIN_CLOSED or event == "Chiudi":
+            break
+        if event == "salva":
+            print(values["save"])
+            str_file = ""
+            for nome in lista_file:
+                if(lista_file == ""):
+                    str_file = nome
+                else:
+                    str_file = str_file+"\n"+nome
+            text_file = open(values["save"], "w")
+            n = text_file.write(str_file)
+            text_file.close()
+            issaved = 1
+            break
+    window.close()
+    return issaved
+
 col1 = [
     [
         sg.Text("Scegli la cartella da riordinare"),
@@ -149,8 +203,10 @@ col1 = [
                     "Aggiorna", key="upd"
                     ), sg.Button(
                         "Cronologia operazioni", key="hst"
-                    ), sg.Text(
-                        ora+"Pronto", key="stato"
+                    ), sg.Button(
+                        "Opzioni lista...", key="opz_lista"
+                        ), sg.Button(
+                            "Aiuto"
                         )
     ],
     [
@@ -160,7 +216,7 @@ col1 = [
                 size=(35,1), enable_events=True, key="bfolder"
                 ), sg.FolderBrowse(
                     "Sfoglia..."
-                    ), sg.Button(
+                    ), vsep(), sg.Button(
                         "Elimina backup", key="del_backs"
                     )
     ],
@@ -176,6 +232,11 @@ col1 = [
                 ), sg.Button(
                     "Imposta", key="dirset"
                 )
+    ],
+    [
+        sg.Text(
+            ora+"Pronto", key="stato"
+            )
     ]
 ]
 layout = [
@@ -221,14 +282,45 @@ if("backupdata.txt" in os.listdir(r"C:\ProgramData\File Organizer")):
     with open(r"C:\ProgramData\File Organizer\backupdata.txt") as f:
         backdataraw = f.readlines()
     backdata = json.loads(backdataraw[0])
-    if(backdata["bfolder"] != "null"):
+    if(backdata["bfolder"] != "null" and backdata["bfolder"] != ""):
         backfolder = backdata["bfolder"]
         window["stato"].update(f"La cartella di backup è {backfolder}")
 
+def update_confirm():
+    kill_app = 0
+    layout = [
+        [
+            sg.Text(
+            f"C'è un nuovo aggiornamento alla versione v-{isaggiornamento[1]}!\nL'aggiornamento è già stato scaricato, vuoi aprire la nuova versione del programma?\nLa nuova versione si aprirà automaticamente"
+            )
+        ],
+        [
+            sg.Button(
+                "Apri nuova versione", key="open"
+            ), sg.Button(
+                "No"
+            )
+        ]
+    ]
+    window = sg.Window("Nuova versione", layout, modal=True, finalize=True)
+    choice = None
+    while True:
+        event, values = window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED or event == "No":
+            break
+        if event == "open":
+            versione = isaggiornamento[1]
+            shutil.move(fr"C:\ProgramData\File Organizer\Update\Organizer-v{versione}.exe", assoluta)
+            os.popen(fr"Organizer-v{versione}.exe")
+            kill_app = 1
+            break
+    window.close()
+    return kill_app
+
 if(isaggiornamento[0] == 1):
-    window["stato"].update(f"C'è una nuova versione del programma! Chiudi questa finestra e apri il nuovo file, Organizer{isaggiornamento[1]}.exe!")
-    window["-FILE LIST-"].update(fr"C'è una nuova versione del programma! Guarda lo stato")
-    window["-output-"].update(fr"C'è una nuova versione del programma! Guarda lo stato")
+    iskill = update_confirm()
+    if(iskill == 1):
+        window.close()
 
 #controlla gli eventi della gui
 while True:
@@ -312,6 +404,8 @@ while True:
         n = text_file.write(json.dumps(nome_pdir))
         text_file.close()
         update = funzione.update(cartella, configfile, datafile, nome_pdir["dir"])
+        if(update == ""):
+            update = "Errore sconosciuto"
         window["stato"].update(ora+update)
     elif event == "bfolder":
         isbfolder = 1
@@ -359,6 +453,12 @@ while True:
                 delete_confirm(backfolder)
             else:
                 window["stato"].update(ora+"Pronto - La cartella di backup non esiste")
+    elif event == "opz_lista":
+        is_svd = opzlista(lista_file)
+        if(is_svd == 1):
+            window["stato"].update(ora+"Pronto - Lista salvata")
+    elif event == "Aiuto":
+        webbrowser.open('https://github.com/Kikkiu17/File-organizer-ITA/wiki', new=0)
     text_file = open(datafile, "w")
     n = text_file.write(json.dumps(data))
     text_file.close()

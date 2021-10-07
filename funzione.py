@@ -80,7 +80,7 @@ def copy_move(directory, configfile, datafile, optype, backup, delbackup, backfo
                 create_main_dir_check=create_main_dir_check+1
 
     for file in lista_file:
-        if(file != "desktop.ini" and file != "File Organizer.bat" and ".ini" not in file and ".sys" not in file and "Organizer.py" not in file and "Organizer.exe" not in file and "organizer.exe" not in file):
+        if(file != "desktop.ini" and file != "File Organizer.bat" and ".ini" not in file and ".sys" not in file and "Organizer.py" not in file and "Organizer" not in file and "organizer" not in file):
             if("." in file and os.path.isfile(direc+file) == True):
                 metadata = ['Name', 'Size', 'Item type', 'Date modified', 'Date created']
                 def get_file_metadata(path, filename, metadata):
