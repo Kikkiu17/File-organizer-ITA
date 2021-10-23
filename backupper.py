@@ -9,7 +9,12 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
     print("C: not in",str(backfolder))
     if("C:" not in str(backfolder)):
         backfolder = assoluta
-        if("backups" not in str(os.listdir(backfolder)).lower()):
+        halt = 0
+        for oggetto in os.listdir(backfolder):
+            if("backups" in oggetto.lower()):
+                if("backups" == oggetto.lower()):
+                    halt = halt + 1
+        if(halt == 0):
             os.mkdir(backfolder+"\\Backups")
         os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
         for group_type in new_type_list.split("\n"):
@@ -23,7 +28,12 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
                     if(selected_file not in check_final_dir):
                         shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
     else:
-        if("backups" not in str(os.listdir(backfolder)).lower()):
+        halt = 0
+        for oggetto in os.listdir(backfolder):
+            if("backups" in oggetto.lower()):
+                if("backups" == oggetto.lower()):
+                    halt = halt + 1
+        if(halt == 0):
             os.mkdir(backfolder+"\\Backups")
         os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
         for group_type in new_type_list.split("\n"):
@@ -52,7 +62,12 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
             for fname in files:
                 full_path = os.path.join(root, fname)
                 os.chmod(full_path ,stat.S_IWRITE)
-        if("backups" in str(os.listdir(backfolder)).lower()):
+        halt = 0
+        for oggetto in os.listdir(backfolder):
+            if("backups" in oggetto.lower()):
+                if("backups" == oggetto.lower()):
+                    halt = halt + 1
+        if(halt == 0):
             shutil.rmtree(backfolder+"\\Backups")
         os.mkdir(backfolder+"\\Backups\\")
         os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
@@ -71,7 +86,12 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
             for fname in files:
                 full_path = os.path.join(root, fname)
                 os.chmod(full_path ,stat.S_IWRITE)
-        if("backups" in str(os.listdir(backfolder)).lower()):
+        halt = 0
+        for oggetto in os.listdir(backfolder):
+            if("backups" in oggetto.lower()):
+                if("backups" == oggetto.lower()):
+                    halt = halt + 1
+        if(halt == 0):
             shutil.rmtree(backfolder+"\\Backups")
         os.mkdir(backfolder+"\\Backups\\")
         os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
