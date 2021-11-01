@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 from os.path import abspath, dirname
 import webbrowser
-versione = 360
+versione = 361
 
 
 import PySimpleGUI as sg
