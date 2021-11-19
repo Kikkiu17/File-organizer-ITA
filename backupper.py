@@ -15,8 +15,14 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
                 if("backups" == oggetto.lower()):
                     halt = halt + 1
         if(halt == 0):
-            os.mkdir(backfolder+"\\Backups")
-        os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+            try:
+                os.mkdir(backfolder+"\\Backups")
+            except Exception as err:
+                print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        except Exception as err:
+            print("backup fail", err)
         for group_type in new_type_list.split("\n"):
             if(group_type.endswith(" ")):
                 li = group_type.rsplit(" ", 1)
@@ -26,7 +32,10 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(backfolder+"\\Backups\\"+str(finaldata))
                     if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        try:
+                            shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        except Exception as err:
+                            print("backup fail", err)
     else:
         halt = 0
         for oggetto in os.listdir(backfolder):
@@ -34,8 +43,14 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
                 if("backups" == oggetto.lower()):
                     halt = halt + 1
         if(halt == 0):
-            os.mkdir(backfolder+"\\Backups")
-        os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+            try:
+                os.mkdir(backfolder+"\\Backups")
+            except Exception as err:
+                print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        except Exception as err:
+            print("backup fail", err)
         for group_type in new_type_list.split("\n"):
             if(group_type.endswith(" ")):
                 li = group_type.rsplit(" ", 1)
@@ -45,7 +60,10 @@ def backup(datetime, backfolder, new_type_list, new, groups, direc, stat, assolu
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(backfolder+"\\Backups\\"+str(finaldata))
                     if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        try:
+                            shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        except Exception as err:
+                            print("backup fail", err)
 
 def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, assoluta, isbfolder):
     print(backfolder, isbfolder)
@@ -61,16 +79,28 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
         for root, dirs, files in os.walk(backfolder+"\\Backups"):
             for fname in files:
                 full_path = os.path.join(root, fname)
-                os.chmod(full_path ,stat.S_IWRITE)
+                try:
+                    os.chmod(full_path ,stat.S_IWRITE)
+                except Exception as err:
+                    print("backup fail", err)
         halt = 0
         for oggetto in os.listdir(backfolder):
             if("backups" in oggetto.lower()):
                 if("backups" == oggetto.lower()):
                     halt = halt + 1
-        if(halt == 0):
-            shutil.rmtree(backfolder+"\\Backups")
-        os.mkdir(backfolder+"\\Backups\\")
-        os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        if(halt != 0):
+            try:
+                shutil.rmtree(backfolder+"\\Backups")
+            except Exception as err:
+                print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\")
+        except Exception as err:
+            print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        except Exception as err:
+            print("backup fail", err)
         for group_type in new_type_list.split("\n"):
             if(group_type.endswith(" ")):
                 li = group_type.rsplit(" ", 1)
@@ -80,7 +110,10 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(backfolder+"\\Backups\\"+str(finaldata))
                     if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        try:
+                            shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        except Exception as err:
+                            print("backup fail", err)
     else:
         for root, dirs, files in os.walk(backfolder+"\\Backups"):
             for fname in files:
@@ -91,10 +124,19 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
             if("backups" in oggetto.lower()):
                 if("backups" == oggetto.lower()):
                     halt = halt + 1
-        if(halt == 0):
-            shutil.rmtree(backfolder+"\\Backups")
-        os.mkdir(backfolder+"\\Backups\\")
-        os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        if(halt != 0):
+            try:
+                shutil.rmtree(backfolder+"\\Backups")
+            except Exception as err:
+                print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\")
+        except Exception as err:
+            print("backup fail", err)
+        try:
+            os.mkdir(backfolder+"\\Backups\\"+str(finaldata))
+        except Exception as err:
+            print("backup fail", err)
         for group_type in new_type_list.split("\n"):
             if(group_type.endswith(" ")):
                 li = group_type.rsplit(" ", 1)
@@ -104,4 +146,7 @@ def delbackup(datetime, backfolder, new_type_list, new, groups, direc, stat, ass
                     selected_file = groups[group_type][group_num]
                     check_final_dir = os.listdir(backfolder+"\\Backups\\"+str(finaldata))
                     if(selected_file not in check_final_dir):
-                        shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        try:
+                            shutil.copy(direc+selected_file, backfolder+"\\Backups\\"+str(finaldata))
+                        except Exception as err:
+                            print("backup fail", err)

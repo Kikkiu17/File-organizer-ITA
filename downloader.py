@@ -13,7 +13,7 @@ def update(versione, direc):
     get_hum_ver = f.text.split("/Kikkiu17/File-organizer-ITA/releases/tag/v")[1].split("\"")[0]
     print(f"if {versione} < {int(get_ver)}")
     if(versione < int(get_ver)):
-        print("new ver:",get_hum_ver)
+        print("Nuova versinoe disponibile:",get_hum_ver,"| download in corso...")
         url = f"https://github.com/Kikkiu17/File-organizer-ITA/releases/download/v{get_hum_ver}/Organizer-v{get_hum_ver}.exe"
         import urllib.request
         import shutil
@@ -33,4 +33,6 @@ def update(versione, direc):
         with urllib.request.urlopen(url) as response, open(rf"C:\ProgramData\File Organizer\Update\Organizer-v{get_hum_ver}.exe", 'wb') as out_file:
             shutil.copyfileobj(response, out_file)
         aggiornamento = 1
+    elif(versione > int(get_ver)):
+        print("Ayo? Come fai ad avere una versione che non è stata pubblicata?")
     return aggiornamento, get_hum_ver

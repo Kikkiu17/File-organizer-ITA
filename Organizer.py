@@ -8,8 +8,7 @@ import time
 from datetime import datetime
 from os.path import abspath, dirname
 import webbrowser
-versione = 361
-
+versione = 362
 
 import PySimpleGUI as sg
 
@@ -37,9 +36,6 @@ else:
     except NameError:
         assoluta = os.getcwd()
         running_mode = 'Interactive'
-
-print('Running mode:', running_mode)
-print('  Appliction path  :', assoluta)
 backfolder = ""
 isbfolder = 0
 
@@ -54,7 +50,7 @@ if("file organizer" in os.listdir(r"C:\ProgramData")):
 if("file organizer" in os.listdir(r"C:\ProgramData")):
     os.rename(r"C:\ProgramData\file Organizer", r"C:\ProgramData\File Organizer")
 if("File Organizer" not in os.listdir(r"C:\ProgramData")):
-    print("file organizer not in programdata")
+    print("Creo FileOrganizer in ProgramData")
     configdict = '{"dir" : "File sistemati"}'
     datadict = '{"name": "null", "pdir": "null", "backup": "off", "delbackup": "off"}'
     os.mkdir(r"C:\ProgramData\File Organizer")
@@ -65,13 +61,13 @@ if("File Organizer" not in os.listdir(r"C:\ProgramData")):
     n = text_file.write(configdict)
     text_file.close()
 if("config.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
-    print("config.txt not in file organizer")
+    #fordev_print("config.txt not in file organizer")
     configdict = '{"dir" : "File sistemati"}'
     text_file = open(r"C:\ProgramData\File Organizer\config.txt", "w")
     n = text_file.write(configdict)
     text_file.close()
 if("data.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
-    print("data.txt not in file organizer")
+    #fordev_print("data.txt not in file organizer")
     datadict = '{"name": "null", "pdir": "null", "backup": "off", "delbackup": "off"}'
     text_file = open(r"C:\ProgramData\File Organizer\data.txt", "w")
     n = text_file.write(datadict)
@@ -80,8 +76,8 @@ if("data.txt" not in os.listdir(r"C:\ProgramData\File Organizer")):
 isaggiornamento = downloader.update(versione, assoluta)
 
 for file in os.listdir(assoluta):
-    if("Organizer-v" in file):
-        splitted = file.split("Organizer-v")[1].split(".")
+    if(("Organizer-v" in file) or ("organizer-v" in file)):
+        splitted = file.lower().split("organizer-v")[1].split(".")
         final = ""
         x = 0
         for lettera in splitted:
@@ -162,11 +158,11 @@ def opzlista(lista_file):
         window["lista"].update(["La lista è vuota"])
     while True:
         event, values = window.read()
-        print("event:", event, "values: ",values)
+        #fordev_print("event:", event, "values: ",values)
         if event == "Exit" or event == sg.WIN_CLOSED or event == "Chiudi":
             break
         if event == "salva":
-            print(values["save"])
+            #fordev_print(values["save"])
             str_file = ""
             for nome in lista_file:
                 if(lista_file == ""):
@@ -224,7 +220,7 @@ col1 = [
         sg.Checkbox(
             "Crea backup", key="cbackup", enable_events=True
             ), sg.Checkbox(
-                "Elimina backup precedenti e crea", key="ebackup", enable_events=True
+                "Elimina backup precedenti e crea", key="ebackup", enable_events=True, disabled=True
             ), sg.Text(
                 "Nome cartella principale:"
             ), sg.In(
@@ -317,6 +313,35 @@ def update_confirm():
     window.close()
     return kill_app
 
+def errore(errore):
+    layout = [
+        [
+            sg.Text(
+            f"Si è verificato un errore! È caldamente consigliato inviare un log tramite la pagina\"issues\" di GitHub. Clicca sul pulsante aiuto per sapere di più."
+            )
+        ],
+        [
+            sg.Text(
+                f"{errore}"
+            )
+        ],
+        [
+            sg.Button(
+                "OK", key="chiudi"
+            ), sg.Button(
+                "Aiuto", k="help"
+            )
+        ]
+    ]
+    window = sg.Window("ERRORE", layout, modal=True, finalize=True)
+    while True:
+        event, values = window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED or event == "chiudi":
+            break
+        if event == "help":
+            webbrowser.open('https://github.com/Kikkiu17/File-organizer-ITA/wiki', new=0)
+    window.close()
+
 if(isaggiornamento[0] == 1):
     iskill = update_confirm()
     if(iskill == 1):
@@ -338,6 +363,7 @@ while True:
                 if(os.path.isfile(cartella+file_sel) == True):
                     lista_file.append(file_sel)
         window["-FILE LIST-"].update(lista_file)
+        print("Cartella selezionata")
     elif event == "Sposta tutto":
         if(lista_file == []):
             window["stato"].update(ora+"Pronto - Devi selezionare una cartella")
@@ -345,44 +371,75 @@ while True:
             if(isbfolder == 0 and backup == False):
                 window["stato"].update(f"La cartella per i backup è stata selezionata automaticamente su {assoluta}")
             window["stato"].update(ora+"Spostamento in corso...")
+            print(">>> --- Inizio dello spostamento... --- <<<")
             optype = "move"
             sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup, backfolder, assoluta, isbfolder)
+            if(sposta[1] != ""):
+                errore(sposta[1])
             window["parentdir"].update(str(nome_pdir["dir"]))
-            window["-output-"].update(sposta.split("\n"))
-            window["stato"].update(ora+sposta.split("\n")[len(sposta.split("\n"))-1])
+            window["-output-"].update(str(sposta[0]).split("\n"))
+            window["stato"].update(ora+str(sposta[0]).split("\n")[len(str(sposta[0]).split("\n"))-1]) #ABILITARE LOGGING AUTOMATICO, VEDERE CATCHER DI ERRORI
+            if(lista_file != []):
+                lista_file = []
+            cart = values["-FOLDER-"]
+            cartella = cart.replace("/", "\\")+"\\"
+            file_list = os.listdir(cartella)
+            for file_sel in file_list:
+                if(file_sel != "desktop.ini"):
+                    if(os.path.isfile(cartella+file_sel) == True):
+                        lista_file.append(file_sel)
+            window["-FILE LIST-"].update(lista_file)
     elif event == "copia":
         if(lista_file == []):
             window["stato"].update(ora+"Pronto - Devi selezionare una cartella")
         else:
             if(isbfolder == 0 and backup == False):
                 window["stato"].update(f"La cartella per i backup è stata selezionata automaticamente su {assoluta}")
-                time.sleep(2)
+            print(">>> --- Inizio della copia... --- <<<")
             window["stato"].update(ora+"Copia in corso...")
             optype = "copy"
             sposta = funzione.copy_move(cartella, configfile, datafile, optype, backup, delbackup, backfolder, assoluta, isbfolder)
+            if(sposta[1] != ""):
+                errore(sposta[1])
             window["parentdir"].update(str(nome_pdir["dir"]))
-            window["-output-"].update(sposta.split("\n"))
-            window["stato"].update(ora+sposta.split("\n")[len(sposta.split("\n"))-1])
+            window["-output-"].update(str(sposta[0]).split("\n"))
+            window["stato"].update(ora+str(sposta[0]).split("\n")[len(str(sposta[0]).split("\n"))-1])
+            if(lista_file != []):
+                lista_file = []
+            cart = values["-FOLDER-"]
+            cartella = cart.replace("/", "\\")+"\\"
+            file_list = os.listdir(cartella)
+            for file_sel in file_list:
+                if(file_sel != "desktop.ini"):
+                    if(os.path.isfile(cartella+file_sel) == True):
+                        lista_file.append(file_sel)
+            window["-FILE LIST-"].update(lista_file)
     elif event == "cbackup":
         if values["cbackup"] == True:
             window["stato"].update(ora+"Pronto - Backup abilitato")
             backup = True
             window["copia"].update(disabled=True)
+            window["ebackup"].update(disabled=False)
             data["backup"] = "on"
+            print("Backup abilitato")
         elif values["cbackup"] == False:
             window["stato"].update(ora+"Pronto - Backup disabilitato")
             backup = False
             window["copia"].update(disabled=False)
+            window["ebackup"].update(disabled=True)
             data["backup"] = "off"
+            print("Backup disabilitato")
     elif event == "ebackup":
         if values["ebackup"] == True:
             window["stato"].update(ora+"Pronto - I backup precedenti verranno eliminati")
             delbackup = True
             data["delbackup"] = "on"
+            print("I backup verranno eliminati")
         elif values["ebackup"] == False:
             window["stato"].update(ora+"Pronto - I backup precedenti non verranno eliminati")
             delbackup = False
             data["delbackup"] = "off"
+            print("I backup non verranno eliminati")
     elif event == "upd":
         if(lista_file != []):
             lista_file = []
@@ -394,12 +451,13 @@ while True:
                 if(os.path.isfile(cartella+file_sel) == True):
                     lista_file.append(file_sel)
         window["-FILE LIST-"].update(lista_file)
+        print("Lista aggiornata")
     elif event == "dirset":
         cart = values["-FOLDER-"]
         cartella = cart.replace("/", "\\")+"\\"
         nome_pdir["dir"] = values["parentdir"]
         new = nome_pdir
-        print("dirset event")
+        #fordev_print("dirset event")
         text_file = open(configfile, "w")
         n = text_file.write(json.dumps(nome_pdir))
         text_file.close()
@@ -407,6 +465,7 @@ while True:
         if(update == ""):
             update = "Errore sconosciuto"
         window["stato"].update(ora+update)
+        print("Nome artella impostata")
     elif event == "bfolder":
         isbfolder = 1
         backfolder = values["bfolder"]
@@ -427,24 +486,25 @@ while True:
             with open(r"C:\ProgramData\File Organizer\backupdata.txt", "w") as f:
                 f.write(json.dumps(npdict))
         window["stato"].update(ora+"Cartella di backup impostata")
+        print("Cartella di backup impostata")
     elif event == "hst":
         history.cronologia()
     elif event == "del_backs":
         if(backfolder != ""):
             if("Backups" in os.listdir(backfolder)):
-                print(f"Backups in {os.listdir(backfolder)}")
+                #fordev_print(f"Backups in {os.listdir(backfolder)}")
                 backfname = "Backups"
                 nobackup = 2
             elif("Backup" in os.listdir(backfolder)):
-                print(f"Backup in {os.listdir(backfolder)}")
+                #fordev_print(f"Backup in {os.listdir(backfolder)}")
                 backfname = "Backup"
                 nobackup = 2
             elif("backups" in os.listdir(backfolder)):
-                print(f"backups in {os.listdir(backfolder)}")
+                #fordev_print(f"backups in {os.listdir(backfolder)}")
                 backfname = "backups"
                 nobackup = 2
             elif("backup" in os.listdir(backfolder)):
-                print(f"backup in {os.listdir(backfolder)}")
+                #fordev_print(f"backup in {os.listdir(backfolder)}")
                 backfname = "backup"
                 nobackup = 2
             else:
