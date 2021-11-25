@@ -1,6 +1,0 @@
-- Per qualsiasi idea o bug report, creare un nuovo thread in "Issues". Se si vuole apportare una modifica al codice, si è liberi di scaricarlo e modificarlo a piacimento, seguendo sempre l'idea originale del programma.
-- Ogni modifica al codice dev'essere testata internamente, se supera i test allora può essere mandata a me all'email sul mio profilo. Controllerò il nuovo codice e se va bene, sarà caricato come nuova release.
-- Per il test del codice bisogna scaricare tutti i file in `main` e averli in una singola cartella. Il file da avviare è `Organizer.py`. Verrà creata una cartella del programma in `C:\ProgramData\`.
-- Ogni volta che si invia del codice modificato all'email, bisogna includere ogni file che è stato scaricato da GitHub, modificato o creato, scrivendo una lista di modifiche apportate.
-- Se le modifiche sono fatte bene e ci sono nuove funzioni interessanti, si può essere aggiunti come `contributor` del progetto.
-- Non creare modifiche inutili, bisogna sapere ciò che si sta facendo.
