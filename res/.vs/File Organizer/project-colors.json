@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "fdd7a139-859a-40f9-9b95-83a5bc04edbf": {
+      "ProjectGuid": "fdd7a139-859a-40f9-9b95-83a5bc04edbf",
+      "DisplayName": "File Organizer",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

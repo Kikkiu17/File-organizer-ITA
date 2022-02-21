@@ -1,0 +1,17 @@
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\File Organizer.exe
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\File Organizer.deps.json
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\File Organizer.runtimeconfig.json
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\ref\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows7.0\File Organizer.pdb
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File_Organizer.Form1.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.csproj.GenerateResource.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.AssemblyInfoInputs.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.AssemblyInfo.cs
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.csproj.CoreCompileInputs.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\ref\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.pdb
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.genruntimeconfig.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows7.0\File Organizer.csproj.AssemblyReference.cache

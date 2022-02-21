@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "Mjb2+YLyFmupBgmrraGvu5giNKvr/QCD8vld46Ok1zrvtXLpXrIyZnuP3viu2b7l4NXwRAdOpHV+hpffQd8HIg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Kikkiu\\source\\repos\\File Organizer\\File Organizer\\File Organizer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.2\\microsoft.netcore.app.runtime.win-x64.6.0.2.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.2\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.2.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.2\\microsoft.aspnetcore.app.runtime.win-x64.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
