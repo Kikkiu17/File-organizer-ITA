@@ -7,7 +7,3 @@ Avvia il file "Organizer-vx.x.x.exe" e osserva la magia!
   
 # ISTRUZIONI DI UTILIZZO:
 Il file .exe scaricato non ha bisogno di installazioni, quindi basta avviarlo, scegliere la cartella da riordinare e scegliere "Sposta tutto" o "Copia tutto" in base a ciò che si vuole fare. Se si hanno domande su come fare qualcosa, si può leggere la [wiki](https://github.com/Kikkiu17/File-organizer-ITA/wiki).
-
-## **FAQ**:
-Quando apro il programma e faccio qualcosa si chiude da solo!
->Crea un nuovo report di errore in "Issues", spiegando cos'è successo in dettaglio. È probabilmente un bug non scoperto.

@@ -1,0 +1,17 @@
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\File Organizer.exe
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\File Organizer.deps.json
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\File Organizer.runtimeconfig.json
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\ref\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Debug\net6.0-windows\File Organizer.pdb
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.csproj.AssemblyReference.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File_Organizer.Form1.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.csproj.GenerateResource.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.AssemblyInfoInputs.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.AssemblyInfo.cs
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.csproj.CoreCompileInputs.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\ref\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.pdb
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows\File Organizer.genruntimeconfig.cache

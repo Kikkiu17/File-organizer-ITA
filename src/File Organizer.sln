@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "File Organizer", "File Organizer\File Organizer.csproj", "{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Debug|x64.ActiveCfg = Debug|x64
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Debug|x64.Build.0 = Debug|x64
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Release|x64.ActiveCfg = Release|x64
+		{FDD7A139-859A-40F9-9B95-83A5BC04EDBF}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57C3CD70-29FE-44B2-8CAF-402D0C791890}
+	EndGlobalSection
+EndGlobal
