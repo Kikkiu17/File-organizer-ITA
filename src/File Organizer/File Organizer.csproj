@@ -9,10 +9,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <StartupObject></StartupObject>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <FileVersion>4.1.4</FileVersion>
-    <AssemblyVersion>4.1.4</AssemblyVersion>
-    <Version>4.1.0</Version>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <FileVersion>4.2.0</FileVersion>
+    <AssemblyVersion>4.2.0</AssemblyVersion>
+    <Version>4.2.0</Version>
     <Authors>Emanuele</Authors>
     <Description>Riorganizza i tuoi file in modo facile e veloce.</Description>
     <PackageProjectUrl>https://github.com/Kikkiu17/File-organizer-ITA</PackageProjectUrl>
@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="..\Senza titolo-2.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

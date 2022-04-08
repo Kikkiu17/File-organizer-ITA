@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8622: Il supporto dei valori Null dei tipi riferimento nel tipo di parametro non corrisponde al delegato di destinazione, probabilmente a causa degli attributi del supporto dei valori Null.
+dotnet_diagnostic.CS8622.severity = silent

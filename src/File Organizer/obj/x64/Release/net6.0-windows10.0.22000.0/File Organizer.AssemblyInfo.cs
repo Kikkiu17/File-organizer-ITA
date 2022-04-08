@@ -14,15 +14,15 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Emanuele")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Riorganizza i tuoi file in modo facile e veloce.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("4.1.4")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.1.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("4.2.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.2.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("File Organizer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("File Organizer")]
-[assembly: System.Reflection.AssemblyVersionAttribute("4.1.4")]
+[assembly: System.Reflection.AssemblyVersionAttribute("4.2.0")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/Kikkiu17/File-organizer-ITA")]
 [assembly: System.Resources.NeutralResourcesLanguageAttribute("it")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows10.0.22000.0")]
-[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
+[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows10.0.17763.0")]
 
 // Generato dalla classe WriteCodeFragment di MSBuild.
 

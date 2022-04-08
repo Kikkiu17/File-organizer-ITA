@@ -6,24 +6,24 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "File Organizer/4.1.0": {
+      "File Organizer/4.2.0": {
         "dependencies": {
           "Microsoft.Toolkit.Uwp.Notifications": "7.1.2",
-          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.22"
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.23"
         },
         "runtime": {
           "File Organizer.dll": {}
         }
       },
-      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.22": {
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.23": {
         "runtime": {
           "Microsoft.Windows.SDK.NET.dll": {
-            "assemblyVersion": "10.0.22000.22",
-            "fileVersion": "10.0.22000.22"
+            "assemblyVersion": "10.0.22000.23",
+            "fileVersion": "10.0.22000.23"
           },
           "WinRT.Runtime.dll": {
-            "assemblyVersion": "1.4.0.0",
-            "fileVersion": "1.4.0.37231"
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.5.0.38015"
           }
         }
       },
@@ -71,12 +71,12 @@
     }
   },
   "libraries": {
-    "File Organizer/4.1.0": {
+    "File Organizer/4.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.22": {
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.23": {
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""

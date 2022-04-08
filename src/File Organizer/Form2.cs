@@ -1,15 +1,15 @@
 ﻿namespace File_Organizer
 {
-    public partial class Form2 : Form
+    public partial class FileListOptionsForm : Form
     {
-        public Form2()
+        public FileListOptionsForm()
         {
             InitializeComponent();
 
-            if(Form1.start_folder != "")
+            if(MainWindow.start_folder != "")
             {
                 listBox2.Items.Clear();
-                foreach (string file in Directory.GetFiles(Form1.start_folder))
+                foreach (string file in Directory.GetFiles(MainWindow.start_folder))
                 {
                     string clean_file = file.Split("\\")[file.Split("\\").Length-1];
 
@@ -62,10 +62,10 @@
         //evento di click del bottone aggiorna
         private void UpdateButton_Click(object sender, EventArgs e)
         {
-            if (Form1.start_folder != "")
+            if (MainWindow.start_folder != "")
             {
                 listBox2.Items.Clear();
-                foreach (string file in Directory.GetFiles(Form1.start_folder))
+                foreach (string file in Directory.GetFiles(MainWindow.start_folder))
                 {
                     string clean_file = file.Split("\\")[file.Split("\\").Length-1];
 

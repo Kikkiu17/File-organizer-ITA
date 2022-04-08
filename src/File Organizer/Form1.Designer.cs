@@ -1,6 +1,6 @@
 ﻿namespace File_Organizer
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.SelectStartFolder = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.StartPath = new System.Windows.Forms.TextBox();
@@ -60,6 +60,7 @@
             this.BackgroundUpdate = new System.ComponentModel.BackgroundWorker();
             this.BackgroundUndo = new System.ComponentModel.BackgroundWorker();
             this.LockFolderCheckBox = new System.Windows.Forms.CheckBox();
+            this.FileSizeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SelectStartFolder
@@ -280,7 +281,7 @@
             // 
             this.FileListOptions.Location = new System.Drawing.Point(570, 142);
             this.FileListOptions.Name = "FileListOptions";
-            this.FileListOptions.Size = new System.Drawing.Size(226, 23);
+            this.FileListOptions.Size = new System.Drawing.Size(110, 23);
             this.FileListOptions.TabIndex = 28;
             this.FileListOptions.Text = "Opzioni lista file";
             this.FileListOptions.UseVisualStyleBackColor = true;
@@ -328,12 +329,23 @@
             this.LockFolderCheckBox.UseVisualStyleBackColor = true;
             this.LockFolderCheckBox.CheckedChanged += new System.EventHandler(this.LockFolderCheckBox_CheckedChanged);
             // 
-            // Form1
+            // FileSizeButton
+            // 
+            this.FileSizeButton.Location = new System.Drawing.Point(686, 141);
+            this.FileSizeButton.Name = "FileSizeButton";
+            this.FileSizeButton.Size = new System.Drawing.Size(110, 23);
+            this.FileSizeButton.TabIndex = 32;
+            this.FileSizeButton.Text = "Dimensioni file";
+            this.FileSizeButton.UseVisualStyleBackColor = true;
+            this.FileSizeButton.Click += new System.EventHandler(this.FileSizeButton_Click);
+            // 
+            // MainWindow
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1060, 532);
+            this.Controls.Add(this.FileSizeButton);
             this.Controls.Add(this.LockFolderCheckBox);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.UndoButton);
@@ -363,7 +375,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.Text = "File Organizer";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -404,5 +416,6 @@
         private System.ComponentModel.BackgroundWorker BackgroundUpdate;
         private System.ComponentModel.BackgroundWorker BackgroundUndo;
         private CheckBox LockFolderCheckBox;
+        private Button FileSizeButton;
     }
 }

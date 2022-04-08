@@ -2,7 +2,6 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.deps.json
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.runtimeconfig.json
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.dll
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\ref\File Organizer.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.pdb
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\Microsoft.CSharp.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\Microsoft.VisualBasic.Core.dll
@@ -270,7 +269,6 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\hostfxr.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\hostpolicy.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore.dll
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore_amd64_amd64_6.0.222.6406.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordbi.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscorrc.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\msquic.dll
@@ -503,8 +501,6 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\zh-Hant\WindowsFormsIntegration.resources.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\Microsoft.Windows.SDK.NET.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\WinRT.Runtime.dll
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.Form1.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.Form2.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.csproj.GenerateResource.cache
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.AssemblyInfoInputs.cache
@@ -516,5 +512,11 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.pdb
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.genruntimeconfig.cache
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\Microsoft.Toolkit.Uwp.Notifications.dll
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.Form3.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.csproj.AssemblyReference.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\api-ms-win-core-fibers-l1-1-0.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore_amd64_amd64_6.0.322.12309.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\refint\File Organizer.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.MainWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileListOptionsForm.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.UndoForm.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileSizesForm.resources

@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace File_Organizer
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
         bool exist_start_folder = false;
         bool exist_dest_folder = false;
@@ -28,7 +28,7 @@ namespace File_Organizer
         private ContextMenuStrip listboxContextMenu;
 
         private Algorithm _alg = new Algorithm();
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
 
@@ -47,10 +47,11 @@ namespace File_Organizer
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
+            //scarica l'aggiornamento e avvia il nuovo programma
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Stream receiveStream = response.GetResponseStream();
-                StreamReader readStream = null;
+                StreamReader? readStream = null;
                 if (String.IsNullOrWhiteSpace(response.CharacterSet))
                     readStream = new StreamReader(receiveStream);
                 else
@@ -71,7 +72,8 @@ namespace File_Organizer
 
                     if (diagresult == DialogResult.Yes)
                     {
-                        string path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+                        ShowNotification(2, "Download dell'aggiornamento in corso", "potrebbe volerci un po' di tempo...");
+                        string path = Path.GetDirectoryName(Application.ExecutablePath);
                         if (!File.Exists(path+"\\"+"Organizer-v"+get_version+".exe"))
                         {
                             using (var client = new WebClient())
@@ -80,6 +82,8 @@ namespace File_Organizer
                                     "/download/v"+get_version+"/Organizer-v"+get_version+".exe", path+"\\"+"Organizer-v"+get_version+".exe");
                             }
                         }
+
+                        ShowNotification(2, "Download completato", "apertura della nuova applicazione...");
 
                         System.Diagnostics.Process.Start(path+"\\"+"Organizer-v"+get_version+".exe");
                         if (System.Windows.Forms.Application.MessageLoop)
@@ -127,8 +131,9 @@ namespace File_Organizer
         private void listboxContextMenu_Opening(object sender, CancelEventArgs e)
         {
             listboxContextMenu.Items.Clear();
-            listboxContextMenu.Items.Add("Elimina");
+            listboxContextMenu.Items.Add("Apri");
             listboxContextMenu.Items.Add("Rinomina");
+            listboxContextMenu.Items.Add("Elimina");
             listboxContextMenu.Items.Add("Tipi di file collegati");
         }
 
@@ -446,7 +451,7 @@ namespace File_Organizer
         {
             ToolStripItem item = e.ClickedItem;
             string selected_item = item.Text;
-            if(listBox2.SelectedItem != null && !listBox2.SelectedItem.ToString().Contains("spostato") &&
+            if (listBox2.SelectedItem != null && !listBox2.SelectedItem.ToString().Contains("spostato") &&
                 !listBox2.SelectedItem.ToString().Contains("copiato"))
             {
                 string folder = listBox2.SelectedItem.ToString();
@@ -582,6 +587,16 @@ namespace File_Organizer
 
                         BackgroundUpdate.RunWorkerAsync(argument: 1);
                     }
+                } else if(selected_item == "Apri")
+                {
+                    if(listBox2.SelectedItem != null && listBox2.SelectedItem.ToString() != "")
+                    {
+                        ProcessStartInfo startInfo = new ProcessStartInfo();
+                        startInfo.Arguments = dest_folder+"\\"+listBox2.SelectedItem.ToString();
+                        startInfo.FileName = "explorer.exe";
+
+                        Process.Start(startInfo);
+                    }
                 }
             }
         }
@@ -589,7 +604,7 @@ namespace File_Organizer
         //evento di click del bottone delle opzioni della lista di file
         private void FileListOptions_Click(object sender, EventArgs e)
         {
-            new Form2().Show();
+            new FileListOptionsForm().Show();
         }
 
         //evento di update da parte di un thread
@@ -926,15 +941,19 @@ namespace File_Organizer
                 }
                 else
                 {
-                    int i = 0;
-                    foreach (string file in Directory.EnumerateFiles(StartPath.Text, "*"))
+
+                    if(start_folder != "")
                     {
-                        string clean_file = file.Split("\\")[file.Split("\\").Length-1];
-                        if (clean_file != "desktop.ini" && clean_file != Environment.ProcessPath.Split("\\")
-                            [Environment.ProcessPath.Split("\\").Length-1])
+                        int i = 0;
+                        foreach (string file in Directory.EnumerateFiles(StartPath.Text, "*"))
                         {
-                            i++;
-                            listBox1.Items.Add(file.Split("\\")[file.Split("\\").Length-1]);
+                            string clean_file = file.Split("\\")[file.Split("\\").Length-1];
+                            if (clean_file != "desktop.ini" && clean_file != Environment.ProcessPath.Split("\\")
+                                [Environment.ProcessPath.Split("\\").Length-1])
+                            {
+                                i++;
+                                listBox1.Items.Add(file.Split("\\")[file.Split("\\").Length-1]);
+                            }
                         }
                     }
 
@@ -1007,7 +1026,7 @@ namespace File_Organizer
             {
                 if ((bool)Properties.Settings.Default["DontShowUndoAgain"] == false)
                 {
-                    new Form3().Show();
+                    new UndoForm().Show();
                 }
                 else
                 {
@@ -1106,6 +1125,26 @@ namespace File_Organizer
                     MessageBox.Show("CARTELLA DI DESTINAZIONE BLOCCATA\nLa cartella di destinazione non cambierà scegliendo una diversa " +
                         "cartella da riordinare.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        //bottone che apre la finestra per trovare i file e cartelle più pesanti
+        private void FileSizeButton_Click(object sender, EventArgs e)
+        {
+            if(dest_folder != "")
+            {
+                if(File.Exists(dest_folder+"\\.fileorg"))
+                {
+                    FileSizesForm form4 = new FileSizesForm();
+                    form4.Show();
+                } else
+                {
+                    MessageBox.Show("Questa funzione è attualmente supportata solo per le cartelle riordinate dal programma.",
+                        "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } else
+            {
+                MessageBox.Show("Non è stata selezionata nessuna cartella di destinazione.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

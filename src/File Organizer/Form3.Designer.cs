@@ -1,6 +1,6 @@
 ﻿namespace File_Organizer
 {
-    partial class Form3
+    partial class UndoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndoForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
@@ -95,7 +95,7 @@
             this.DontShowAgain.UseVisualStyleBackColor = true;
             this.DontShowAgain.CheckedChanged += new System.EventHandler(this.DontShowAgain_CheckedChanged);
             // 
-            // Form3
+            // UndoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -109,7 +109,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form3";
+            this.Name = "UndoForm";
             this.Text = "Undo";
             this.ResumeLayout(false);
             this.PerformLayout();

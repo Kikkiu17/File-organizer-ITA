@@ -1,14 +1,14 @@
 ﻿namespace File_Organizer
 {
-    public partial class Form3 : Form
+    public partial class UndoForm : Form
     {
-        string[] files = new string[Form1.operation.Split(";").Length-1];
-        public Form3()
+        string[] files = new string[MainWindow.operation.Split(";").Length-1];
+        public UndoForm()
         {
             InitializeComponent();
             int j = 0;
 
-            foreach (string op in Form1.operation.Split(";"))
+            foreach (string op in MainWindow.operation.Split(";"))
             {
                 j++;
                 if (op != "")
@@ -17,7 +17,7 @@
                     if(op.Contains("spostato in"))
                     {
                         string file = files[j].Split(" spostato in ")[0];
-                        string toadd = file + " verrà spostato in " + Form1.start_folder;
+                        string toadd = file + " verrà spostato in " + MainWindow.start_folder;
                         listBox1.Items.Add(toadd);
                     } else if(op.Contains("copiato in"))
                     {
@@ -45,7 +45,7 @@
                         string file = files[i].Split(" spostato in ")[0];
                         try
                         {
-                            Directory.Move(folder+"\\"+file, Form1.start_folder+"\\"+file);
+                            Directory.Move(folder+"\\"+file, MainWindow.start_folder+"\\"+file);
                         } catch
                         {
                             MessageBox.Show("C'è stato un errore; "+file+" ignorato", "Errore", MessageBoxButtons.OK,
@@ -70,8 +70,8 @@
                 }
             }
 
-            Form1.operation = "";
-            Form1.undodone = true;
+            MainWindow.operation = "";
+            MainWindow.undodone = true;
 
             this.Close();
         }

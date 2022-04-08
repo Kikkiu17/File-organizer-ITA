@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ctysQU7bqaDMuEtRLUf0rS1Q4KSHNEk6N4u27VPd4D+csoPbgXOJ4b5XdOUSndWDgab+sO0uQjUQ7Zez1Phh/Q==",
+  "dgSpecHash": "amdq0In0Aj+r3RxqHbw77JW4G5ZzTsIyG/himNHtV59BwOJSi6rx6jBkdhGuozZ9KKVBWFjx6CwVyTZEH55cJA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kikkiu\\source\\repos\\File Organizer\\File Organizer\\File Organizer.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,7 @@
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.22\\microsoft.windows.sdk.net.ref.10.0.22000.22.nupkg.sha512"
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.23\\microsoft.windows.sdk.net.ref.10.0.22000.23.nupkg.sha512"
   ],
   "logs": []
 }

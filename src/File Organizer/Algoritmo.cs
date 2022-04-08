@@ -42,11 +42,11 @@ namespace File_Organizer
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new MainWindow());
         }
 
         public delegate void ProgressUpdate(int value);
-        public event ProgressUpdate OnProgressUpdate;
+        public event ProgressUpdate? OnProgressUpdate;
 
         //metodo di spostamento/copia file
         public (string, int, int, string) CopyMove(string dest_folder, string[] file_list, string action,

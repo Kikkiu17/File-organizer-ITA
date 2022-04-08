@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yuRc8TPtVtUfWgpZ+JscTJNhMJFDbNhwiIz+4asFLAY7hZO9lrZnmuSgg/ucGrCvzh+J8Z1Yol/DnTYw1VzDDQ==",
+  "dgSpecHash": "+jaaHJz0RdSdz9gB6JBv4+MQWDwWk6ARUtNU+UoHmXSOPRmSUS/aOsW2BVARpoo/kJAZ0nK5c3w/GKNfsgPLFA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kikkiu\\source\\repos\\File Organizer\\File Organizer\\File Organizer.csproj",
   "expectedPackageFiles": [
@@ -13,11 +13,11 @@
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Kikkiu\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.2\\microsoft.netcore.app.runtime.win-x64.6.0.2.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.2\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.2.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.2\\microsoft.aspnetcore.app.runtime.win-x64.6.0.2.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.2\\microsoft.netcore.app.crossgen2.win-x64.6.0.2.nupkg.sha512",
-    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.22\\microsoft.windows.sdk.net.ref.10.0.22000.22.nupkg.sha512"
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.3\\microsoft.netcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.3\\microsoft.aspnetcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.3\\microsoft.netcore.app.crossgen2.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\Kikkiu\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.23\\microsoft.windows.sdk.net.ref.10.0.22000.23.nupkg.sha512"
   ],
   "logs": []
 }
