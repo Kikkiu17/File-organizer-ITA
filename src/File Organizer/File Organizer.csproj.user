@@ -4,16 +4,16 @@
     <_LastSelectedProfileId>C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Form1.cs">
+    <Compile Update="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form2.cs">
+    <Compile Update="FileListOptionsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form3.cs">
+    <Compile Update="UndoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form4.cs">
+    <Compile Update="FileManagerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

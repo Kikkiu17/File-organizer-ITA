@@ -19,6 +19,7 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File Organizer.genruntimeconfig.cache
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\ref\File Organizer.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.MainWindow.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.FileListOptionsForm.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.UndoForm.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.FileSizesForm.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.Properties.Resources.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.UndoWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.FileListOptionsWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Debug\net6.0-windows10.0.22000.0\File_Organizer.FileManagerWindow.resources

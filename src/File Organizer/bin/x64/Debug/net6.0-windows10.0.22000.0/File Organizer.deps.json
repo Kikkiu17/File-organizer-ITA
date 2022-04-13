@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "File Organizer/4.2.0": {
+      "File Organizer/4.3": {
         "dependencies": {
           "Microsoft.Toolkit.Uwp.Notifications": "7.1.2",
           "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.23"
@@ -71,7 +71,7 @@
     }
   },
   "libraries": {
-    "File Organizer/4.2.0": {
+    "File Organizer/4.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

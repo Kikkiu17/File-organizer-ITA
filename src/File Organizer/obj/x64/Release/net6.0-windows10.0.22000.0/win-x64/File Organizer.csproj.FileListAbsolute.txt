@@ -517,6 +517,7 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore_amd64_amd64_6.0.322.12309.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\refint\File Organizer.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.MainWindow.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileListOptionsForm.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.UndoForm.resources
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileSizesForm.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileListOptionsWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.Properties.Resources.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.UndoWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileManagerWindow.resources

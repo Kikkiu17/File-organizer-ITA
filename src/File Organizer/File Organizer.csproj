@@ -10,9 +10,9 @@
     <Platforms>AnyCPU;x64</Platforms>
     <StartupObject></StartupObject>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
-    <FileVersion>4.2.0</FileVersion>
-    <AssemblyVersion>4.2.0</AssemblyVersion>
-    <Version>4.2.0</Version>
+    <FileVersion>4.3.0</FileVersion>
+    <AssemblyVersion>4.3</AssemblyVersion>
+    <Version>4.3</Version>
     <Authors>Emanuele</Authors>
     <Description>Riorganizza i tuoi file in modo facile e veloce.</Description>
     <PackageProjectUrl>https://github.com/Kikkiu17/File-organizer-ITA</PackageProjectUrl>
@@ -41,11 +41,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
