@@ -6,19 +6,20 @@
         {
             InitializeComponent();
 
-            if(MainWindow.start_folder != "")
+            if (MainWindow.start_folder != "")
             {
                 listBox2.Items.Clear();
                 foreach (string file in Directory.GetFiles(MainWindow.start_folder))
                 {
                     string clean_file = file.Split("\\")[file.Split("\\").Length-1];
 
-                    if(clean_file != "desktop.ini" && clean_file != Environment.ProcessPath)
+                    if (clean_file != "desktop.ini" && clean_file != Environment.ProcessPath)
                     {
                         listBox2.Items.Add(file.Split("\\")[file.Split("\\").Length-1]);
                     }
                 }
-            } else
+            }
+            else
             {
                 listBox2.Items.Clear();
                 listBox2.Items.Add("La cartella da riordinare non è stata selezionata");
@@ -34,10 +35,10 @@
             saveFileDialog1.DefaultExt = "File di testo (*.txt)|*.txt";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string[] arr = new string [listBox2.Items.Count];
+                string[] arr = new string[listBox2.Items.Count];
                 listBox2.Items.CopyTo(arr, 0);
                 string to_write = "";
-                for(int i = 0; i < arr.Length; i++)
+                for (int i = 0; i < arr.Length; i++)
                 {
                     to_write = to_write + i + " " + arr[i] + "\n";
                 }
@@ -46,7 +47,8 @@
                     File.WriteAllTextAsync(saveFileDialog1.FileName, to_write);
                     MessageBox.Show("Lista salvata in "+saveFileDialog1.FileName, "Informazione",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show("Errore durante il salvataggio del file.\n\nErrore:\n"+ex.Message, "Errore",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);

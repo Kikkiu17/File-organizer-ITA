@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0-windows10.0.22000": {
+    "net7.0-windows10.0.22000": {
       "Microsoft.NETCore.Platforms/3.1.0": {
         "type": "package",
         "compile": {
@@ -11,7 +11,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/7.1.2": {
+      "Microsoft.Toolkit.Uwp.Notifications/7.1.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "4.7.0",
@@ -20,10 +20,14 @@
           "System.ValueTuple": "4.5.0"
         },
         "compile": {
-          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {
+            "related": ".pdb;.xml"
+          }
         },
         "runtime": {
-          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {
+            "related": ".pdb;.xml"
+          }
         }
       },
       "Microsoft.Win32.Registry/4.7.0": {
@@ -33,10 +37,14 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
@@ -55,10 +63,14 @@
           "Microsoft.NETCore.Platforms": "3.1.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/_._": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {}
+          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll": {
@@ -74,7 +86,9 @@
           "Microsoft.Win32.SystemEvents": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/System.Drawing.Common.dll": {}
+          "ref/netcoreapp3.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
           "lib/netstandard2.0/System.Drawing.Common.dll": {}
@@ -106,10 +120,14 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/System.Security.AccessControl.dll": {}
+          "lib/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {
@@ -121,10 +139,14 @@
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {}
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/System.Security.Principal.Windows.dll": {}
+          "lib/netstandard2.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
@@ -147,7 +169,7 @@
         }
       }
     },
-    "net6.0-windows10.0.22000/win-x64": {
+    "net7.0-windows10.0.22000/win-x64": {
       "Microsoft.NETCore.Platforms/3.1.0": {
         "type": "package",
         "compile": {
@@ -157,7 +179,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.Toolkit.Uwp.Notifications/7.1.2": {
+      "Microsoft.Toolkit.Uwp.Notifications/7.1.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "4.7.0",
@@ -166,10 +188,14 @@
           "System.ValueTuple": "4.5.0"
         },
         "compile": {
-          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {
+            "related": ".pdb;.xml"
+          }
         },
         "runtime": {
-          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+          "lib/net5.0-windows10.0.17763/Microsoft.Toolkit.Uwp.Notifications.dll": {
+            "related": ".pdb;.xml"
+          }
         }
       },
       "Microsoft.Win32.Registry/4.7.0": {
@@ -179,10 +205,14 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Win32.SystemEvents/4.7.0": {
@@ -191,10 +221,14 @@
           "Microsoft.NETCore.Platforms": "3.1.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/_._": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll": {}
+          "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.Drawing.Common/4.7.0": {
@@ -204,10 +238,14 @@
           "Microsoft.Win32.SystemEvents": "4.7.0"
         },
         "compile": {
-          "ref/netcoreapp3.0/System.Drawing.Common.dll": {}
+          "ref/netcoreapp3.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll": {}
+          "runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.Reflection.Emit/4.7.0": {
@@ -226,19 +264,27 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {}
+          "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {}
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {}
+          "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.ValueTuple/4.5.0": {
@@ -270,10 +316,10 @@
         "version.txt"
       ]
     },
-    "Microsoft.Toolkit.Uwp.Notifications/7.1.2": {
-      "sha512": "cVBRDG8g0K4sBRHFJoNQjwZduDUz+cXP33erIQjAa8fGKF4DsWIuOAQCYGFoXpdXIXjxoaUYuGSxAG6QCvOdtQ==",
+    "Microsoft.Toolkit.Uwp.Notifications/7.1.3": {
+      "sha512": "A1dglAzb24gjehmb7DwGd07mfyZ1gacAK7ObE0KwDlRc3mayH2QW7cSOy3TkkyELjLg19OQBuhPOj4SpXET9lg==",
       "type": "package",
-      "path": "microsoft.toolkit.uwp.notifications/7.1.2",
+      "path": "microsoft.toolkit.uwp.notifications/7.1.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -307,7 +353,7 @@
         "lib/uap10.0.16299/Microsoft.Toolkit.Uwp.Notifications.pdb",
         "lib/uap10.0.16299/Microsoft.Toolkit.Uwp.Notifications.pri",
         "lib/uap10.0.16299/Microsoft.Toolkit.Uwp.Notifications.xml",
-        "microsoft.toolkit.uwp.notifications.7.1.2.nupkg.sha512",
+        "microsoft.toolkit.uwp.notifications.7.1.3.nupkg.sha512",
         "microsoft.toolkit.uwp.notifications.nuspec"
       ]
     },
@@ -626,15 +672,15 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0-windows10.0.22000": [
-      "Microsoft.Toolkit.Uwp.Notifications >= 7.1.2"
+    "net7.0-windows10.0.22000": [
+      "Microsoft.Toolkit.Uwp.Notifications >= 7.1.3"
     ]
   },
   "packageFolders": {
     "C:\\Users\\Kikkiu\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "4.3.0",
+    "version": "4.4.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\Kikkiu\\source\\repos\\File Organizer\\File Organizer\\File Organizer.csproj",
       "projectName": "File Organizer",
@@ -647,15 +693,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0-windows10.0.22000.0"
+        "net7.0-windows10.0.22000.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0-windows10.0.22000": {
-          "targetAlias": "net6.0-windows10.0.22000.0",
+        "net7.0-windows10.0.22000": {
+          "targetAlias": "net7.0-windows10.0.22000.0",
           "projectReferences": {}
         }
       },
@@ -666,12 +712,12 @@
       }
     },
     "frameworks": {
-      "net6.0-windows10.0.22000": {
-        "targetAlias": "net6.0-windows10.0.22000.0",
+      "net7.0-windows10.0.22000": {
+        "targetAlias": "net7.0-windows10.0.22000.0",
         "dependencies": {
           "Microsoft.Toolkit.Uwp.Notifications": {
             "target": "Package",
-            "version": "[7.1.2, )"
+            "version": "[7.1.3, )"
           }
         },
         "imports": [
@@ -680,30 +726,31 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[6.0.3, 6.0.3]"
+            "version": "[7.0.1, 7.0.1]"
           },
           {
             "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-            "version": "[6.0.3, 6.0.3]"
+            "version": "[7.0.1, 7.0.1]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[6.0.3, 6.0.3]"
+            "version": "[7.0.1, 7.0.1]"
           },
           {
             "name": "Microsoft.Windows.SDK.NET.Ref",
-            "version": "[10.0.22000.23, 10.0.22000.23]"
+            "version": "[10.0.22000.28, 10.0.22000.28]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[6.0.3, 6.0.3]"
+            "version": "[7.0.1, 7.0.1]"
           }
         ],
         "frameworkReferences": {
@@ -717,7 +764,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {

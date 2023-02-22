@@ -23,3 +23,5 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\File_Organizer.Properties.Resources.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\File_Organizer.UndoWindow.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\File_Organizer.FileManagerWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\File Organizer.csproj.ResolveComReference.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\File_Organizer.IconsOrganizerWindow.resources

@@ -514,10 +514,13 @@ C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\Microsoft.Toolkit.Uwp.Notifications.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.csproj.AssemblyReference.cache
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\api-ms-win-core-fibers-l1-1-0.dll
-C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore_amd64_amd64_6.0.322.12309.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\refint\File Organizer.dll
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.MainWindow.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileListOptionsWindow.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.Properties.Resources.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.UndoWindow.resources
 C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.FileManagerWindow.resources
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\System.Diagnostics.EventLog.Messages.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\bin\x64\Release\net6.0-windows10.0.22000.0\win-x64\mscordaccore_amd64_amd64_6.0.1222.56807.dll
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File Organizer.csproj.ResolveComReference.cache
+C:\Users\Kikkiu\source\repos\File Organizer\File Organizer\obj\x64\Release\net6.0-windows10.0.22000.0\win-x64\File_Organizer.IconsOrganizerWindow.resources

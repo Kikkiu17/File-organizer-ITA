@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Collections;
 
 static class Attributes
 {
@@ -49,9 +50,11 @@ namespace File_Organizer
         public event ProgressUpdate? OnProgressUpdate;
 
         //metodo di spostamento/copia file
-        public (string, int, int, string) CopyMove(string dest_folder, string[] file_list, string action,
+        public (string, int, int, string, ArrayList, string) CopyMove(string dest_folder, string[] file_list, string action,
             bool backups_active, string backup_folder, bool is_preview)
         {
+            ArrayList ignored_files_names = new();
+
             int total_files = file_list.Length;
             int percentage = 0;
             int file_prog = 0;
@@ -77,9 +80,7 @@ namespace File_Organizer
             number_created_folders = number_created_folders + created_folders2.Split(";").Length-1;
 
             if (created_folders1 != "")
-            {
                 number_created_folders++;
-            }
 
             int ignored_files = 0;
             int arr_len = file_list.Length;
@@ -122,14 +123,14 @@ namespace File_Organizer
                     if (repeated_file_type == file_type)
                     {
                         string file_dest_folder = dest_folder+"\\"+file_type;
-                        string filename = file_list[file_index].Split("\\")[file_list[file_index].Split("\\").Length-1];
+                        string filename = file_list[file_index].Split("\\")[^1];
 
                         if (!File.Exists(file_dest_folder+"\\"+filename) && file_list[file_index] != Environment.ProcessPath)
                         {
                             file_prog++;
                             if (action == "MOVE")
                             {
-                                if(!is_preview)
+                                if (!is_preview)
                                 {
                                     if (backups_active)
                                     {
@@ -153,7 +154,8 @@ namespace File_Organizer
                                     }
 
                                     operated_files_names = operated_files_names + filename+" spostato in "+file_dest_folder + ";";
-                                } else
+                                }
+                                else
                                 {
                                     operated_files_names = operated_files_names + filename+" verrà spostato in "+file_dest_folder + ";";
                                 }
@@ -174,7 +176,8 @@ namespace File_Organizer
                                     }
 
                                     operated_files_names = operated_files_names + filename+" copiato in "+file_dest_folder + ";";
-                                } else
+                                }
+                                else
                                 {
                                     operated_files_names = operated_files_names + filename+" verrà copiato in "+file_dest_folder + ";";
                                 }
@@ -185,6 +188,7 @@ namespace File_Organizer
                         }
                         else
                         {
+                            ignored_files_names.Add(file_dest_folder+"\\"+filename);
                             ignored_files++;
                         }
 
@@ -203,7 +207,7 @@ namespace File_Organizer
                 }
             }
 
-            return (operated_files_names, ignored_files, number_created_folders, created_folders);
+            return (operated_files_names, ignored_files, number_created_folders, created_folders, ignored_files_names, backfolder);
         }
 
         //controlla se c'è la cartella di destinazione
@@ -215,12 +219,12 @@ namespace File_Organizer
             bool exists = false;
             int index = dest_folder.LastIndexOf("\\");
             string[] folders = Directory.GetDirectories(dest_folder[..index]);
-            foreach(string folder in folders)
+            foreach (string folder in folders)
             {
-                if(folder.ToLower() == dest_folder.ToLower())
+                if (folder.ToLower() == dest_folder.ToLower())
                 {
                     exists = true;
-                    if(!File.Exists(folder+"\\.fileorg"))
+                    if (!File.Exists(folder+"\\.fileorg"))
                     {
                         File.WriteAllTextAsync(folder+"\\.fileorg", folder+"\\.fileorg");
                         File.SetAttributes(folder+"\\.fileorg", FileAttributes.Hidden);
@@ -229,7 +233,7 @@ namespace File_Organizer
                 }
             }
 
-            if(!exists)
+            if (!exists)
             {
                 Directory.CreateDirectory(dest_folder);
                 File.WriteAllTextAsync(dest_folder+"\\.fileorg", dest_folder+"\\.fileorg");
@@ -247,7 +251,6 @@ namespace File_Organizer
             public static string[] GetTypeName(string[] file_list, string dest_folder)
             {
                 int index = dest_folder.LastIndexOf("\\");
-                string parent_dir = dest_folder[..index];
                 string[] file_types = new string[file_list.Length];
                 int i = 0;
                 foreach (string file in file_list)
@@ -326,28 +329,24 @@ namespace File_Organizer
             int i = 0;
             foreach (string file in file_list)
             {
-                FileInfo fi = new FileInfo(file);
+                FileInfo fi = new(file);
                 extensions[i++] = fi.Extension;
             }
 
             string new_file_types = "";
 
             i = 0;
-            foreach(string file in file_types)
+            foreach (string file in file_types)
             {
                 if (!new_file_types.Split(";").Contains(file))
-                {
                     new_file_types = new_file_types + file + ";";
-                }
                 i++;
             }
 
             string[] single_file_types = new string[new_file_types.Split(";").Length];
 
             for (i = 0; i < new_file_types.Split(";").Length; i++)
-            {
                 single_file_types[i] = new_file_types.Split(";")[i];
-            }
 
             //print dei gruppi nella console
             /*j = 0;
@@ -393,21 +392,21 @@ namespace File_Organizer
             {
                 string file_type = file_types[i];
                 int file_index = 0;
-                foreach(string r_file_type in repeated_file_types)
+                foreach (string r_file_type in repeated_file_types)
                 {
-                    if(r_file_type == file_type)
+                    if (r_file_type == file_type)
                     {
 
                         string dir_to_create = dest_folder + "\\" + file_type;
                         if (!Directory.Exists(dir_to_create))
                         {
                             bool exists = false;
-                            foreach(string folder in Directory.GetDirectories(dest_folder))
+                            foreach (string folder in Directory.GetDirectories(dest_folder))
                             {
-                                if(File.Exists(folder+"\\"+extensions[file_index]))
+                                if (File.Exists(folder+"\\"+extensions[file_index]))
                                 {
                                     string folder_name = folder.Split("\\")[folder.Split("\\").Length-1];
-                                    if(!file_types.Contains(folder_name))
+                                    if (!file_types.Contains(folder_name))
                                     {
                                         file_types[i] = folder_name;
                                     }
@@ -416,7 +415,7 @@ namespace File_Organizer
                                 }
                             }
 
-                            if(!exists)
+                            if (!exists)
                             {
                                 created_folders_names = created_folders_names+dir_to_create+";";
                                 Directory.CreateDirectory(dir_to_create);
@@ -426,7 +425,8 @@ namespace File_Organizer
                                     File.SetAttributes(dir_to_create+"\\"+extensions[file_index], FileAttributes.Hidden);
                                 }
                             }
-                        } else
+                        }
+                        else
                         {
                             if (!File.Exists(dir_to_create+"\\"+extensions[file_index]) && extensions[file_index] != "")
                             {
@@ -440,6 +440,337 @@ namespace File_Organizer
             }
 
             return (created_folders_names, file_types, repeated_file_types);
+        }
+    }
+
+    class IconMover
+    {
+        readonly Util ut = new();
+
+        public (List<int>, List<int>, List<int>) OrganizeTopLeft(Tuple<ArrayList, ArrayList, ArrayList, ArrayList> input_tuple, bool apply)
+        {
+            // item_name, x, y, idx
+            ArrayList name_list = new();
+            ArrayList idx = new();
+            name_list.AddRange(input_tuple.Item1);
+            idx.AddRange(input_tuple.Item4);
+            Tuple<ArrayList, ArrayList, ArrayList, ArrayList> shortcuts = ut.GetDesktopShortcutsFullInfo();
+            int shortcuts_no = shortcuts.Item1.Count;
+            List<string> sorted_items = new();
+            sorted_items.AddRange(name_list.Cast<string>().ToList());
+            sorted_items.Sort();
+
+            for (int i = 0; i < sorted_items.Count; i++)
+            {
+                if (sorted_items[i].ToString().StartsWith("Cestino"))
+                    sorted_items.RemoveAt(i);
+            }
+
+            int items_no = sorted_items.Count;
+            double items_sqr = Math.Sqrt(items_no);
+            int items_upper_int = (int)Math.Round(items_sqr);
+    
+            List<int> idx_list = new();
+            List<int> x_level_list = new();
+            List<int> y_level_list = new();
+            List<int> aux_x = new();
+            List<int> aux_y = new();
+            List<int> aux_idx = new();
+            Tuple<ArrayList, ArrayList, ArrayList> items = ut.GetAllItems(); // x, y, idx
+            ArrayList itemsx = new();
+            ArrayList itemsy = new();
+            itemsx.AddRange(items.Item1);
+            itemsy.AddRange(items.Item2);
+
+            // spacing y 84 px
+            // spacing x 76 px
+            int column_limit = items_upper_int;
+            int y_level = 86;
+            int x_level = 22;
+            for (int i = 0; i < items_upper_int + 1; i++)
+            {
+                for (int j = 0; j < column_limit; j++)
+                {
+                    for (int k = 0; k < name_list.Count; k++)
+                    {
+                        if (sorted_items[j] == name_list[k])
+                        {
+                            if (sorted_items.Count == 1)
+                            {
+                                idx_list.Add((int)idx[k]);
+                                x_level_list.Add(x_level);
+                                y_level_list.Add(2);
+                                break;
+                            }
+                            idx_list.Add((int)idx[k]);
+                            x_level_list.Add(x_level);
+                            y_level_list.Add(y_level);
+                            y_level += 84;
+                        }
+                    }
+
+                    if (sorted_items.Count == 1)
+                        break;
+                }
+                sorted_items = sorted_items.Skip(column_limit).ToList();
+                column_limit -= (i == 0) ? 0 : 1;
+                x_level += 76;
+                y_level = 2;
+
+                // controlla se ci sono oggetti lasciati da parte e li riordina
+                if (i == items_upper_int)
+                {
+                    if (sorted_items.Count > 0)
+                    {
+                        x_level = 22;
+                        y_level = items_upper_int * 84 + 86;
+
+                        for (int j = 0; j < sorted_items.Count; j++)
+                        {
+                            for (int k = 0; k < name_list.Count; k++)
+                            {
+                                if (sorted_items[j] == name_list[k])
+                                {
+                                    idx_list.Add((int)idx[k]);
+                                    x_level_list.Add(x_level);
+                                    y_level_list.Add(y_level);
+                                }
+                            }
+
+                            x_level += 76;
+                            y_level -= 84;
+                        }
+                    }
+
+                    bool can_continue = false;
+                    for (int h = 0; h < idx_list.Count; h++)
+                    {
+                        int curx = x_level_list[h];
+                        int cury = y_level_list[h];
+
+                        // idx, x, y
+                        for (int j = 0; j < items.Item3.Count; j++)
+                        {
+                            int curidx = int.Parse(items.Item3[j].ToString());
+                            if (can_continue)
+                            {
+                                can_continue = false;
+                                break;
+                            }
+                            if (curx == int.Parse(itemsx[j].ToString()) && cury == int.Parse(itemsy[j].ToString()))
+                            {
+                                for (int k = 0; k < 25; k++) // X
+                                {
+                                    if (can_continue)
+                                        break;
+                                    int x = 22 + 76 * k;
+                                    for (int l = 0; l < 12; l++) // Y
+                                    {
+                                        if (can_continue)
+                                            break;
+                                        int y = 2 + 84 * l;
+                                        if (!(x_level_list.Contains(x) && y_level_list.Contains(y)) && !(aux_x.Contains(x) && aux_y.Contains(y))
+                                            && curidx != idx_list[h])
+                                        {
+                                            aux_idx.Add(curidx);
+                                            aux_x.Add(x);
+                                            aux_y.Add(y);
+                                            can_continue = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                if (sorted_items.Count == 0)
+                    break;
+            }
+
+            if (apply)
+            {
+                for (int j = 0; j < aux_idx.Count; j++)
+                    ut.SetDesktopIconsPosition(aux_idx[j], aux_x[j], aux_y[j]);
+                for (int h = 0; h < idx_list.Count; h++)
+                    ut.SetDesktopIconsPosition(idx_list[h], x_level_list[h], y_level_list[h]);
+
+                for (int i = 0; i < shortcuts_no; i++)
+                {
+                    if (shortcuts.Item1[i].ToString() == "Cestino")
+                    {
+                        ut.SetDesktopIconsPosition((int)shortcuts.Item4[i], 22, 2);
+                        // il cestino è sempre in 22, 2
+                    }
+                }
+            }
+
+            return (idx_list, x_level_list, y_level_list);
+        }
+
+        public (List<int>, List<int>, List<int>) OrganizeTopRight(Tuple<ArrayList, ArrayList, ArrayList, ArrayList> input_tuple, bool apply)
+        {
+            // item_name, x, y, idx
+            ArrayList name_list = new();
+            ArrayList idx = new();
+            name_list.AddRange(input_tuple.Item1);
+            idx.AddRange(input_tuple.Item4);
+            Tuple<ArrayList, ArrayList, ArrayList, ArrayList> shortcuts = ut.GetDesktopShortcutsFullInfo();
+            List<string> sorted_items = new();
+            sorted_items.AddRange(name_list.Cast<string>().ToList());
+            sorted_items.Sort();
+            sorted_items.Reverse();
+
+            for (int i = 0; i < sorted_items.Count; i++)
+            {
+                if (sorted_items[i].ToString().StartsWith("Cestino"))
+                    sorted_items.RemoveAt(i);
+            }
+
+            int items_no = sorted_items.Count;
+            double items_sqr = Math.Sqrt(items_no);
+            int items_upper_int = (int)Math.Ceiling(items_sqr) + 1;
+
+            List<int> idx_list = new();
+            List<int> x_level_list = new();
+            List<int> y_level_list = new();
+            List<int> aux_x = new();
+            List<int> aux_y = new();
+            List<int> aux_idx = new();
+            Tuple<ArrayList, ArrayList, ArrayList> items = ut.GetAllItems(); // x, y, idx
+
+            // spacing y 84 px
+            // spacing x 76 px
+            int column_limit = items_upper_int;
+            int y_level = 2 + (items_upper_int - 1) * 84;
+            int x_level = 1846;
+            for (int i = 0; i < items_upper_int; i++)
+            {
+                if (column_limit >= sorted_items.Count)
+                    column_limit = sorted_items.Count;
+                if (i == 4 && column_limit == 1 && sorted_items.Count > 1)
+                    column_limit = sorted_items.Count;
+                y_level = 2 + (column_limit - 1) * 84;
+                for (int j = 0; j < column_limit; j++)
+                {
+                    for (int k = 0; k < name_list.Count; k++)
+                    {
+                        if (sorted_items[j] == name_list[k].ToString())
+                        {
+                            idx_list.Add((int)idx[k]);
+                            x_level_list.Add(x_level);
+                            y_level_list.Add(y_level);
+                        }
+                    }
+                    y_level -= 84;
+
+                    /*for (int k = 0; k < name_list.Count; k++)
+                    {
+                        // CHECK list conTENTS
+                        Console.WriteLine($"J: {j}");
+                        Console.WriteLine($"K: {k}");
+                        Console.WriteLine("--- SORTED ITEMS:");
+                        foreach (string item in sorted_items)
+                            Console.WriteLine(item);
+                        Console.WriteLine("--- NAME LIST:");
+                        foreach (string item in name_list)
+                            Console.WriteLine(item);
+                        if (sorted_items[j] == name_list[k].ToString())
+                        {
+                            if (sorted_items.Count == 1)
+                            {
+                                idx_list.Add((int)idx[k]);
+                                x_level_list.Add(x_level);
+                                y_level_list.Add(2);
+                                break;
+                            }
+                            idx_list.Add((int)idx[k]);
+                            x_level_list.Add(x_level);
+                            y_level_list.Add(y_level);
+                            y_level -= 84;
+                            Console.WriteLine("2");
+                        }
+                    }
+
+                    if (sorted_items.Count == 1)
+                        break;*/
+                }
+                sorted_items = sorted_items.Skip(column_limit).ToList();
+                if (sorted_items.Count == 0)
+                    break;
+                column_limit -= 1;
+                x_level -= 76;
+            }
+
+            bool can_continue = false;
+            for (int h = 0; h < idx_list.Count; h++)
+            {
+                int curx = x_level_list[h];
+                int cury = y_level_list[h];
+
+                // idx, x, y
+                for (int j = 0; j < items.Item3.Count; j++)
+                {
+                    int curidx = int.Parse(items.Item3[j].ToString());
+                    if (can_continue)
+                    {
+                        can_continue = false;
+                        break;
+                    }
+                    if (curx == int.Parse(items.Item1[j].ToString()) && cury == int.Parse(items.Item2[j].ToString()))
+                    {
+                        for (int k = 0; k < 25; k++) // X
+                        {
+                            if (can_continue)
+                                break;
+                            int x = 22 + 76 * k;
+                            for (int l = 0; l < 12; l++) // Y
+                            {
+                                if (can_continue)
+                                    break;
+                                int y = 2 + 84 * l;
+                                bool levels_contains = false;
+                                for (int g = 0; g < x_level_list.Count; g++)
+                                {
+                                    if (x_level_list[g] == x && y_level_list[g] == y)
+                                        levels_contains = true;
+                                }
+                                bool aux_contains = false;
+                                for (int g = 0; g < aux_x.Count; g++)
+                                {
+                                    if (aux_x[g] == x && aux_y[g] == y)
+                                        aux_contains = true;
+                                }
+                                bool items_contains = false;
+                                for (int g = 0; g < items.Item1.Count; g++)
+                                {
+                                    if (int.Parse(items.Item1[g].ToString()) == x && int.Parse(items.Item2[g].ToString()) == y)
+                                        items_contains = true;
+                                }
+                                if (!levels_contains && !aux_contains && !items_contains && curidx != idx_list[h])
+                                {
+                                    aux_idx.Add(curidx);
+                                    aux_x.Add(x);
+                                    aux_y.Add(y);
+                                    can_continue = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            if (apply)
+            {
+                for (int j = 0; j < aux_idx.Count; j++)
+                    ut.SetDesktopIconsPosition(aux_idx[j], aux_x[j], aux_y[j]);
+                for (int h = 0; h < idx_list.Count; h++)
+                    ut.SetDesktopIconsPosition(idx_list[h], x_level_list[h], y_level_list[h]);
+            }
+
+            return (idx_list, x_level_list, y_level_list);
         }
     }
 }

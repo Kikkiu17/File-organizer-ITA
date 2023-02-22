@@ -14,12 +14,13 @@
                 if (op != "")
                 {
                     files[j] = op;
-                    if(op.Contains("spostato in"))
+                    if (op.Contains("spostato in"))
                     {
                         string file = files[j].Split(" spostato in ")[0];
                         string toadd = file + " verrà spostato in " + MainWindow.start_folder;
                         listBox1.Items.Add(toadd);
-                    } else if(op.Contains("copiato in"))
+                    }
+                    else if (op.Contains("copiato in"))
                     {
                         string file = files[j].Split(" copiato in ")[0];
                         string toadd = file + " verrà ELIMINATO";
@@ -46,7 +47,8 @@
                         try
                         {
                             Directory.Move(folder+"\\"+file, MainWindow.start_folder+"\\"+file);
-                        } catch
+                        }
+                        catch
                         {
                             MessageBox.Show("C'è stato un errore; "+file+" ignorato", "Errore", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -87,7 +89,8 @@
             {
                 Properties.Settings.Default["DontShowUndoAgain"] = true;
                 Properties.Settings.Default.Save();
-            } else
+            }
+            else
             {
                 Properties.Settings.Default["DontShowUndoAgain"] = false;
                 Properties.Settings.Default.Save();

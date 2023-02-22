@@ -206,6 +206,7 @@
             // 
             // SearchButton
             // 
+            this.SearchButton.Image = ((System.Drawing.Image)(resources.GetObject("SearchButton.Image")));
             this.SearchButton.Location = new System.Drawing.Point(652, 7);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(24, 24);
@@ -223,7 +224,8 @@
             // 
             // RefreshButton
             // 
-            this.RefreshButton.Location = new System.Drawing.Point(682, 6);
+            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
+            this.RefreshButton.Location = new System.Drawing.Point(682, 7);
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(24, 24);
             this.RefreshButton.TabIndex = 41;

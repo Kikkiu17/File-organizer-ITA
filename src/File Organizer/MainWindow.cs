@@ -1,31 +1,45 @@
-using System.ComponentModel;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.VisualBasic;
 using System.Collections;
-using System.Net;
-using System.Text;
+using System.ComponentModel;
 using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.Notifications;
+using System.IO.Compression;
+using System;
+using System.Runtime.InteropServices;
 
 namespace File_Organizer
 {
     public partial class MainWindow : Form
     {
+        List<string> folders_names = new();
+        List<int> folders_x = new();
+        List<int> folders_y = new();
+        List<string> shortcuts_names = new();
+        List<int> shortcuts_x = new();
+        List<int> shortcuts_y = new();
+        readonly Util ut = new();
+        readonly IconMover im = new();
+        readonly string desktop_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\";
+        string get_version = "";
+        string update_url = "";
+        string update_dest_path = "";
         bool exist_start_folder = false;
         bool exist_dest_folder = false;
         bool backups_active = false;
         bool is_preview = false;
-
+        
         public static string start_folder = "";
         public static string operation = "";
         public static string dest_folder = "";
         public static bool undodone = false;
-        string backup_folder = "";
-        string get_version = "";
+        private string backup_folder = "";
         private int optype = 0;
-        bool isoperating = false;
-        bool destfolder_locked = false;
+        private bool isoperating = false;
+        private bool destfolder_locked = false;
+        private bool backfolder_locked = false;
 
         private ContextMenuStrip listboxContextMenu;
+        private ContextMenuStrip UnOperatedFilesContextMenu;
 
         private Algorithm _alg = new Algorithm();
         public MainWindow()
@@ -41,75 +55,17 @@ namespace File_Organizer
                 Preview.Checked = true;
             }
 
-            //controlla se c'è un nuovo aggiornamento
-            string urlAddress = "https://github.com/Kikkiu17/File-organizer-ITA/tags";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            string response = ut.CheckForUpdates();
+            get_version = response;
+            if (response != "-1")
             {
-                Stream receiveStream = response.GetResponseStream();
-                StreamReader? readStream = null;
-                if (String.IsNullOrWhiteSpace(response.CharacterSet))
-                    readStream = new StreamReader(receiveStream);
-                else
-                    readStream = new StreamReader(receiveStream,
-                        Encoding.GetEncoding(response.CharacterSet));
-                get_version = readStream.ReadToEnd().Split("/Kikkiu17/File-organizer-ITA/releases/tag/v")[1].Split("\"")[0];
-                int get_raw_version = int.Parse(get_version.Replace(".", ""));
-                string currname = Environment.CurrentDirectory + "\\" + Process.GetCurrentProcess().ProcessName+".exe";
-                int curr_version = int.Parse(FileVersionInfo.GetVersionInfo(currname).ProductVersion.Replace(".", ""));
-
-                if(curr_version.ToString().Length == 2)
+                string temp_path = ut.CreateTempFolder("organizer");
+                if (!File.Exists(temp_path+"\\"+"Organizer-v"+get_version+".zip"))
                 {
-                    curr_version *= 10;
-                }
-                
-                if (get_raw_version.ToString().Length == 2)
-                {
-                    get_raw_version *= 10;
-                }
-
-                string hum_version = string.Join(".", get_raw_version.ToString().ToArray());
-
-                response.Close();
-                readStream.Close();
-
-                if (curr_version < get_raw_version)
-                {
-                    var diagresult = MessageBox.Show("C'è una nuova versione del programma ("+ hum_version +"). Vuoi scaricarla e avviarla?", "Nuova versione",
-                                             MessageBoxButtons.YesNo,
-                                             MessageBoxIcon.Information);
-
-                    //scarica l'aggiornamento e avvia il nuovo programma
-                    if (diagresult == DialogResult.Yes)
-                    {
-                        ShowNotification(2, "Download dell'aggiornamento in corso", "potrebbe volerci un po' di tempo...");
-                        string path = Path.GetDirectoryName(Application.ExecutablePath);
-                        if (!File.Exists(path+"\\"+"Organizer-v"+get_version+".exe"))
-                        {
-                            using (var client = new WebClient())
-                            {
-                                client.DownloadFile("https://github.com/Kikkiu17/File-organizer-ITA/releases" +
-                                    "/download/v"+get_version+"/Organizer-v"+get_version+".exe", path+"\\"+"Organizer-v"+get_version+".exe");
-                            }
-                        }
-
-                        ShowNotification(2, "Download completato", "apertura della nuova applicazione...");
-
-                        System.Diagnostics.Process.Start(path+"\\"+"Organizer-v"+get_version+".exe");
-                        if (System.Windows.Forms.Application.MessageLoop)
-                        {
-                            // WinForms app
-                            System.Windows.Forms.Application.Exit();
-                        }
-                        else
-                        {
-                            // Console app
-                            System.Environment.Exit(1);
-                        }
-                    }
+                    update_url = "https://github.com/Kikkiu17/File-organizer-ITA/releases" +
+                            "/download/v"+get_version+"/Organizer-v"+get_version+".zip";
+                    update_dest_path = temp_path+"\\"+"Organizer-v"+get_version+".zip";
+                    UpdateProgram();
                 }
             }
 
@@ -123,7 +79,7 @@ namespace File_Organizer
                                              MessageBoxButtons.YesNo,
                                              MessageBoxIcon.Information);
 
-                if(result == DialogResult.No)
+                if (result == DialogResult.No)
                 {
                     MessageBox.Show("Seleziona una cartella da riordinare cliccando su \"Sfoglia...\". Poi, se vuoi cambiare la cartella in cui " +
                     "verranno spostati i file, basta cliccare sul tasto \"Sfoglia...\" Subito sotto.", "Benvenuto",
@@ -137,24 +93,77 @@ namespace File_Organizer
 
             }
 
-            //crea un contextMenu per la listbox
+            //crea un contextMenu per la listbox dei file sistemati
             listboxContextMenu = new ContextMenuStrip();
             listboxContextMenu.Opening +=new CancelEventHandler(listboxContextMenu_Opening);
             OperatedFiles.ContextMenuStrip = listboxContextMenu;
             listboxContextMenu.ItemClicked += new ToolStripItemClickedEventHandler(contexMenu_ItemClicked);
 
+            //crea un contextMenu epr la listbox dei file non sistemati
+            UnOperatedFilesContextMenu = new ContextMenuStrip();
+            UnOperatedFilesContextMenu.Opening +=new CancelEventHandler(UnOperatedFilesContextMenu_Opening);
+            UnOperatedFiles.ContextMenuStrip = UnOperatedFilesContextMenu;
+            UnOperatedFilesContextMenu.ItemClicked += new ToolStripItemClickedEventHandler(UnOperatedFilesContextMenu_ItemClicked);
         }
 
         private void listboxContextMenu_Opening(object sender, CancelEventArgs e)
         {
             listboxContextMenu.Items.Clear();
             listboxContextMenu.Items.Add("Apri");
+            //listboxContextMenu.Items.Add("Apri percorso file");
             listboxContextMenu.Items.Add("Rinomina");
             listboxContextMenu.Items.Add("Elimina");
             listboxContextMenu.Items.Add("Tipi di file collegati");
         }
 
-        //evento di click del bottone della cartella iniziale
+        private void UnOperatedFilesContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            UnOperatedFilesContextMenu.Items.Clear();
+            UnOperatedFilesContextMenu.Items.Add("Apri");
+            UnOperatedFilesContextMenu.Items.Add("Elimina");
+        }
+
+        private void UnOperatedFilesContextMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripItem item = e.ClickedItem;
+            string selected_item = item.Text;
+            if (UnOperatedFiles.SelectedItem != null)
+            {
+                string listbox_item = UnOperatedFiles.SelectedItem.ToString();
+                if (selected_item == "Apri")
+                {
+                    string filename = start_folder+"\\"+listbox_item;
+                    ProcessStartInfo psi = new ProcessStartInfo();
+                    psi.FileName = filename;
+                    psi.UseShellExecute = true;
+                    Process.Start(psi);
+                }
+                else if (selected_item == "Elimina")
+                {
+                    var result = MessageBox.Show("Eliminare definitivamente il file?", "Avviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        File.Delete(start_folder+"\\"+UnOperatedFiles.SelectedItem);
+                        BackgroundUpdate.RunWorkerAsync(argument: 2);
+                    }
+                }
+            }
+        }
+
+        private void UnOperatedFiles_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (UnOperatedFiles.SelectedItem != null && UnOperatedFiles.SelectedItem.ToString() != "")
+            {
+                int location = UnOperatedFiles.IndexFromPoint(e.Location);
+                if (e.Button == MouseButtons.Right)
+                {
+                    UnOperatedFiles.SelectedIndex = location;                //Index selected
+                    UnOperatedFilesContextMenu.Show(UnOperatedFiles.PointToScreen(e.Location));
+                }
+            }
+        }
+
         private void SelectStartFolder_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1 = new FolderBrowserDialog();
@@ -167,7 +176,7 @@ namespace File_Organizer
 
                     MessageBox.Show("Una volta che avrai spostato o copiato i primi file, cliccando \"aggiorna\" o riaprendo il programma," +
                         " potrai modificare il nome delle cartelle di destinazione cliccandoci sopra col tasto destro nella lista di destra.",
-                        "Informazione",
+                        "Avviso",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
@@ -176,20 +185,32 @@ namespace File_Organizer
                 exist_start_folder = true;
                 exist_dest_folder = true;
                 string checkeddestfolder = CheckDestPath();
-                if(checkeddestfolder != "")
+                if (checkeddestfolder != "")
                 {
-                    if(!destfolder_locked)
+                    if (!destfolder_locked)
                     {
                         DestPath.Text = checkeddestfolder;
                     }
-                } else
+
+                    if (!backfolder_locked)
+                    {
+                        int index = checkeddestfolder.LastIndexOf("\\");
+                        string backuppath = checkeddestfolder[..index];
+                        BackupPath.Text = backuppath+"\\Backup";
+                    }
+                }
+                else
                 {
-                    if(!destfolder_locked)
+                    if (!destfolder_locked)
                     {
                         DestPath.Text = folderBrowserDialog1.SelectedPath + "\\File Sistemati";
                     }
+
+                    if (!backfolder_locked)
+                    {
+                        BackupPath.Text = folderBrowserDialog1.SelectedPath + "\\Backup";
+                    }
                 }
-                BackupPath.Text = folderBrowserDialog1.SelectedPath + "\\Backups";
                 start_folder = folderBrowserDialog1.SelectedPath;
                 dest_folder = DestPath.Text;
                 backup_folder = BackupPath.Text;
@@ -200,7 +221,8 @@ namespace File_Organizer
 
         private string CheckDestPath()
         {
-            LockFolderCheckBox.Enabled = true;
+            LockDestFolderCheckBox.Enabled = true;
+            LockBackFolderCheckBox.Enabled = true;
             string destfolder = "";
             foreach (string folder in Directory.GetDirectories(folderBrowserDialog1.SelectedPath))
             {
@@ -214,7 +236,8 @@ namespace File_Organizer
                             break;
                         }
                     }
-                } catch
+                }
+                catch
                 {
                     continue;
                 }
@@ -223,10 +246,10 @@ namespace File_Organizer
             return destfolder;
         }
 
-        //evento di click del bottone della cartella finale
         private void SelectDestFolder_Click(object sender, EventArgs e)
         {
-            LockFolderCheckBox.Enabled = true;
+            LockDestFolderCheckBox.Enabled = true;
+            LockBackFolderCheckBox.Enabled = true;
             exist_dest_folder = true;
             folderBrowserDialog1 = new FolderBrowserDialog();
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -238,12 +261,11 @@ namespace File_Organizer
             }
         }
 
-        //evento di click del bottone dello spostamento dei file
         private void MoveFilesButton_Click(object sender, EventArgs e)
         {
             if (exist_dest_folder && exist_start_folder)
             {
-                if(dest_folder != start_folder)
+                if (dest_folder != start_folder)
                 {
                     if (!is_preview)
                     {
@@ -266,12 +288,14 @@ namespace File_Organizer
 
                     BackgroundUpdate.RunWorkerAsync(argument: 2);
                     optype = 100;
-                } else
+                }
+                else
                 {
                     MessageBox.Show("La cartella di destinazione e quella da riordinare non possono essere uguali.", "Errore",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Nessuna cartella selezionata", "Errore",
                                              MessageBoxButtons.OK,
@@ -279,12 +303,11 @@ namespace File_Organizer
             }
         }
 
-        //evento di click del bottone della copia dei file
         private void CopyFilesButton_Click(object sender, EventArgs e)
         {
             if (exist_dest_folder && exist_start_folder)
             {
-                if(dest_folder != start_folder)
+                if (dest_folder != start_folder)
                 {
                     if (!is_preview)
                     {
@@ -302,12 +325,14 @@ namespace File_Organizer
 
                     BackgroundUpdate.RunWorkerAsync(argument: 2);
                     optype = 200;
-                } else
+                }
+                else
                 {
                     MessageBox.Show("La cartella di destinazione e quella da riordinare non possono essere uguali.", "Errore",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
-            } else
+                }
+            }
+            else
             {
                 MessageBox.Show("Nessuna cartella selezionata", "Errore",
                                              MessageBoxButtons.OK,
@@ -315,27 +340,29 @@ namespace File_Organizer
             }
         }
 
-        //evento di click del bottone per la creazione di backup
         private void CreateBackupButton_CheckedChanged(object sender, EventArgs e)
         {
-            if(backups_active)
+            if (backups_active)
             {
                 backups_active = false;
                 BackupPath.Enabled = false;
                 SelectBackupFolder.Enabled = false;
                 CopyFilesButton.Enabled = true;
                 STATE.Text = "Backup DISABILITATO";
-            } else
+            }
+            else
             {
                 backups_active = true;
-                BackupPath.Enabled = true;
-                SelectBackupFolder.Enabled = true;
+                if (!backfolder_locked)
+                {
+                    BackupPath.Enabled = true;
+                    SelectBackupFolder.Enabled = true;
+                }
                 CopyFilesButton.Enabled = false;
                 STATE.Text = "Backup ABILITATO";
             }
         }
 
-        //evento di click del bottone per selezionare la cartella di backup
         private void SelectBackupFolder_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1 = new FolderBrowserDialog();
@@ -346,12 +373,6 @@ namespace File_Organizer
             }
         }
 
-        //evento di click del bottone per aggiornare la lista di file
-        private void UpdateButton_Click(object sender, EventArgs e)
-        {
-            BackgroundUpdate.RunWorkerAsync(argument: 1);
-        }
-
         //messaggio costante per la messagebox
         private string GetMessage()
         {
@@ -359,17 +380,17 @@ namespace File_Organizer
             return message;
         }
 
-        //evento di click del bottone per eliminare la cartella di backup
         private void DeleteBackups_Click(object sender, EventArgs e)
         {
-            if(backups_active)
+            if (backups_active)
             {
-                if(backup_folder == "")
+                if (backup_folder == "")
                 {
-                    MessageBox.Show("Devi prima selezionare una cartella.", "Attenzione",
+                    MessageBox.Show("Nessuna cartella selezionata", "Errore",
                                              MessageBoxButtons.OK,
-                                             MessageBoxIcon.Warning);
-                } else
+                                             MessageBoxIcon.Error);
+                }
+                else
                 {
                     bool exists = false;
                     int index = backup_folder.LastIndexOf("\\");
@@ -391,7 +412,7 @@ namespace File_Organizer
                         if (result == DialogResult.Yes)
                         {
                             Directory.Delete(backup_folder, true);
-                            MessageBox.Show("Cartella di backup eliminata.", "Avviso",
+                            MessageBox.Show("Cartella di backup eliminata", "Avviso",
                                              MessageBoxButtons.OK,
                                              MessageBoxIcon.Information);
                         }
@@ -400,27 +421,28 @@ namespace File_Organizer
                     }
                     else
                     {
-                        MessageBox.Show("La cartella di backup da eliminare non esiste.", "Errore",
+                        MessageBox.Show("La cartella di backup da eliminare non esiste", "Errore",
                                          MessageBoxButtons.OK,
                                          MessageBoxIcon.Error);
                     }
                 }
-            } else
+            }
+            else
             {
-                MessageBox.Show("Devi prima abilitare il backup.", "Attenzione",
+                MessageBox.Show("Backup disattivato. Abilitare prima il backup", "Errore",
                                              MessageBoxButtons.OK,
-                                             MessageBoxIcon.Warning);
+                                             MessageBoxIcon.Error);
             }
         }
 
-        //evento di click del bottone della modalità anteprima
         private void Preview_CheckedChanged(object sender, EventArgs e)
         {
-            if(is_preview)
+            if (is_preview)
             {
                 is_preview = false;
                 MODE.Text = "MODALITA' NORMALE: Verranno apportate modifiche ai file";
-            } else
+            }
+            else
             {
                 is_preview = true;
                 if ((bool)Properties.Settings.Default["FirstPreview"] == true)
@@ -436,11 +458,10 @@ namespace File_Organizer
                                              MessageBoxButtons.OK,
                                              MessageBoxIcon.Information);
                 }
-                    MODE.Text = "MODALITA' ANTEPRIMA: Non verranno apportate modifiche ai file";
+                MODE.Text = "MODALITA' ANTEPRIMA: Non verranno apportate modifiche ai file";
             }
         }
 
-        //evento di click del bottone di aiuto
         private void Help_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
@@ -449,21 +470,19 @@ namespace File_Organizer
             process.Start();
         }
 
-        //evento di click del tasto destro del mouse sulla listbox
         private void listBox2_MouseDown(object sender, MouseEventArgs e)
         {
-            if(OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
+            if (OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
             {
                 int location = OperatedFiles.IndexFromPoint(e.Location);
                 if (e.Button == MouseButtons.Right)
                 {
                     OperatedFiles.SelectedIndex = location;                //Index selected
-                    listboxContextMenu.Show(PointToScreen(e.Location));
+                    listboxContextMenu.Show(OperatedFiles.PointToScreen(e.Location));
                 }
             }
         }
 
-        //evento di click di un'opzione del menu di tasto destro
         private void contexMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ToolStripItem item = e.ClickedItem;
@@ -484,9 +503,6 @@ namespace File_Organizer
                     {
                         Directory.Delete(dest_folder+"\\"+folder, true);
                         BackgroundUpdate.RunWorkerAsync(argument: 3);
-                        MessageBox.Show("Cartella eliminata.", "Avviso",
-                                         MessageBoxButtons.OK,
-                                         MessageBoxIcon.Information);
                     }
                 }
                 else if (selected_item == "Rinomina")
@@ -514,10 +530,10 @@ namespace File_Organizer
                 else if (selected_item == "Tipi di file collegati")
                 {
                     string file_types_raw = "";
-                    ArrayList old_file_types = new ArrayList();
+                    ArrayList old_file_types = new();
                     foreach (string file in Directory.GetFiles(dest_folder+"\\"+folder))
                     {
-                        string f = file.Split("\\")[file.Split("\\").Length-1];
+                        string f = file.Split("\\")[^1];
                         if (f.StartsWith("."))
                         {
                             file_types_raw = file_types_raw + f + ", ";
@@ -534,8 +550,8 @@ namespace File_Organizer
 
                     if (result != "")
                     {
-                        ArrayList new_file_types = new ArrayList();
-                        ArrayList f_types_folders = new ArrayList();
+                        ArrayList new_file_types = new();
+                        ArrayList f_types_folders = new();
                         string existing_f_types = "";
                         string f_types = "";
                         foreach (string f_type in result.Split(", "))
@@ -545,9 +561,9 @@ namespace File_Organizer
                         }
                         foreach (string subfolder in Directory.GetDirectories(dest_folder))
                         {
-                            foreach(string file_type in new_file_types)
+                            foreach (string file_type in new_file_types)
                             {
-                                if(!old_file_types.Contains(file_type))
+                                if (!old_file_types.Contains(file_type))
                                 {
                                     if (File.Exists(subfolder+"\\"+file_type))
                                     {
@@ -565,19 +581,19 @@ namespace File_Organizer
                             }
                         }
 
-                        if(existing_f_types != "")
+                        if (existing_f_types != "")
                         {
                             var msgboxresult = MessageBox.Show("I file con estensione "+existing_f_types+" sono già associati ad un'altra cartella." +
                                 " Spostare i file dall'altra cartella a quella attuale?", "Attenzione",
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                            if(msgboxresult == DialogResult.Yes)
+                            if (msgboxresult == DialogResult.Yes)
                             {
-                                foreach(string subfolder in f_types_folders)
+                                foreach (string subfolder in f_types_folders)
                                 {
-                                    foreach(string file in Directory.GetFiles(subfolder))
+                                    foreach (string file in Directory.GetFiles(subfolder))
                                     {
-                                        string filename = file.Split("\\")[file.Split("\\").Length-1];
+                                        string filename = file.Split("\\")[^1];
                                         if (!filename.StartsWith("."))
                                         {
                                             File.Move(file, dest_folder+"\\"+folder+"\\"+filename);
@@ -600,28 +616,48 @@ namespace File_Organizer
                             File.SetAttributes(dest_folder+"\\"+folder+"\\"+file_type, FileAttributes.Hidden);
                         }
 
-                        MessageBox.Show("File collegati: "+result, "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("File collegati: "+result, "Avviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         BackgroundUpdate.RunWorkerAsync(argument: 1);
                     }
-                } else if(selected_item == "Apri")
+                }
+                else if (selected_item == "Apri")
                 {
-                    if(OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
+                    if (OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
                     {
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
-                        startInfo.Arguments = dest_folder+"\\"+OperatedFiles.SelectedItem.ToString();
-                        startInfo.FileName = "explorer.exe";
+                        ProcessStartInfo startInfo = new()
+                        {
+                            Arguments = dest_folder+"\\"+OperatedFiles.SelectedItem.ToString(),
+                            FileName = "explorer.exe"
+                        };
 
                         Process.Start(startInfo);
                     }
                 }
+                /*else if (selected_item == "Apri percorso file")
+                {
+                    if (OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
+                    {
+                        ProcessStartInfo startInfo = new ProcessStartInfo();
+                        startInfo.Arguments = dest_folder+"\\"+OperatedFiles.SelectedItem.ToString().Split(" spostato")[0];
+                        startInfo.FileName = "explorer.exe";
+
+                        Process.Start(startInfo);
+                    }
+                }*/
             }
         }
 
-        //evento di click del bottone delle opzioni della lista di file
         private void FileListOptions_Click(object sender, EventArgs e)
         {
-            new FileListOptionsWindow().Show();
+            if (UnOperatedFiles.Items.Count > 0)
+            {
+                new FileListOptionsWindow().Show();
+            }
+            else
+            {
+                MessageBox.Show("La lista dei file è vuota", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //evento di update da parte di un thread
@@ -659,7 +695,31 @@ namespace File_Organizer
                 }
             }
 
-            if (operated_files_names[0] != null)
+            int moved_files = operated_files_names.Length-1;
+            bool remaining_files = false;
+
+            if (tuples.Item5.Count > 0 && !is_preview)
+            {
+                foreach (string filename in tuples.Item5)
+                {
+                    var result = MessageBox.Show($"Esiste già un file con il nome {filename.Split(@"\")[^1]} al percorso {filename}. Sostituire il file?",
+                        "Attenzione", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        File.Delete(filename);
+                        if (backups_active)
+                            File.Copy(start_folder+@"\"+filename.Split(@"\")[^1], tuples.Item6.ToString()+@"\"+filename.Split(@"\")[^1]);
+                        File.Move(start_folder+@"\"+filename.Split(@"\")[^1], filename);
+                        OperatedFiles.Items.Add($"{start_folder+@"\"+filename.Split(@"\")[^1]}" +
+                            $" è stato spostato in {filename.Replace(filename.Split(@"\")[^1], "")}");
+                    }
+                    else
+                        remaining_files = true;
+                }
+            }
+
+            if (moved_files != 0)
             {
                 OperatedFiles.Items.Clear();
 
@@ -671,8 +731,6 @@ namespace File_Organizer
                     }
                 }
 
-                int moved_files = operated_files_names.Length-1;
-
                 if (moved_files < 0)
                 {
                     moved_files = 0;
@@ -680,6 +738,11 @@ namespace File_Organizer
 
                 if (is_preview)
                 {
+                    if (tuples.Item5.Count > 0 && !remaining_files)
+                    {
+                        foreach (string filename in tuples.Item5)
+                            OperatedFiles.Items.Add($"{filename} esiste già");
+                    }
                     var x = (created_folders == 1) ? label1.Text = "Verrà creata 1" +
                         " cartella" : label1.Text = "Verranno create "+created_folders+" cartelle";
 
@@ -706,7 +769,13 @@ namespace File_Organizer
 
                     label2.Text = "Non verrà spostato nessun file ("+ignored_files+" file ignorato/i)";
                     OperatedFiles.Items.Clear();
-                    OperatedFiles.Items.Add("Non verrà spostato nessun file");
+                    if (tuples.Item5.Count > 0 && !remaining_files)
+                    {
+                        foreach (string filename in tuples.Item5)
+                            OperatedFiles.Items.Add($"{filename} esiste già");
+                    }
+                    else
+                        OperatedFiles.Items.Add("Non verrà spostato nessun file");
                 }
                 else
                 {
@@ -714,9 +783,12 @@ namespace File_Organizer
                         " cartella" : label1.Text = "Sono state create "+created_folders+" cartelle";
 
                     label1.Text = "Sono state create "+created_folders+" cartelle";
-                    label2.Text = "Non è stato spostato nessun file ("+ignored_files+" file ignorato/i)";
-                    OperatedFiles.Items.Clear();
-                    OperatedFiles.Items.Add("Non è stato spostato nessun file");
+                    if (tuples.Item5.Count == 0 || remaining_files)
+                    {
+                        OperatedFiles.Items.Clear();
+                        label2.Text = "Non è stato spostato nessun file ("+ignored_files+" file ignorato/i)";
+                        OperatedFiles.Items.Add("Non è stato spostato nessun file");
+                    }
                 }
             }
 
@@ -764,6 +836,12 @@ namespace File_Organizer
                 DestPath.Enabled = false;
             }
 
+            if (backfolder_locked)
+            {
+                SelectBackupFolder.Enabled = false;
+                BackupPath.Enabled = false;
+            }
+
             STATE.Text = "Operazione completata";
 
             if (!is_preview)
@@ -773,7 +851,7 @@ namespace File_Organizer
                     Properties.Settings.Default["FirstOp"] = false;
                     Properties.Settings.Default.Save();
                     MessageBox.Show("È stato creato un file \".fileorg\" nella cartella di destinazione principale. Serve al programma" +
-                        " a riconoscere quest'ultima, quindi non rimuoverla.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        " per riconoscere quest'ultima, quindi non rimuoverla.", "Avviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -803,7 +881,26 @@ namespace File_Organizer
                 }
             }
 
-            if (operated_files_names[0] != null)
+            int moved_files = operated_files_names.Length-1;
+
+            if (tuples.Item5.Count > 0 && !is_preview)
+            {
+                foreach (string filename in tuples.Item5)
+                {
+                    var result = MessageBox.Show($"Esiste già un file con il nome {filename.Split(@"\")[^1]} al percorso {filename}. Sostituire il file?",
+                        "Attenzione", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        File.Delete(filename);
+                        File.Copy(start_folder+@"\"+filename.Split(@"\")[^1], filename);
+                        OperatedFiles.Items.Add($"{start_folder+@"\"+filename.Split(@"\")[^1]}" +
+                            $" è stato copiato in {filename.Replace(filename.Split(@"\")[^1], "")}");
+                    }
+                }
+            }
+
+            if (moved_files != 0)
             {
                 OperatedFiles.Items.Clear();
 
@@ -815,15 +912,18 @@ namespace File_Organizer
                     }
                 }
 
-                int moved_files = operated_files_names.Length-1;
-
-                if(moved_files < 0)
+                if (moved_files < 0)
                 {
                     moved_files = 0;
                 }
 
                 if (is_preview)
                 {
+                    if (tuples.Item5.Count > 0)
+                    {
+                        foreach (string filename in tuples.Item5)
+                            OperatedFiles.Items.Add($"{filename} esiste già");
+                    }
                     var x = (created_folders == 1) ? label1.Text = "Verrà creata 1" +
                         " cartella" : label1.Text = "Verranno create "+created_folders+" cartelle";
 
@@ -850,7 +950,13 @@ namespace File_Organizer
 
                     label2.Text = "Non verrà copiato nessun file ("+ignored_files+" file ignorato/i)";
                     OperatedFiles.Items.Clear();
-                    OperatedFiles.Items.Add("Non verrà copiato nessun file");
+                    if (tuples.Item5.Count > 0)
+                    {
+                        foreach (string filename in tuples.Item5)
+                            OperatedFiles.Items.Add($"{filename} esiste già");
+                    }
+                    else
+                        OperatedFiles.Items.Add("Non verrà copiato nessun file");
                 }
                 else
                 {
@@ -858,9 +964,12 @@ namespace File_Organizer
                         " cartella" : label1.Text = "Sono state create "+created_folders+" cartelle";
 
                     label1.Text = "Sono state create "+created_folders+" cartelle";
-                    label2.Text = "Non è stato copiato nessun file ("+ignored_files+" file ignorato/i)";
-                    OperatedFiles.Items.Clear();
-                    OperatedFiles.Items.Add("Non è stato copiato nessun file");
+                    if (tuples.Item5.Count == 0)
+                    {
+                        OperatedFiles.Items.Clear();
+                        label2.Text = "Non è stato copiato nessun file ("+ignored_files+" file ignorato/i)";
+                        OperatedFiles.Items.Add("Non è stato copiato nessun file");
+                    }
                 }
             }
 
@@ -908,6 +1017,12 @@ namespace File_Organizer
                 DestPath.Enabled = false;
             }
 
+            if (backfolder_locked)
+            {
+                SelectBackupFolder.Enabled = false;
+                BackupPath.Enabled = false;
+            }
+
             STATE.Text = "Operazione completata";
 
             if (!is_preview)
@@ -917,7 +1032,7 @@ namespace File_Organizer
                     Properties.Settings.Default["FirstOp"] = false;
                     Properties.Settings.Default.Save();
                     MessageBox.Show("È stato creato un file \".fileorg\" nella cartella di destinazione principale. Serve al programma" +
-                        " a riconoscere quest'ultima, quindi non rimuoverla.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        " a riconoscere quest'ultima, quindi non rimuoverla.", "Avviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -937,7 +1052,7 @@ namespace File_Organizer
             {
                 BackupPath.Enabled = false;
                 SelectBackupFolder.Enabled = false;
-                if(!isoperating)
+                if (!isoperating)
                 {
                     CopyFilesButton.Enabled = true;
                 }
@@ -948,7 +1063,6 @@ namespace File_Organizer
             if (type != 3)
             {
                 UnOperatedFiles.Items.Clear();
-                OperatedFiles.Items.Clear();
 
                 if (dest_folder == "")
                 {
@@ -959,29 +1073,29 @@ namespace File_Organizer
                 else
                 {
 
-                    if(start_folder != "")
+                    if (start_folder != "")
                     {
                         int i = 0;
                         foreach (string file in Directory.EnumerateFiles(StartPath.Text, "*"))
                         {
-                            string clean_file = file.Split("\\")[file.Split("\\").Length-1];
-                            if (clean_file != "desktop.ini" && clean_file != Environment.ProcessPath.Split("\\")
-                                [Environment.ProcessPath.Split("\\").Length-1])
+                            string clean_file = file.Split("\\")[^1];
+                            if (clean_file != "desktop.ini" && clean_file != Environment.ProcessPath.Split("\\")[^1])
                             {
                                 i++;
-                                UnOperatedFiles.Items.Add(file.Split("\\")[file.Split("\\").Length-1]);
+                                UnOperatedFiles.Items.Add(file.Split("\\")[^1]);
                             }
                         }
                     }
 
                     if (type != 2)
                     {
+                        OperatedFiles.Items.Clear();
                         if (Directory.Exists(dest_folder))
                         {
                             string[] sub_folders = Directory.GetDirectories(DestPath.Text);
                             foreach (string folder in sub_folders)
                             {
-                                OperatedFiles.Items.Add(folder.Split("\\")[folder.Split("\\").Length-1]);
+                                OperatedFiles.Items.Add(folder.Split("\\")[^1]);
                             }
                             label2.Text = "Cartelle in "+DestPath.Text+":";
                         }
@@ -1004,7 +1118,7 @@ namespace File_Organizer
                     string[] sub_folders = Directory.GetDirectories(DestPath.Text);
                     foreach (string folder in sub_folders)
                     {
-                        OperatedFiles.Items.Add(folder.Split("\\")[folder.Split("\\").Length-1]);
+                        OperatedFiles.Items.Add(folder.Split("\\")[^1]);
                     }
                     label2.Text = "Cartelle in "+DestPath.Text+":";
                 }
@@ -1022,13 +1136,14 @@ namespace File_Organizer
         //evento dii completamento dell'aggiornamento della lista
         private void UpdateComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(optype == 100)
+            if (optype == 100)
             {
                 optype = 0;
                 OperatedFiles.Items.Clear();
                 operation = "";
                 backgroundWorker1.RunWorkerAsync();
-            } else if(optype == 200)
+            }
+            else if (optype == 200)
             {
                 optype = 0;
                 OperatedFiles.Items.Clear();
@@ -1074,7 +1189,7 @@ namespace File_Organizer
             }
             else
             {
-                MessageBox.Show("Non è stata fatta nessuna operazione, non è possibile fare l'undo.", "Errore", MessageBoxButtons.OK,
+                MessageBox.Show("Non è stata fatta nessuna operazione, non è possibile fare l'undo", "Errore", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
 
@@ -1098,22 +1213,21 @@ namespace File_Organizer
                 {
                     //Windows >= 10.0.17763.0
                     new ToastContentBuilder()
-                    .AddText(text1)
-                    .Show();
+                    .AddText(text1).Show();
                 }
                 catch
                 {
                     Console.WriteLine("Windows < 10.0.17763");
                 }
-            } else if (textnum == 2)
+            }
+            else if (textnum == 2)
             {
                 try
                 {
                     //Windows >= 10.0.17763.0
                     new ToastContentBuilder()
                     .AddText(text1)
-                    .AddText(text2)
-                    .Show();
+                    .AddText(text2).Show();
                 }
                 catch
                 {
@@ -1124,12 +1238,13 @@ namespace File_Organizer
 
         private void LockFolderCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(destfolder_locked)
+            if (destfolder_locked)
             {
                 destfolder_locked = false;
                 DestPath.Enabled = true;
                 SelectDestFolder.Enabled = true;
-            } else
+            }
+            else
             {
                 destfolder_locked = true;
                 DestPath.Enabled = false;
@@ -1140,28 +1255,321 @@ namespace File_Organizer
                     Properties.Settings.Default["FirstFolderLock"] = false;
                     Properties.Settings.Default.Save();
                     MessageBox.Show("CARTELLA DI DESTINAZIONE BLOCCATA\nLa cartella di destinazione non cambierà scegliendo una diversa " +
-                        "cartella da riordinare.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        "cartella da riordinare.", "Avviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
 
-        //bottone che apre la finestra per trovare i file e cartelle più pesanti
         private void FileSizeButton_Click(object sender, EventArgs e)
         {
-            if(dest_folder != "")
+            if (dest_folder != "")
             {
-                if(File.Exists(dest_folder+"\\.fileorg"))
+                if (File.Exists(dest_folder+"\\.fileorg"))
                 {
                     FileManagerWindow form4 = new FileManagerWindow();
                     form4.Show();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Questa funzione è attualmente supportata solo per le cartelle riordinate dal programma.",
                         "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Nessuna cartella di destinazione selezionata.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OperatedFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.Arguments = dest_folder+"\\"+OperatedFiles.SelectedItem.ToString();
+                    startInfo.FileName = "explorer.exe";
+
+                    Process.Start(startInfo);
+                }
+            }
+        }
+
+        private void OperatedFiles_KeyUp(object sender, KeyEventArgs e)
+        {
+            var key = e.KeyCode;
+
+            if (key == Keys.Enter)
+            {
+                if (OperatedFiles.SelectedItem != null && OperatedFiles.SelectedItem.ToString() != "")
+                {
+                    string filename = start_folder+"\\"+UnOperatedFiles.SelectedItem.ToString();
+                    ProcessStartInfo psi = new ProcessStartInfo();
+                    psi.FileName = filename;
+                    psi.UseShellExecute = true;
+                    Process.Start(psi);
+                }
+            }
+        }
+
+        private void UnOperatedFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (UnOperatedFiles.SelectedItem != null && UnOperatedFiles.SelectedItem.ToString() != "")
+                {
+                    string filename = start_folder+"\\"+UnOperatedFiles.SelectedItem.ToString();
+                    ProcessStartInfo psi = new ProcessStartInfo();
+                    psi.FileName = filename;
+                    psi.UseShellExecute = true;
+                    Process.Start(psi);
+                }
+            }
+        }
+
+        private void UnOperatedFiles_KeyUp(object sender, KeyEventArgs e)
+        {
+            var key = e.KeyCode;
+
+            if (key == Keys.Enter)
+            {
+                if (UnOperatedFiles.SelectedItem != null && UnOperatedFiles.SelectedItem.ToString() != "")
+                {
+                    string filename = start_folder+"\\"+UnOperatedFiles.SelectedItem.ToString();
+                    Process.Start("explorer.exe", @"/select,"+filename);
+
+                }
+            }
+            else if (key == Keys.Delete)
+            {
+                if (UnOperatedFiles.SelectedItem != null && UnOperatedFiles.SelectedItem.ToString() != "")
+                {
+                    var result = MessageBox.Show("Eliminare definitivamente il file?", "Avviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        File.Delete(start_folder+"\\"+UnOperatedFiles.SelectedItem);
+                        BackgroundUpdate.RunWorkerAsync(argument: 2);
+                    }
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            BackgroundUpdate.RunWorkerAsync(argument: 1);
+        }
+
+        private void LockBackFolderCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (backfolder_locked)
+            {
+                backfolder_locked = false;
+                if (backups_active)
+                {
+                    BackupPath.Enabled = true;
+                    SelectBackupFolder.Enabled = true;
+                }
+            }
+            else
+            {
+                backfolder_locked = true;
+                BackupPath.Enabled = false;
+                SelectBackupFolder.Enabled = false;
+
+                if ((bool)Properties.Settings.Default["FirstFolderLock"] == true)
+                {
+                    Properties.Settings.Default["FirstFolderLock"] = false;
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show("CARTELLA BLOCCATA\nLa cartella bloccata non cambierà scegliendo una diversa " +
+                        "cartella da riordinare.", "Avviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        public async void UpdateProgram()
+        {
+            STATE.Text = "DOWNLOAD AGGIORNAMENTO IN CORSO...";
+            foreach (Control ctrl in Controls)
+                ctrl.Enabled = false;
+            STATE.Enabled = true;
+            int i = 0;
+
+            var p = new Progress<float>(m =>
+            {
+                progressBar1.Value = (int)(m*100);
+                if ((int)(m*100) == 100)
+                {
+                    if (i == 0)
+                    {
+                        i++;
+                        string temp_path = ut.CreateTempFolder("organizer");
+                        string program_path = Path.GetDirectoryName(Application.ExecutablePath)+@"\";
+                        string zip_file_path = Directory.GetFiles(temp_path)[0];
+                        string new_program_name = zip_file_path.Split(@"\")[^1].Replace(".zip", ".exe");
+                        STATE.Text = "ESTRAZIONE IN CORSO...";
+                        ZipFile.ExtractToDirectory(zip_file_path, temp_path);
+                        if (!File.Exists(program_path + new_program_name))
+                            File.Move(temp_path + new_program_name, program_path + new_program_name);
+                        Directory.Delete(temp_path, true);
+                        Process.Start(program_path + new_program_name);
+                        if (Application.MessageLoop)
+                            Application.Exit();
+                        else
+                            Environment.Exit(1);
+                    }
+                }
+            });
+
+            using (var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromMinutes(5);
+                using (var file = new FileStream(update_dest_path, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    CancellationToken ct = CancellationToken.None;
+                    await client.DownloadAsync(update_url, file, p, ct);
+                }
+            }
+        }
+
+        private void CheckUpdates_Click(object sender, EventArgs e)
+        {
+            string response = ut.CheckForUpdates();
+            get_version = response;
+            if (response != "-1")
+            {
+                string temp_path = ut.CreateTempFolder("organizer");
+                if (!File.Exists(temp_path+"\\"+"Organizer-v"+get_version+".zip"))
+                {
+                    update_url = "https://github.com/Kikkiu17/File-organizer-ITA/releases" +
+                            "/download/v"+get_version+"/Organizer-v"+get_version+".zip";
+                    update_dest_path = temp_path+"\\"+"Organizer-v"+get_version+".zip";
+                    UpdateProgram();
+                }
+            }
+            else if (response == "-1")
+            {
+                MessageBox.Show("Il programma è aggiornato", "Avviso",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Information);
+            }
+        }
+
+        private void OrganizeIcons_Click(object sender, EventArgs e)
+        {
+            IconsOrganizerWindow win = new IconsOrganizerWindow();
+            win.Show();
+            folders_names.Clear();
+            folders_x.Clear();
+            folders_y.Clear();
+            shortcuts_names.Clear();
+            shortcuts_x.Clear();
+            shortcuts_y.Clear();
+            Util.RefreshDesktop();
+            // name, x, y, idx
+            var folders = ut.GetDesktopFoldersFullInfo();
+            for (int i = 0; i < folders.Item2.Count; i++)
+            {
+                int x = int.Parse(folders.Item2[i].ToString());
+                int y = int.Parse(folders.Item3[i].ToString());
+                folders_x.Add(x);
+                folders_y.Add(y);
+                folders_names.Add(folders.Item1[i].ToString());
+            }
+            var topright = im.OrganizeTopRight(folders, false);
+            Util.RefreshDesktop();
+            var shortcuts = ut.GetDesktopShortcutsFullInfo();
+            for (int i = 0; i < shortcuts.Item2.Count; i++)
+            {
+                int x = int.Parse(shortcuts.Item2[i].ToString());
+                int y = int.Parse(shortcuts.Item3[i].ToString());
+                shortcuts_x.Add(x);
+                shortcuts_y.Add(y);
+                shortcuts_names.Add(shortcuts.Item1[i].ToString());
+            }
+            var topleft = im.OrganizeTopLeft(shortcuts, false);
+
+            win.DrawIcons(topright, topleft);
+        }
+
+        private void UndoIcons_Click(object sender, EventArgs e)
+        {
+            Util.RefreshDesktop();
+            var shortcuts = ut.GetDesktopShortcutsFullInfo();
+            for (int i = 0; i < shortcuts_names.Count; i++)
+            {
+                for (int j = 0; j < shortcuts.Item1.Count; j++)
+                {
+                    if (shortcuts_names[i] == shortcuts.Item1[j].ToString())
+                        ut.SetDesktopIconsPosition((int)shortcuts.Item4[i], shortcuts_x[i], shortcuts_y[i]);
+                }
+            }
+            var folders = ut.GetDesktopFoldersFullInfo();
+            for (int i = 0; i < folders_names.Count; i++)
+            {
+                for (int j = 0; j < folders.Item1.Count; j++)
+                {
+                    if (folders_names[i] == folders.Item1[j].ToString())
+                        ut.SetDesktopIconsPosition((int)folders.Item4[i], folders_x[i], folders_y[i]);
+                }
+            }
+        }
+    }
+
+    public static class StreamExtensions
+    {
+        public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize, IProgress<long> progress = null, CancellationToken cancellationToken = default)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (!source.CanRead)
+                throw new ArgumentException("Has to be readable", nameof(source));
+            if (destination == null)
+                throw new ArgumentNullException(nameof(destination));
+            if (!destination.CanWrite)
+                throw new ArgumentException("Has to be writable", nameof(destination));
+            if (bufferSize < 0)
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
+
+            var buffer = new byte[bufferSize];
+            long totalBytesRead = 0;
+            int bytesRead;
+            while ((bytesRead = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0)
+            {
+                await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
+                totalBytesRead += bytesRead;
+                progress?.Report(totalBytesRead);
+            }
+        }
+    }
+
+    public static class HttpClientExtensions
+    {
+        public static async Task DownloadAsync(this HttpClient client, string requestUri, Stream destination, IProgress<float> progress = null, CancellationToken cancellationToken = default)
+        {
+            // Get the http headers first to examine the content length
+            using (var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead))
+            {
+                var contentLength = response.Content.Headers.ContentLength;
+
+                using (var download = await response.Content.ReadAsStreamAsync())
+                {
+
+                    // Ignore progress reporting when no progress reporter was 
+                    // passed or when the content length is unknown
+                    if (progress == null || !contentLength.HasValue)
+                    {
+                        await download.CopyToAsync(destination);
+                        return;
+                    }
+
+                    // Convert absolute progress (bytes downloaded) into relative progress (0% - 100%)
+                    var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
+                    // Use extension method to report progress while downloading
+                    await download.CopyToAsync(destination, 81920, relativeProgress, cancellationToken);
+                    progress.Report(1);
+                }
             }
         }
     }

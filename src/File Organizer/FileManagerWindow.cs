@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace File_Organizer
 {
@@ -35,11 +28,6 @@ namespace File_Organizer
             UpdateList();
             CurrentFolder.Text = "Cartella: "+dest_folder;
 
-            SearchButton.BackgroundImage = Image.FromFile(@"C:\Users\Kikkiu\source\repos\File Organizer\search_icon.png");
-            SearchButton.BackgroundImageLayout = ImageLayout.Zoom;
-            RefreshButton.BackgroundImage = Image.FromFile(@"C:\Users\Kikkiu\source\repos\File Organizer\refresh_icon.png");
-            RefreshButton.BackgroundImageLayout = ImageLayout.Zoom;
-
             dataViewContextMenu = new ContextMenuStrip();
             dataViewContextMenu.Opening +=new CancelEventHandler(dataViewContextMenu_Opening);
             dataGridView1.ContextMenuStrip = dataViewContextMenu;
@@ -58,14 +46,16 @@ namespace File_Organizer
         {
             ToolStripItem item = e.ClickedItem;
             string selected_item = item.Text;
-            
-            if(selected_item == "Apri")
+
+            if (selected_item == "Apri")
             {
                 OpenFile.PerformClick();
-            } else if(selected_item == "Apri percorso file")
+            }
+            else if (selected_item == "Apri percorso file")
             {
                 OpenFilePath.PerformClick();
-            } else if(selected_item == "Elimina")
+            }
+            else if (selected_item == "Elimina")
             {
                 DeleteSelectedFiles.PerformClick();
             }
@@ -73,7 +63,7 @@ namespace File_Organizer
 
         private void UpdateList()
         {
-            long long_total_size = 0;
+            float long_total_size = 0;
             int total_rows = 0;
             int folder_num = 0;
 
@@ -89,7 +79,7 @@ namespace File_Organizer
 
             dataGridView1.Rows.Clear();
 
-            if(Directory.Exists(dest_folder))
+            if (Directory.Exists(dest_folder))
             {
                 foreach (string folder in Directory.GetDirectories(dest_folder))
                 {
@@ -104,21 +94,21 @@ namespace File_Organizer
                             totalfiles.Add(file_path);
                             long int_size = fileatt.Length;
                             string size = "";
-                            if (int_size < 999)
+                            if (int_size <= 999)
                             {
                                 size = int_size.ToString() + " B";
                             }
-                            else if (int_size > 999 && int_size < 999999)
+                            else if (int_size > 999 && int_size <= 999999)
                             {
-                                size = (int_size/1000).ToString() + " KB";
+                                size = (int_size / 1000.0 / 1.07).ToString("#.##") + " KB";
                             }
-                            else if (int_size > 999999 && int_size < 999999999)
+                            else if (int_size > 999999 && int_size <= 999999999)
                             {
-                                size = (int_size / 1000000).ToString() + " MB";
+                                size = (int_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
                             }
                             else
                             {
-                                size = (int_size / 1000000000).ToString() + " GB";
+                                size = (int_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
                             }
                             files.Add(file+"SIZESEPARATOR"+size+"SIZESEPARATOR"+int_size.ToString()+"SIZESEPARATOR"+splitted_folder);
                             sizes.Add(int_size.ToString());
@@ -149,21 +139,21 @@ namespace File_Organizer
                 }
 
                 string tot_size = "";
-                if (long_total_size < 999)
+                if (long_total_size <= 999)
                 {
                     tot_size = long_total_size.ToString() + " B";
                 }
-                else if (long_total_size > 999 && long_total_size < 999999)
+                else if (long_total_size > 999 && long_total_size <= 999999)
                 {
-                    tot_size = (long_total_size/1000).ToString() + " KB";
+                    tot_size = (long_total_size / 1000.0 / 1.07).ToString("#.##") + " KB";
                 }
-                else if (long_total_size > 999999 && long_total_size < 999999999)
+                else if (long_total_size > 999999 && long_total_size <= 999999999)
                 {
-                    tot_size = (long_total_size / 1000000).ToString() + " MB";
+                    tot_size = (long_total_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
                 }
                 else
                 {
-                    tot_size = (long_total_size / 1000000000).ToString() + " GB";
+                    tot_size = (long_total_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
                 }
 
                 TotalFiles.Text = "File totali: " + total_rows;
@@ -205,21 +195,21 @@ namespace File_Organizer
                             totalfiles.Add(file_path);
                             long int_size = fileatt.Length;
                             string size = "";
-                            if (int_size < 999)
+                            if (int_size <= 999)
                             {
                                 size = int_size.ToString() + " B";
                             }
-                            else if (int_size > 999 && int_size < 999999)
+                            else if (int_size > 999 && int_size <= 999999)
                             {
-                                size = (int_size/1000).ToString() + " KB";
+                                size = (int_size / 1000.0 / 1.07).ToString("#.##") + " KB";
                             }
-                            else if (int_size > 999999 && int_size < 999999999)
+                            else if (int_size > 999999 && int_size <= 999999999)
                             {
-                                size = (int_size / 1000000).ToString() + " MB";
+                                size = (int_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
                             }
                             else
                             {
-                                size = (int_size / 1000000000).ToString() + " GB";
+                                size = (int_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
                             }
                             files.Add(file+"SIZESEPARATOR"+size+"SIZESEPARATOR"+int_size.ToString()+"SIZESEPARATOR"+splitted_folder);
                             sizes.Add(int_size.ToString());
@@ -250,21 +240,21 @@ namespace File_Organizer
                 }
 
                 string tot_size = "";
-                if (long_total_size < 999)
+                if (long_total_size <= 999)
                 {
                     tot_size = long_total_size.ToString() + " B";
                 }
-                else if (long_total_size > 999 && long_total_size < 999999)
+                else if (long_total_size > 999 && long_total_size <= 999999)
                 {
-                    tot_size = (long_total_size/1000).ToString() + " KB";
+                    tot_size = (long_total_size / 1000.0 / 1.07).ToString("#.##") + " KB";
                 }
-                else if (long_total_size > 999999 && long_total_size < 999999999)
+                else if (long_total_size > 999999 && long_total_size <= 999999999)
                 {
-                    tot_size = (long_total_size / 1000000).ToString() + " MB";
+                    tot_size = (long_total_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
                 }
                 else
                 {
-                    tot_size = (long_total_size / 1000000000).ToString() + " GB";
+                    tot_size = (long_total_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
                 }
 
                 TotalFiles.Text = "File: " + total_rows;
@@ -306,12 +296,13 @@ namespace File_Organizer
                 if (ht.Type == DataGridViewHitTestType.RowHeader)
                 {
                     end_index = ht.RowIndex;
-                } else if(ht.Type == DataGridViewHitTestType.Cell)
+                }
+                else if (ht.Type == DataGridViewHitTestType.Cell)
                 {
                     end_index = ht.RowIndex;
                 }
 
-                if(start_index == 0 && end_index == dataGridView1.Rows.Count -2)
+                if (start_index == 0 && end_index == dataGridView1.Rows.Count -2)
                 {
                     SelectAll.Checked = true;
                 }
@@ -324,11 +315,12 @@ namespace File_Organizer
                     SelectedItems.Text = dataGridView1.Rows[start_index].Cells[0].Value.ToString() + " (1)";
                     selected_files.Add(dataGridView1.Rows[start_index].Cells[0].Value.ToString());
                     number_of_files = 1;
-                } else
+                }
+                else
                 {
                     if (end_index > start_index)
                     {
-                        if(end_index < dataGridView1.Rows.Count -1)
+                        if (end_index < dataGridView1.Rows.Count -1)
                         {
                             number_of_files = end_index - start_index + 1;
                             SelectedItems.Text = "Da file numero "+start_index+" a file numero "+end_index+" ("+number_of_files+" file)";
@@ -338,7 +330,8 @@ namespace File_Organizer
                                 selected_files.Add(dataGridView1.Rows[i].Cells[0].Value.ToString());
                             }
                         }
-                    } else
+                    }
+                    else
                     {
                         if (end_index < dataGridView1.Rows.Count -1)
                         {
@@ -364,7 +357,7 @@ namespace File_Organizer
         {
             var kcode = e.KeyCode;
 
-            switch(kcode)
+            switch (kcode)
             {
                 case Keys.A:
                     KeyA = true;
@@ -404,10 +397,11 @@ namespace File_Organizer
 
         private void SelectAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(sel_all)
+            if (sel_all)
             {
                 sel_all = false;
-            } else
+            }
+            else
             {
                 sel_all = true;
 
@@ -430,41 +424,41 @@ namespace File_Organizer
 
         private void GetTotalSize()
         {
-            long long_total_size = 0;
+            float long_total_size = 0;
 
             foreach (string string_size in selected_files)
             {
                 string filename = string_size;
 
-                foreach(string file in files)
+                foreach (string file in files)
                 {
-                    if(file.Contains(filename))
+                    if (file.Contains(filename))
                     {
-                        long long_size = long.Parse(file.Split("SIZESEPARATOR")[2]);
+                        float long_size = float.Parse(file.Split("SIZESEPARATOR")[2]);
                         long_total_size += long_size;
                     }
                 }
             }
 
             string tot_size = "";
-            if (long_total_size < 999)
+            if (long_total_size <= 999)
             {
                 tot_size = long_total_size.ToString() + " B";
             }
-            else if (long_total_size > 999 && long_total_size < 999999)
+            else if (long_total_size > 999 && long_total_size <= 999999)
             {
-                tot_size = (long_total_size/1000).ToString() + " KB";
+                tot_size = (long_total_size / 1000.0 / 1.07).ToString("#.##") + " KB";
             }
-            else if (long_total_size > 999999 && long_total_size < 999999999)
+            else if (long_total_size > 999999 && long_total_size <= 999999999)
             {
-                tot_size = (long_total_size / 1000000).ToString() + " MB";
+                tot_size = (long_total_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
             }
             else
             {
-                tot_size = (long_total_size / 1000000000).ToString() + " GB";
+                tot_size = (long_total_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
             }
 
-            SelectedSize.Text = "Dimensioni file selezionati: "+tot_size;
+            SelectedSize.Text = "Dimensioni file selezionati: " + tot_size;
         }
 
         private void DeleteSelectedFiles_Click(object sender, EventArgs e)
@@ -474,7 +468,7 @@ namespace File_Organizer
 
         private void DeleteFiles()
         {
-            if(selected_files.Count > 0)
+            if (selected_files.Count > 0)
             {
                 var result = MessageBox.Show("Vuoi davvero eliminare definitivamente "+number_of_files+" file?", "Attenzione",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -488,17 +482,25 @@ namespace File_Organizer
                             string filename = selected_files[i].ToString();
                             if (file.Contains(filename))
                             {
-                                File.SetAttributes(file, FileAttributes.Normal);
-                                File.Delete(file);
+                                try
+                                {
+                                    File.SetAttributes(file, FileAttributes.Normal);
+                                    File.Delete(file);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Errore", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                         }
                     }
 
-                    MessageBox.Show(number_of_files+" file eliminati.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show(number_of_files+" file eliminati.", "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 RefreshButton.PerformClick();
-            } else
+            }
+            else
             {
                 MessageBox.Show("Nessun file selezionato.", "Errore",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -507,13 +509,14 @@ namespace File_Organizer
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
-            if(selected_files.Count > 1)
+            if (selected_files.Count > 1)
             {
-                MessageBox.Show("Non puoi aprire più di un file alla volta. Selezionane solo uno.", "Errore", 
+                MessageBox.Show("Non puoi aprire più di un file alla volta. Selezionane solo uno.", "Errore",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else
+            }
+            else
             {
-                if(selected_files.Count > 0)
+                if (selected_files.Count > 0)
                 {
                     for (int i = 0; i < selected_files.Count; i++)
                     {
@@ -529,7 +532,8 @@ namespace File_Organizer
                             }
                         }
                     }
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Nessun file selezionato.", "Errore",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -647,21 +651,21 @@ namespace File_Organizer
                             totalfiles.Add(file_path);
                             long int_size = fileatt.Length;
                             string size = "";
-                            if (int_size < 999)
+                            if (int_size <= 999)
                             {
-                                size = int_size.ToString() + " B";
+                                size = int_size.ToString("#.##") + " B";
                             }
-                            else if (int_size > 999 && int_size < 999999)
+                            else if (int_size > 999 && int_size <= 999999)
                             {
-                                size = (int_size/1000).ToString() + " KB";
+                                size = (int_size / 1000.0 / 1.07).ToString("#.##") + " KB";
                             }
-                            else if (int_size > 999999 && int_size < 999999999)
+                            else if (int_size > 999999 && int_size <= 999999999)
                             {
-                                size = (int_size / 1000000).ToString() + " MB";
+                                size = (int_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
                             }
                             else
                             {
-                                size = (int_size / 1000000000).ToString() + " GB";
+                                size = (int_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
                             }
                             files.Add(file+"SIZESEPARATOR"+size+"SIZESEPARATOR"+int_size.ToString()+"SIZESEPARATOR"+splitted_folder);
                             sizes.Add(int_size.ToString());
@@ -693,21 +697,21 @@ namespace File_Organizer
             }
 
             string tot_size = "";
-            if (long_total_size < 999)
+            if (long_total_size <= 999)
             {
                 tot_size = long_total_size.ToString() + " B";
             }
-            else if (long_total_size > 999 && long_total_size < 999999)
+            else if (long_total_size > 999 && long_total_size <= 999999)
             {
-                tot_size = (long_total_size/1000).ToString() + " KB";
+                tot_size = (long_total_size / 1000.0 / 1.07).ToString("#.##") + " KB";
             }
-            else if (long_total_size > 999999 && long_total_size < 999999999)
+            else if (long_total_size > 999999 && long_total_size <= 999999999)
             {
-                tot_size = (long_total_size / 1000000).ToString() + " MB";
+                tot_size = (long_total_size / 1000000.0 / 1.07).ToString("#.##") + " MB";
             }
             else
             {
-                tot_size = (long_total_size / 1000000000).ToString() + " GB";
+                tot_size = (long_total_size / 1000000000.0 / 1.07).ToString("#.##") + " GB";
             }
 
             TotalFiles.Text = "File: " + total_rows;
@@ -717,10 +721,11 @@ namespace File_Organizer
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
-            if(SearchInput.Text != "" && has_searched)
+            if (SearchInput.Text != "" && has_searched)
             {
                 SearchButton.PerformClick();
-            } else
+            }
+            else
             {
                 has_searched = false;
                 UpdateList();
