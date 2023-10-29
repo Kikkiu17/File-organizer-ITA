@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
     <RootNamespace>File_Organizer</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <StartupObject></StartupObject>
-    <FileVersion>4.4</FileVersion>
-    <AssemblyVersion>4.4</AssemblyVersion>
-    <Version>4.4</Version>
+    <FileVersion>4.5</FileVersion>
+    <AssemblyVersion>4.5</AssemblyVersion>
+    <Version>4.5</Version>
     <Authors>Emanuele</Authors>
     <Description>Riorganizza i tuoi file in modo facile e veloce.</Description>
     <PackageProjectUrl>https://github.com/Kikkiu17/File-organizer-ITA</PackageProjectUrl>
@@ -21,7 +21,6 @@
     <SignAssembly>False</SignAssembly>
     <RepositoryUrl>https://github.com/Kikkiu17/File-organizer-ITA</RepositoryUrl>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 

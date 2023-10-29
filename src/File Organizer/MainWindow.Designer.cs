@@ -29,412 +29,423 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.SelectStartFolder = new System.Windows.Forms.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.StartPath = new System.Windows.Forms.TextBox();
-            this.UnOperatedFiles = new System.Windows.Forms.ListBox();
-            this.DestPath = new System.Windows.Forms.TextBox();
-            this.SelectDestFolder = new System.Windows.Forms.Button();
-            this.MoveFilesButton = new System.Windows.Forms.Button();
-            this.CopyFilesButton = new System.Windows.Forms.Button();
-            this.OperatedFiles = new System.Windows.Forms.ListBox();
-            this.SelectBackupFolder = new System.Windows.Forms.Button();
-            this.BackupPath = new System.Windows.Forms.TextBox();
-            this.CreateBackupButton = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.DeleteBackups = new System.Windows.Forms.Button();
-            this.Preview = new System.Windows.Forms.CheckBox();
-            this.STATE = new System.Windows.Forms.Label();
-            this.MODE = new System.Windows.Forms.Label();
-            this.Help = new System.Windows.Forms.Button();
-            this.FileListOptions = new System.Windows.Forms.Button();
-            this.UndoButton = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            this.BackgroundUpdate = new System.ComponentModel.BackgroundWorker();
-            this.BackgroundUndo = new System.ComponentModel.BackgroundWorker();
-            this.LockDestFolderCheckBox = new System.Windows.Forms.CheckBox();
-            this.FileManagerButton = new System.Windows.Forms.Button();
-            this.RefreshButton = new System.Windows.Forms.Button();
-            this.LockBackFolderCheckBox = new System.Windows.Forms.CheckBox();
-            this.CheckUpdates = new System.Windows.Forms.Button();
-            this.OrganizeIcons = new System.Windows.Forms.Button();
-            this.UndoIcons = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            SelectStartFolder = new Button();
+            folderBrowserDialog1 = new FolderBrowserDialog();
+            StartPath = new TextBox();
+            UnOperatedFiles = new ListBox();
+            DestPath = new TextBox();
+            SelectDestFolder = new Button();
+            MoveFilesButton = new Button();
+            CopyFilesButton = new Button();
+            OperatedFiles = new ListBox();
+            SelectBackupFolder = new Button();
+            BackupPath = new TextBox();
+            CreateBackupButton = new CheckBox();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            DeleteBackups = new Button();
+            Preview = new CheckBox();
+            STATE = new Label();
+            MODE = new Label();
+            Help = new Button();
+            FileListOptions = new Button();
+            UndoButton = new Button();
+            progressBar1 = new ProgressBar();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            BackgroundUpdate = new System.ComponentModel.BackgroundWorker();
+            BackgroundUndo = new System.ComponentModel.BackgroundWorker();
+            LockDestFolderCheckBox = new CheckBox();
+            FileManagerButton = new Button();
+            RefreshButton = new Button();
+            LockBackFolderCheckBox = new CheckBox();
+            CheckUpdates = new Button();
+            OrganizeIcons = new Button();
+            UndoIcons = new Button();
+            SetDefault = new Button();
+            SuspendLayout();
             // 
             // SelectStartFolder
             // 
-            this.SelectStartFolder.Location = new System.Drawing.Point(452, 26);
-            this.SelectStartFolder.Name = "SelectStartFolder";
-            this.SelectStartFolder.Size = new System.Drawing.Size(75, 23);
-            this.SelectStartFolder.TabIndex = 0;
-            this.SelectStartFolder.Text = "Sfoglia...";
-            this.SelectStartFolder.UseVisualStyleBackColor = true;
-            this.SelectStartFolder.Click += new System.EventHandler(this.SelectStartFolder_Click);
+            SelectStartFolder.Location = new Point(452, 30);
+            SelectStartFolder.Name = "SelectStartFolder";
+            SelectStartFolder.Size = new Size(75, 23);
+            SelectStartFolder.TabIndex = 0;
+            SelectStartFolder.Text = "Sfoglia...";
+            SelectStartFolder.UseVisualStyleBackColor = true;
+            SelectStartFolder.Click += SelectStartFolder_Click;
             // 
             // StartPath
             // 
-            this.StartPath.Location = new System.Drawing.Point(12, 26);
-            this.StartPath.Name = "StartPath";
-            this.StartPath.Size = new System.Drawing.Size(434, 23);
-            this.StartPath.TabIndex = 1;
-            this.StartPath.Text = "Percorso...";
+            StartPath.Location = new Point(12, 30);
+            StartPath.Name = "StartPath";
+            StartPath.Size = new Size(434, 23);
+            StartPath.TabIndex = 1;
+            StartPath.Text = "Percorso...";
             // 
             // UnOperatedFiles
             // 
-            this.UnOperatedFiles.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.UnOperatedFiles.FormattingEnabled = true;
-            this.UnOperatedFiles.HorizontalScrollbar = true;
-            this.UnOperatedFiles.ItemHeight = 15;
-            this.UnOperatedFiles.Location = new System.Drawing.Point(12, 126);
-            this.UnOperatedFiles.Name = "UnOperatedFiles";
-            this.UnOperatedFiles.Size = new System.Drawing.Size(515, 259);
-            this.UnOperatedFiles.TabIndex = 2;
-            this.UnOperatedFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UnOperatedFiles_KeyUp);
-            this.UnOperatedFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.UnOperatedFiles_MouseDoubleClick);
-            this.UnOperatedFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UnOperatedFiles_MouseDown);
+            UnOperatedFiles.Anchor = AnchorStyles.Top;
+            UnOperatedFiles.FormattingEnabled = true;
+            UnOperatedFiles.HorizontalScrollbar = true;
+            UnOperatedFiles.ItemHeight = 15;
+            UnOperatedFiles.Location = new Point(12, 130);
+            UnOperatedFiles.Name = "UnOperatedFiles";
+            UnOperatedFiles.Size = new Size(515, 259);
+            UnOperatedFiles.TabIndex = 2;
+            UnOperatedFiles.KeyUp += UnOperatedFiles_KeyUp;
+            UnOperatedFiles.MouseDoubleClick += UnOperatedFiles_MouseDoubleClick;
+            UnOperatedFiles.MouseDown += UnOperatedFiles_MouseDown;
             // 
             // DestPath
             // 
-            this.DestPath.Location = new System.Drawing.Point(533, 27);
-            this.DestPath.Name = "DestPath";
-            this.DestPath.Size = new System.Drawing.Size(434, 23);
-            this.DestPath.TabIndex = 3;
-            this.DestPath.Text = "Percorso...";
+            DestPath.Location = new Point(533, 31);
+            DestPath.Name = "DestPath";
+            DestPath.Size = new Size(434, 23);
+            DestPath.TabIndex = 3;
+            DestPath.Text = "Percorso...";
             // 
             // SelectDestFolder
             // 
-            this.SelectDestFolder.Location = new System.Drawing.Point(973, 26);
-            this.SelectDestFolder.Name = "SelectDestFolder";
-            this.SelectDestFolder.Size = new System.Drawing.Size(69, 23);
-            this.SelectDestFolder.TabIndex = 4;
-            this.SelectDestFolder.Text = "Sfoglia...";
-            this.SelectDestFolder.UseVisualStyleBackColor = true;
-            this.SelectDestFolder.Click += new System.EventHandler(this.SelectDestFolder_Click);
+            SelectDestFolder.Location = new Point(973, 30);
+            SelectDestFolder.Name = "SelectDestFolder";
+            SelectDestFolder.Size = new Size(69, 23);
+            SelectDestFolder.TabIndex = 4;
+            SelectDestFolder.Text = "Sfoglia...";
+            SelectDestFolder.UseVisualStyleBackColor = true;
+            SelectDestFolder.Click += SelectDestFolder_Click;
             // 
             // MoveFilesButton
             // 
-            this.MoveFilesButton.Location = new System.Drawing.Point(12, 99);
-            this.MoveFilesButton.Name = "MoveFilesButton";
-            this.MoveFilesButton.Size = new System.Drawing.Size(123, 23);
-            this.MoveFilesButton.TabIndex = 5;
-            this.MoveFilesButton.Text = "Sposta tutto";
-            this.MoveFilesButton.UseVisualStyleBackColor = true;
-            this.MoveFilesButton.Click += new System.EventHandler(this.MoveFilesButton_Click);
+            MoveFilesButton.Location = new Point(12, 103);
+            MoveFilesButton.Name = "MoveFilesButton";
+            MoveFilesButton.Size = new Size(123, 23);
+            MoveFilesButton.TabIndex = 5;
+            MoveFilesButton.Text = "Sposta tutto";
+            MoveFilesButton.UseVisualStyleBackColor = true;
+            MoveFilesButton.Click += MoveFilesButton_Click;
             // 
             // CopyFilesButton
             // 
-            this.CopyFilesButton.Location = new System.Drawing.Point(141, 99);
-            this.CopyFilesButton.Name = "CopyFilesButton";
-            this.CopyFilesButton.Size = new System.Drawing.Size(123, 23);
-            this.CopyFilesButton.TabIndex = 9;
-            this.CopyFilesButton.Text = "Copia tutto";
-            this.CopyFilesButton.UseVisualStyleBackColor = true;
-            this.CopyFilesButton.Click += new System.EventHandler(this.CopyFilesButton_Click);
+            CopyFilesButton.Location = new Point(141, 103);
+            CopyFilesButton.Name = "CopyFilesButton";
+            CopyFilesButton.Size = new Size(123, 23);
+            CopyFilesButton.TabIndex = 9;
+            CopyFilesButton.Text = "Copia tutto";
+            CopyFilesButton.UseVisualStyleBackColor = true;
+            CopyFilesButton.Click += CopyFilesButton_Click;
             // 
             // OperatedFiles
             // 
-            this.OperatedFiles.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.OperatedFiles.FormattingEnabled = true;
-            this.OperatedFiles.HorizontalScrollbar = true;
-            this.OperatedFiles.ItemHeight = 15;
-            this.OperatedFiles.Location = new System.Drawing.Point(533, 126);
-            this.OperatedFiles.Name = "OperatedFiles";
-            this.OperatedFiles.Size = new System.Drawing.Size(510, 259);
-            this.OperatedFiles.TabIndex = 10;
-            this.OperatedFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OperatedFiles_KeyUp);
-            this.OperatedFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OperatedFiles_MouseDoubleClick);
-            this.OperatedFiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox2_MouseDown);
+            OperatedFiles.Anchor = AnchorStyles.Top;
+            OperatedFiles.FormattingEnabled = true;
+            OperatedFiles.HorizontalScrollbar = true;
+            OperatedFiles.ItemHeight = 15;
+            OperatedFiles.Location = new Point(533, 130);
+            OperatedFiles.Name = "OperatedFiles";
+            OperatedFiles.Size = new Size(510, 259);
+            OperatedFiles.TabIndex = 10;
+            OperatedFiles.KeyUp += OperatedFiles_KeyUp;
+            OperatedFiles.MouseDoubleClick += OperatedFiles_MouseDoubleClick;
+            OperatedFiles.MouseDown += listBox2_MouseDown;
             // 
             // SelectBackupFolder
             // 
-            this.SelectBackupFolder.Enabled = false;
-            this.SelectBackupFolder.Location = new System.Drawing.Point(452, 70);
-            this.SelectBackupFolder.Name = "SelectBackupFolder";
-            this.SelectBackupFolder.Size = new System.Drawing.Size(75, 23);
-            this.SelectBackupFolder.TabIndex = 13;
-            this.SelectBackupFolder.Text = "Sfoglia...";
-            this.SelectBackupFolder.UseVisualStyleBackColor = true;
-            this.SelectBackupFolder.Click += new System.EventHandler(this.SelectBackupFolder_Click);
+            SelectBackupFolder.Enabled = false;
+            SelectBackupFolder.Location = new Point(452, 74);
+            SelectBackupFolder.Name = "SelectBackupFolder";
+            SelectBackupFolder.Size = new Size(75, 23);
+            SelectBackupFolder.TabIndex = 13;
+            SelectBackupFolder.Text = "Sfoglia...";
+            SelectBackupFolder.UseVisualStyleBackColor = true;
+            SelectBackupFolder.Click += SelectBackupFolder_Click;
             // 
             // BackupPath
             // 
-            this.BackupPath.Enabled = false;
-            this.BackupPath.Location = new System.Drawing.Point(12, 70);
-            this.BackupPath.Name = "BackupPath";
-            this.BackupPath.Size = new System.Drawing.Size(434, 23);
-            this.BackupPath.TabIndex = 12;
-            this.BackupPath.Text = "Percorso...";
+            BackupPath.Enabled = false;
+            BackupPath.Location = new Point(12, 74);
+            BackupPath.Name = "BackupPath";
+            BackupPath.Size = new Size(434, 23);
+            BackupPath.TabIndex = 12;
+            BackupPath.Text = "Percorso...";
             // 
             // CreateBackupButton
             // 
-            this.CreateBackupButton.AutoSize = true;
-            this.CreateBackupButton.Location = new System.Drawing.Point(621, 103);
-            this.CreateBackupButton.Name = "CreateBackupButton";
-            this.CreateBackupButton.Size = new System.Drawing.Size(92, 19);
-            this.CreateBackupButton.TabIndex = 14;
-            this.CreateBackupButton.Text = "Crea backup";
-            this.CreateBackupButton.UseVisualStyleBackColor = true;
-            this.CreateBackupButton.CheckedChanged += new System.EventHandler(this.CreateBackupButton_CheckedChanged);
+            CreateBackupButton.AutoSize = true;
+            CreateBackupButton.Location = new Point(621, 107);
+            CreateBackupButton.Name = "CreateBackupButton";
+            CreateBackupButton.Size = new Size(92, 19);
+            CreateBackupButton.TabIndex = 14;
+            CreateBackupButton.Text = "Crea backup";
+            CreateBackupButton.UseVisualStyleBackColor = true;
+            CreateBackupButton.CheckedChanged += CreateBackupButton_CheckedChanged;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 395);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 15);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Scegli una cartella...";
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 399);
+            label1.Name = "label1";
+            label1.Size = new Size(111, 15);
+            label1.TabIndex = 15;
+            label1.Text = "Scegli una cartella...";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(533, 395);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 15);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Scegli una cartella...";
+            label2.AutoSize = true;
+            label2.Location = new Point(533, 399);
+            label2.Name = "label2";
+            label2.Size = new Size(111, 15);
+            label2.TabIndex = 16;
+            label2.Text = "Scegli una cartella...";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 15);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Cartella da riordinare";
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 8);
+            label3.Name = "label3";
+            label3.Size = new Size(117, 15);
+            label3.TabIndex = 17;
+            label3.Text = "Cartella da riordinare";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(533, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(129, 15);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Cartella di destinazione";
+            label4.AutoSize = true;
+            label4.Location = new Point(533, 8);
+            label4.Name = "label4";
+            label4.Size = new Size(129, 15);
+            label4.TabIndex = 18;
+            label4.Text = "Cartella di destinazione";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 52);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 15);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Cartella di backup";
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 56);
+            label5.Name = "label5";
+            label5.Size = new Size(102, 15);
+            label5.TabIndex = 19;
+            label5.Text = "Cartella di backup";
             // 
             // DeleteBackups
             // 
-            this.DeleteBackups.Location = new System.Drawing.Point(719, 100);
-            this.DeleteBackups.Name = "DeleteBackups";
-            this.DeleteBackups.Size = new System.Drawing.Size(110, 23);
-            this.DeleteBackups.TabIndex = 21;
-            this.DeleteBackups.Text = "Elimina backup";
-            this.DeleteBackups.UseVisualStyleBackColor = true;
-            this.DeleteBackups.Click += new System.EventHandler(this.DeleteBackups_Click);
+            DeleteBackups.Location = new Point(719, 104);
+            DeleteBackups.Name = "DeleteBackups";
+            DeleteBackups.Size = new Size(110, 23);
+            DeleteBackups.TabIndex = 21;
+            DeleteBackups.Text = "Elimina backup";
+            DeleteBackups.UseVisualStyleBackColor = true;
+            DeleteBackups.Click += DeleteBackups_Click;
             // 
             // Preview
             // 
-            this.Preview.AutoSize = true;
-            this.Preview.Location = new System.Drawing.Point(533, 103);
-            this.Preview.Name = "Preview";
-            this.Preview.Size = new System.Drawing.Size(82, 19);
-            this.Preview.TabIndex = 24;
-            this.Preview.Text = "Anteprima";
-            this.Preview.UseVisualStyleBackColor = true;
-            this.Preview.CheckedChanged += new System.EventHandler(this.Preview_CheckedChanged);
+            Preview.AutoSize = true;
+            Preview.Location = new Point(533, 107);
+            Preview.Name = "Preview";
+            Preview.Size = new Size(82, 19);
+            Preview.TabIndex = 24;
+            Preview.Text = "Anteprima";
+            Preview.UseVisualStyleBackColor = true;
+            Preview.CheckedChanged += Preview_CheckedChanged;
             // 
             // STATE
             // 
-            this.STATE.AutoSize = true;
-            this.STATE.Location = new System.Drawing.Point(12, 446);
-            this.STATE.Name = "STATE";
-            this.STATE.Size = new System.Drawing.Size(43, 15);
-            this.STATE.TabIndex = 25;
-            this.STATE.Text = "Pronto";
+            STATE.AutoSize = true;
+            STATE.Location = new Point(12, 450);
+            STATE.Name = "STATE";
+            STATE.Size = new Size(43, 15);
+            STATE.TabIndex = 25;
+            STATE.Text = "Pronto";
             // 
             // MODE
             // 
-            this.MODE.AutoSize = true;
-            this.MODE.Location = new System.Drawing.Point(12, 461);
-            this.MODE.Name = "MODE";
-            this.MODE.Size = new System.Drawing.Size(322, 15);
-            this.MODE.TabIndex = 26;
-            this.MODE.Text = "MODALITA\' NORMALE: Verranno apportate modifiche ai file";
+            MODE.AutoSize = true;
+            MODE.Location = new Point(12, 465);
+            MODE.Name = "MODE";
+            MODE.Size = new Size(322, 15);
+            MODE.TabIndex = 26;
+            MODE.Text = "MODALITA' NORMALE: Verranno apportate modifiche ai file";
             // 
             // Help
             // 
-            this.Help.Location = new System.Drawing.Point(942, 100);
-            this.Help.Name = "Help";
-            this.Help.Size = new System.Drawing.Size(101, 23);
-            this.Help.TabIndex = 27;
-            this.Help.Text = "Aiuto";
-            this.Help.UseVisualStyleBackColor = true;
-            this.Help.Click += new System.EventHandler(this.Help_Click);
+            Help.Location = new Point(942, 104);
+            Help.Name = "Help";
+            Help.Size = new Size(101, 23);
+            Help.TabIndex = 27;
+            Help.Text = "Aiuto";
+            Help.UseVisualStyleBackColor = true;
+            Help.Click += Help_Click;
             // 
             // FileListOptions
             // 
-            this.FileListOptions.Location = new System.Drawing.Point(835, 100);
-            this.FileListOptions.Name = "FileListOptions";
-            this.FileListOptions.Size = new System.Drawing.Size(101, 23);
-            this.FileListOptions.TabIndex = 28;
-            this.FileListOptions.Text = "Lista file";
-            this.FileListOptions.UseVisualStyleBackColor = true;
-            this.FileListOptions.Click += new System.EventHandler(this.FileListOptions_Click);
+            FileListOptions.Location = new Point(835, 104);
+            FileListOptions.Name = "FileListOptions";
+            FileListOptions.Size = new Size(101, 23);
+            FileListOptions.TabIndex = 28;
+            FileListOptions.Text = "Lista file";
+            FileListOptions.UseVisualStyleBackColor = true;
+            FileListOptions.Click += FileListOptions_Click;
             // 
             // UndoButton
             // 
-            this.UndoButton.Location = new System.Drawing.Point(270, 99);
-            this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(123, 23);
-            this.UndoButton.TabIndex = 29;
-            this.UndoButton.Text = "Undo";
-            this.UndoButton.UseVisualStyleBackColor = true;
-            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            UndoButton.Location = new Point(270, 103);
+            UndoButton.Name = "UndoButton";
+            UndoButton.Size = new Size(123, 23);
+            UndoButton.TabIndex = 29;
+            UndoButton.Text = "Undo";
+            UndoButton.UseVisualStyleBackColor = true;
+            UndoButton.Click += UndoButton_Click;
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 420);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1030, 23);
-            this.progressBar1.TabIndex = 30;
+            progressBar1.Location = new Point(12, 424);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(1030, 23);
+            progressBar1.TabIndex = 30;
             // 
             // backgroundWorker1
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DoMove);
+            backgroundWorker1.DoWork += DoMove;
             // 
             // backgroundWorker2
             // 
-            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DoCopy);
+            backgroundWorker2.DoWork += DoCopy;
             // 
             // BackgroundUpdate
             // 
-            this.BackgroundUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DoUpdate);
-            this.BackgroundUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.UpdateComplete);
+            BackgroundUpdate.DoWork += DoUpdate;
+            BackgroundUpdate.RunWorkerCompleted += UpdateComplete;
             // 
             // LockDestFolderCheckBox
             // 
-            this.LockDestFolderCheckBox.AutoSize = true;
-            this.LockDestFolderCheckBox.Enabled = false;
-            this.LockDestFolderCheckBox.Location = new System.Drawing.Point(668, 8);
-            this.LockDestFolderCheckBox.Name = "LockDestFolderCheckBox";
-            this.LockDestFolderCheckBox.Size = new System.Drawing.Size(61, 19);
-            this.LockDestFolderCheckBox.TabIndex = 31;
-            this.LockDestFolderCheckBox.Text = "Blocca";
-            this.LockDestFolderCheckBox.UseVisualStyleBackColor = true;
-            this.LockDestFolderCheckBox.CheckedChanged += new System.EventHandler(this.LockFolderCheckBox_CheckedChanged);
+            LockDestFolderCheckBox.AutoSize = true;
+            LockDestFolderCheckBox.Enabled = false;
+            LockDestFolderCheckBox.Location = new Point(755, 7);
+            LockDestFolderCheckBox.Name = "LockDestFolderCheckBox";
+            LockDestFolderCheckBox.Size = new Size(61, 19);
+            LockDestFolderCheckBox.TabIndex = 31;
+            LockDestFolderCheckBox.Text = "Blocca";
+            LockDestFolderCheckBox.UseVisualStyleBackColor = true;
+            LockDestFolderCheckBox.CheckedChanged += LockFolderCheckBox_CheckedChanged;
             // 
             // FileManagerButton
             // 
-            this.FileManagerButton.Location = new System.Drawing.Point(399, 99);
-            this.FileManagerButton.Name = "FileManagerButton";
-            this.FileManagerButton.Size = new System.Drawing.Size(123, 23);
-            this.FileManagerButton.TabIndex = 32;
-            this.FileManagerButton.Text = "Gestore file";
-            this.FileManagerButton.UseVisualStyleBackColor = true;
-            this.FileManagerButton.Click += new System.EventHandler(this.FileSizeButton_Click);
+            FileManagerButton.Location = new Point(399, 103);
+            FileManagerButton.Name = "FileManagerButton";
+            FileManagerButton.Size = new Size(123, 23);
+            FileManagerButton.TabIndex = 32;
+            FileManagerButton.Text = "Gestore file";
+            FileManagerButton.UseVisualStyleBackColor = true;
+            FileManagerButton.Click += FileSizeButton_Click;
             // 
             // RefreshButton
             // 
-            this.RefreshButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshButton.Image")));
-            this.RefreshButton.Location = new System.Drawing.Point(533, 56);
-            this.RefreshButton.Name = "RefreshButton";
-            this.RefreshButton.Size = new System.Drawing.Size(82, 41);
-            this.RefreshButton.TabIndex = 41;
-            this.RefreshButton.UseVisualStyleBackColor = true;
-            this.RefreshButton.Click += new System.EventHandler(this.button1_Click);
+            RefreshButton.Image = (Image)resources.GetObject("RefreshButton.Image");
+            RefreshButton.Location = new Point(533, 60);
+            RefreshButton.Name = "RefreshButton";
+            RefreshButton.Size = new Size(82, 41);
+            RefreshButton.TabIndex = 41;
+            RefreshButton.UseVisualStyleBackColor = true;
+            RefreshButton.Click += button1_Click;
             // 
             // LockBackFolderCheckBox
             // 
-            this.LockBackFolderCheckBox.AutoSize = true;
-            this.LockBackFolderCheckBox.Enabled = false;
-            this.LockBackFolderCheckBox.Location = new System.Drawing.Point(120, 51);
-            this.LockBackFolderCheckBox.Name = "LockBackFolderCheckBox";
-            this.LockBackFolderCheckBox.Size = new System.Drawing.Size(61, 19);
-            this.LockBackFolderCheckBox.TabIndex = 42;
-            this.LockBackFolderCheckBox.Text = "Blocca";
-            this.LockBackFolderCheckBox.UseVisualStyleBackColor = true;
-            this.LockBackFolderCheckBox.CheckedChanged += new System.EventHandler(this.LockBackFolderCheckBox_CheckedChanged);
+            LockBackFolderCheckBox.AutoSize = true;
+            LockBackFolderCheckBox.Enabled = false;
+            LockBackFolderCheckBox.Location = new Point(120, 55);
+            LockBackFolderCheckBox.Name = "LockBackFolderCheckBox";
+            LockBackFolderCheckBox.Size = new Size(61, 19);
+            LockBackFolderCheckBox.TabIndex = 42;
+            LockBackFolderCheckBox.Text = "Blocca";
+            LockBackFolderCheckBox.UseVisualStyleBackColor = true;
+            LockBackFolderCheckBox.CheckedChanged += LockBackFolderCheckBox_CheckedChanged;
             // 
             // CheckUpdates
             // 
-            this.CheckUpdates.Location = new System.Drawing.Point(835, 453);
-            this.CheckUpdates.Name = "CheckUpdates";
-            this.CheckUpdates.Size = new System.Drawing.Size(205, 23);
-            this.CheckUpdates.TabIndex = 43;
-            this.CheckUpdates.Text = "Controlla aggiornamenti";
-            this.CheckUpdates.UseVisualStyleBackColor = true;
-            this.CheckUpdates.Click += new System.EventHandler(this.CheckUpdates_Click);
+            CheckUpdates.Location = new Point(835, 457);
+            CheckUpdates.Name = "CheckUpdates";
+            CheckUpdates.Size = new Size(205, 23);
+            CheckUpdates.TabIndex = 43;
+            CheckUpdates.Text = "Controlla aggiornamenti";
+            CheckUpdates.UseVisualStyleBackColor = true;
+            CheckUpdates.Click += CheckUpdates_Click;
             // 
             // OrganizeIcons
             // 
-            this.OrganizeIcons.Location = new System.Drawing.Point(621, 65);
-            this.OrganizeIcons.Name = "OrganizeIcons";
-            this.OrganizeIcons.Size = new System.Drawing.Size(134, 23);
-            this.OrganizeIcons.TabIndex = 44;
-            this.OrganizeIcons.Text = "Sistema icone desktop";
-            this.OrganizeIcons.UseVisualStyleBackColor = true;
-            this.OrganizeIcons.Click += new System.EventHandler(this.OrganizeIcons_Click);
+            OrganizeIcons.Location = new Point(621, 69);
+            OrganizeIcons.Name = "OrganizeIcons";
+            OrganizeIcons.Size = new Size(134, 23);
+            OrganizeIcons.TabIndex = 44;
+            OrganizeIcons.Text = "Sistema icone desktop";
+            OrganizeIcons.UseVisualStyleBackColor = true;
+            OrganizeIcons.Click += OrganizeIcons_Click;
             // 
             // UndoIcons
             // 
-            this.UndoIcons.Location = new System.Drawing.Point(761, 65);
-            this.UndoIcons.Name = "UndoIcons";
-            this.UndoIcons.Size = new System.Drawing.Size(101, 23);
-            this.UndoIcons.TabIndex = 45;
-            this.UndoIcons.Text = "Undo icone";
-            this.UndoIcons.UseVisualStyleBackColor = true;
-            this.UndoIcons.Click += new System.EventHandler(this.UndoIcons_Click);
+            UndoIcons.Location = new Point(761, 69);
+            UndoIcons.Name = "UndoIcons";
+            UndoIcons.Size = new Size(101, 23);
+            UndoIcons.TabIndex = 45;
+            UndoIcons.Text = "Undo icone";
+            UndoIcons.UseVisualStyleBackColor = true;
+            UndoIcons.Click += UndoIcons_Click;
+            // 
+            // SetDefault
+            // 
+            SetDefault.Location = new Point(668, 4);
+            SetDefault.Name = "SetDefault";
+            SetDefault.Size = new Size(81, 23);
+            SetDefault.TabIndex = 46;
+            SetDefault.Text = "Predefinita";
+            SetDefault.UseVisualStyleBackColor = true;
+            SetDefault.Click += SetDefault_Click;
             // 
             // MainWindow
             // 
-            this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 482);
-            this.Controls.Add(this.UndoIcons);
-            this.Controls.Add(this.OrganizeIcons);
-            this.Controls.Add(this.CheckUpdates);
-            this.Controls.Add(this.LockBackFolderCheckBox);
-            this.Controls.Add(this.RefreshButton);
-            this.Controls.Add(this.FileManagerButton);
-            this.Controls.Add(this.LockDestFolderCheckBox);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.UndoButton);
-            this.Controls.Add(this.FileListOptions);
-            this.Controls.Add(this.Help);
-            this.Controls.Add(this.MODE);
-            this.Controls.Add(this.STATE);
-            this.Controls.Add(this.Preview);
-            this.Controls.Add(this.DeleteBackups);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.CreateBackupButton);
-            this.Controls.Add(this.SelectBackupFolder);
-            this.Controls.Add(this.BackupPath);
-            this.Controls.Add(this.OperatedFiles);
-            this.Controls.Add(this.CopyFilesButton);
-            this.Controls.Add(this.MoveFilesButton);
-            this.Controls.Add(this.SelectDestFolder);
-            this.Controls.Add(this.DestPath);
-            this.Controls.Add(this.UnOperatedFiles);
-            this.Controls.Add(this.StartPath);
-            this.Controls.Add(this.SelectStartFolder);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.Name = "MainWindow";
-            this.Text = " ";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AccessibleRole = AccessibleRole.None;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1052, 492);
+            Controls.Add(SetDefault);
+            Controls.Add(UndoIcons);
+            Controls.Add(OrganizeIcons);
+            Controls.Add(CheckUpdates);
+            Controls.Add(LockBackFolderCheckBox);
+            Controls.Add(RefreshButton);
+            Controls.Add(FileManagerButton);
+            Controls.Add(LockDestFolderCheckBox);
+            Controls.Add(progressBar1);
+            Controls.Add(UndoButton);
+            Controls.Add(FileListOptions);
+            Controls.Add(Help);
+            Controls.Add(MODE);
+            Controls.Add(STATE);
+            Controls.Add(Preview);
+            Controls.Add(DeleteBackups);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(CreateBackupButton);
+            Controls.Add(SelectBackupFolder);
+            Controls.Add(BackupPath);
+            Controls.Add(OperatedFiles);
+            Controls.Add(CopyFilesButton);
+            Controls.Add(MoveFilesButton);
+            Controls.Add(SelectDestFolder);
+            Controls.Add(DestPath);
+            Controls.Add(UnOperatedFiles);
+            Controls.Add(StartPath);
+            Controls.Add(SelectStartFolder);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            Name = "MainWindow";
+            Text = " ";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -476,5 +487,6 @@
         private Button CheckUpdates;
         private Button OrganizeIcons;
         private Button UndoIcons;
+        private Button SetDefault;
     }
 }

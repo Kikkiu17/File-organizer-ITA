@@ -95,11 +95,11 @@ namespace File_Organizer
         {
             Util.RefreshDesktop();
             // name, x, y, idx
-            var folders = ut.GetDesktopFoldersFullInfo();
-            im.OrganizeTopRight(folders, true);
-            Util.RefreshDesktop();
             var shortcuts = ut.GetDesktopShortcutsFullInfo();
             im.OrganizeTopLeft(shortcuts, true);
+            Util.RefreshDesktop();
+            var folders = ut.GetDesktopFoldersFullInfo();
+            im.OrganizeTopRight(folders, true);
 
             this.Close();
         }
